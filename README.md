@@ -209,8 +209,8 @@ If you want to contribute to this project:
 
 ### Copyright
 
-Copyright (c) 2018 Arduino SA. All rights reserved.
-Copyright (c) 2011-2014 Arduino LLC. All right reserved.
-Copyright 2020- Khoi Hoang
+1. Copyright (c) 2018 Arduino SA. All rights reserved.
+2. Copyright (c) 2011-2014 Arduino LLC. All right reserved.
+3. Copyright 2020- Khoi Hoang
 
 
