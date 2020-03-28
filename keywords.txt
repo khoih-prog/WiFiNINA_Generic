@@ -1,0 +1,168 @@
+#######################################
+# Syntax Coloring Map For WiFiNINA
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+WiFiClass	KEYWORD1
+WiFiNINA	KEYWORD1
+WiFiUdp	KEYWORD1
+WiFiClient	KEYWORD1
+WiFiSSLClient	KEYWORD1
+WiFiServer	KEYWORD1
+WiFiUDP	KEYWORD1
+
+ServerDrv KEYWORD1
+SpiDrv  KEYWORD1
+WiFiDrv KEYWORD1
+WiFiSocketBufferClass KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+#############
+# WiFiClass
+#############
+firmwareVersion	KEYWORD2
+begin	KEYWORD2
+beginAP	KEYWORD2
+beginEnterprise	KEYWORD2
+config	KEYWORD2
+setDNS	KEYWORD2
+setHostname	KEYWORD2
+disconnect	KEYWORD2
+end	KEYWORD2
+macAddress	KEYWORD2
+localIP	KEYWORD2
+subnetMask	KEYWORD2
+gatewayIP	KEYWORD2
+SSID	KEYWORD2
+BSSID		KEYWORD2
+RSSI	KEYWORD2
+encryptionType	KEYWORD2
+scanNetworks  KEYWORD2
+channel KEYWORD2
+status	KEYWORD2
+reasonCode	KEYWORD2
+hostByName  KEYWORD2
+getTime	KEYWORD2
+lowPowerMode	KEYWORD2
+noLowPowerMode	KEYWORD2
+ping	KEYWORD2
+setTimeout	KEYWORD2
+
+#############
+# WiFiClient
+#############
+
+connect	KEYWORD2
+connectSSL	KEYWORD2
+write	KEYWORD2
+available	KEYWORD2
+read	KEYWORD2
+peek  KEYWORD2
+flush	KEYWORD2
+stop	KEYWORD2
+connected	KEYWORD2
+remoteIP	KEYWORD2
+remotePort	KEYWORD2
+
+#############
+# WiFiUdp
+#############
+
+beginMulticast  KEYWORD2
+beginPacket	KEYWORD2
+endPacket	KEYWORD2
+parsePacket	KEYWORD2
+
+#############
+# server_drv
+#############
+
+startServer KEYWORD2
+startClient KEYWORD2
+stopClient  KEYWORD2
+getServerState  KEYWORD2
+getClientState  KEYWORD2
+getData KEYWORD2
+getDataBuf  KEYWORD2
+insertDataBuf KEYWORD2
+sendData  KEYWORD2
+sendUdpData KEYWORD2
+availData KEYWORD2
+availServer KEYWORD2
+checkDataSent KEYWORD2
+getSocket KEYWORD2
+
+#############
+# spi_drv
+#############
+
+spiDriverInit KEYWORD2
+spiSlaveSelect  KEYWORD2
+spiSlaveDeselect  KEYWORD2
+spiTransfer KEYWORD2
+waitForSlaveReady KEYWORD2
+waitSpiChar KEYWORD2
+readAndCheckChar  KEYWORD2
+readChar  KEYWORD2
+waitResponseParams  KEYWORD2
+waitResponseCmd KEYWORD2
+waitResponseData8 KEYWORD2
+waitResponseData16  KEYWORD2
+waitResponse  KEYWORD2
+sendParam KEYWORD2
+sendParamLen8 KEYWORD2
+sendParamLen16  KEYWORD2
+readParamLen8 KEYWORD2
+readParamLen16  KEYWORD2
+sendBuffer  KEYWORD2
+sendCmd  KEYWORD2
+
+#############
+# wifi_drv
+#############
+
+wifiDriverInit
+wifiDriverDeinit
+wifiSetNetwork
+wifiSetPassphrase
+wifiSetKey
+wifiSetApNetwork
+wifiSetApPassphrase
+getReasonCode
+getConnectionStatus
+getMacAddress
+getIpAddress
+getSubnetMask
+getGatewayIP
+getCurrentSSID
+getCurrentBSSID
+getCurrentRSSI
+getCurrentEncryptionType
+startScanNetworks
+getScanNetworks
+getRSSINetoworks
+getEncTypeNetowrks
+getBSSIDNetowrks
+getChannelNetowrks
+getHostByName
+getFwVersion
+getTime
+setPowerMode
+wifiSetApNetwork
+wifiSetApPassphrase
+wifiSetEnterprise
+ping
+debug
+getTemperature
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
