@@ -1,6 +1,5 @@
 ## WiFiNINA_Generic ( Library for WiFiNINA modules/shields to support many more boards )
 
-[![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic)
 
 #### New in v1.5.0
 
@@ -22,9 +21,6 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
  
 
 ## Quick Start
-
-The best and easiest way is to use `Arduino Library Manager`. Search for `WiFiNINA_Generic`, then select / install the latest version.
-You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) for more detailed instructions.
 
 ### Manual Install
 
@@ -197,7 +193,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 ### Contributions and thanks
 
-1. Forked from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
+1. Based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
 
 ### Contributing
 
