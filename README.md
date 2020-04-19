@@ -28,7 +28,7 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
 
 ### Manual Install
 
-Another way to install is to:
+To install:
 
 1. Navigate to [WiFiNINA_Generic](https://github.com/khoih-prog/WiFiNINA_Generic) page.
 2. Download the latest release `WiFiNINA_Generic-master.zip`.
