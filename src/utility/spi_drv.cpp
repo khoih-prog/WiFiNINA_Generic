@@ -6,7 +6,7 @@
   
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.0
+  Version: 1.5.1
    
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -29,11 +29,14 @@
  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.                           
  *****************************************************************************************************************************/
 
 #include "Arduino.h"
 #include <SPI.h>
-#include "utility/spi_drv.h"
+//#include "utility/spi_drv.h"
+#include "spi_drv.h"
 #include "pins_arduino.h"
 
 //KH
@@ -58,12 +61,17 @@
 #define pinMode(pin, mode)       FPGA.pinMode(pin, mode)
 #define digitalRead(pin)         FPGA.digitalRead(pin)
 #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
-#endif
+#endif    //ARDUINO_SAMD_MKRVIDOR4000
 
 //#define _DEBUG_
+#if 1
+// From v1.5.1, For nRF52x
+#include "debug.h"
+#else
 extern "C" {
 #include "utility/debug.h"
 }
+#endif
 
 static uint8_t SLAVESELECT = 10; // ss
 static uint8_t SLAVEREADY  = 7;  // handshake pin
@@ -196,7 +204,28 @@ char SpiDrv::readChar()
 
 #define WAIT_START_CMD(x) waitSpiChar(START_CMD)
 
-#define IF_CHECK_START_CMD(x)                      \
+        
+#if 1
+
+#define IF_CHECK_START_CMD(x)                   \
+    if (!WAIT_START_CMD(_data))                 \
+    {                                           \
+        TOGGLE_TRIGGER()                        \
+        return 0;                               \
+    }else                                       \
+
+#define CHECK_DATA(check, x)                    \
+        if (!readAndCheckChar(check, &x))       \
+        {                                       \
+        	TOGGLE_TRIGGER()                      \
+          INFO2(check, (uint8_t)x);						  \
+          return 0;                             \
+        }else                                   \
+
+
+#else
+        
+#define IF_CHECK_START_CMD(x)                   \
     if (!WAIT_START_CMD(_data))                 \
     {                                           \
         TOGGLE_TRIGGER()                        \
@@ -204,14 +233,16 @@ char SpiDrv::readChar()
         return 0;                               \
     }else                                       \
 
-#define CHECK_DATA(check, x)                   \
-        if (!readAndCheckChar(check, &x))   \
-        {                                               \
-        	TOGGLE_TRIGGER()                        \
-            WARN("Reply error");                        \
-            INFO2(check, (uint8_t)x);							\
-            return 0;                                   \
-        }else                                           \
+#define CHECK_DATA(check, x)                    \
+        if (!readAndCheckChar(check, &x))       \
+        {                                       \
+        	TOGGLE_TRIGGER()                      \
+          WARN("Reply error");                  \
+          INFO2(check, (uint8_t)x);						  \
+          return 0;                             \
+        }else                                   \
+
+#endif
 
 #define waitSlaveReady() (digitalRead(SLAVEREADY) == LOW)
 #define waitSlaveSign() (digitalRead(SLAVEREADY) == HIGH)

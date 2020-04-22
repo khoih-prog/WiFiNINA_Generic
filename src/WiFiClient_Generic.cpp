@@ -6,7 +6,7 @@
   
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.0
+  Version: 1.5.1
    
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -29,6 +29,8 @@
  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.                           
  *****************************************************************************************************************************/
 
 extern "C" {

@@ -5,6 +5,10 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiNINA_Generic.svg)](http://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
+#### New in v1.5.1
+
+1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+
 #### New in v1.5.0
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
@@ -22,6 +26,7 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
  5. [`Arduino SAMD core 1.8.5 or later`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
  6. [`Adafruit SAMD core 1.5.11 or later`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
  7. [`Arduino Core for STM32 v1.8.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
+ 8. [`Adafruit nRF52 v0.19.0 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, etc.
  
 
 ## Quick Start
@@ -54,6 +59,29 @@ See examples :
 14. [WiFiWebClient](examples/WiFiWebClient)
 15. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
 16. [WiFiWebServer](examples/WiFiWebServer)
+
+#### Important notes
+
+Please change the pin-to-pin connection in `WiFiNINA_Pinout_Generic.h` to match actual connection
+
+For example
+
+```
+#elif    ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) )
+
+  #warning You have to modify pin usage accoring to actual connection for NRF528XX
+  // To define pin out for WiFiNINA here
+
+  //#define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0  (26u)                             //26
+  #define NINA_RESETN (27u)
+  #define NINA_ACK    (28u)
+
+  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
+  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
+  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+```
 
 
 #### Sample Code
@@ -191,13 +219,18 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 1. Add support to many more boards still not working
 
+#### New in v1.5.1
+
+1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+
 #### New in v1.5.0
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
 
 ### Contributions and thanks
 
-1. Based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
+1. Forked from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
+2. Thanks to [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 ### Contributing
 

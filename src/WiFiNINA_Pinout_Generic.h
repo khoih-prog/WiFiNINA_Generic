@@ -6,7 +6,7 @@
   
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.0
+  Version: 1.5.1
    
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -29,6 +29,8 @@
  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.                           
  *****************************************************************************************************************************/
 
 #ifndef WiFiNINA_Pinout_Generic_h
@@ -84,8 +86,8 @@
 #if    ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) \
       || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
       || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500)  || defined(__SAMD21G18A__) \
-      || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) /*|| defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
-      || defined(__SAMD51G19A__)*/  )
+      || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
+      || defined(__SAMD51G19A__)  )
 
   #if !( defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRVIDOR4000) \
       || defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
@@ -102,6 +104,23 @@
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
   #endif     
+  
+  
+#elif    ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) )
+
+  #warning You have to modify pin usage accoring to actual connection for NRF528XX
+  // To define pin out for WiFiNINA here
+
+  //#define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0  (26u)                             //26
+  #define NINA_RESETN (27u)
+  #define NINA_ACK    (28u)
+
+  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
+  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
+  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+  
 #elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) )
 
   #warning You have to modify pin usage accoring to actual connection for Mega 2560/1280

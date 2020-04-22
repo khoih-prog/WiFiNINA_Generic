@@ -6,7 +6,7 @@
   
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.0
+  Version: 1.5.1
    
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -29,20 +29,29 @@
  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.                           
  *****************************************************************************************************************************/
 
 //#define _DEBUG_
 
-#include "utility/server_drv.h"
+//#include "utility/server_drv.h"
+#include "server_drv.h"
 
 #include "Arduino.h"
-#include "utility/spi_drv.h"
+//#include "utility/spi_drv.h"
+#include "spi_drv.h"
 
+#if 1
+// From v1.5.1, For nRF52x
+#include "wl_types.h"
+#include "debug.h"
+#else
 extern "C" {
 #include "utility/wl_types.h"
 #include "utility/debug.h"
 }
-
+#endif
 
 // Start server TCP on port specified
 void ServerDrv::startServer(uint16_t port, uint8_t sock, uint8_t protMode)

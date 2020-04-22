@@ -1,36 +1,66 @@
+/****************************************************************************************************************************
+  WiFiWebClient.ino
 
-/*
-  Web client
+  This sketch connects to a website (http://www.google.com)
+  using the WiFi module.
 
- This sketch connects to a website (http://www.google.com)
- using the WiFi module.
+  This example is written for a network using WPA encryption. For
+  WEP or WPA, change the Wifi.begin() call accordingly.
 
- This example is written for a network using WPA encryption. For
- WEP or WPA, change the Wifi.begin() call accordingly.
+  This example is written for a network using WPA encryption. For
+  WEP or WPA, change the Wifi.begin() call accordingly.
 
- This example is written for a network using WPA encryption. For
- WEP or WPA, change the Wifi.begin() call accordingly.
+  Circuit:
+   Board with NINA module (Arduino MKR WiFi 1010, MKR VIDOR 4000 and UNO WiFi Rev.2)
 
- Circuit:
- * Board with NINA module (Arduino MKR WiFi 1010, MKR VIDOR 4000 and UNO WiFi Rev.2)
+  created 13 July 2010
+  by dlf (Metodo2 srl)
+  modified 31 May 2012
+  by Tom Igoe
 
- created 13 July 2010
- by dlf (Metodo2 srl)
- modified 31 May 2012
- by Tom Igoe
- */
+  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
+  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
+
+  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Licensed under MIT license
+  Version: 1.5.1
+
+  Copyright (c) 2018 Arduino SA. All rights reserved.
+  Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+  Version Modified By   Date      Comments
+  ------- -----------  ---------- -----------
+  1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
+                                 such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
+                                 Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+*****************************************************************************************************************************/
 
 
 #include <SPI.h>
-#include <WiFiNINA.h>
+#include <WiFiNINA_Generic.h>
 
-#include "arduino_secrets.h" 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;            // your network key Index number (needed only for WEP)
+char ssid[] = "****";        // your network SSID (name)
+char pass[] = "********";    // your network password (use for WPA, or use as key for WEP), length must be 8+
+int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
+
 // if you don't want to use DNS (and reduce your sketch size)
 // use the numeric IP instead of the name for the server:
 //IPAddress server(74,125,232,128);  // numeric IP for Google (no DNS)
@@ -121,8 +151,3 @@ void printWifiStatus() {
   Serial.print(rssi);
   Serial.println(" dBm");
 }
-
-
-
-
-
