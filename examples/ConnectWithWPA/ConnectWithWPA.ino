@@ -55,6 +55,8 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
+  Serial.println("\nStart ConnectWithWPA");
+
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {

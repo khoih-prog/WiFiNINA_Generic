@@ -33,7 +33,7 @@
                                   Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.                           
  *****************************************************************************************************************************/
 
-//#define _DEBUG_
+#define _DEBUG_
 
 //#include "utility/server_drv.h"
 #include "server_drv.h"

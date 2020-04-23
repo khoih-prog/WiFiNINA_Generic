@@ -36,7 +36,7 @@
 #ifndef WiFi_Generic_h
 #define WiFi_Generic_h
 
-#define KH_WIFININA_DEBUG   1
+#define KH_WIFININA_DEBUG   3
 
 #define WIFI_FIRMWARE_LATEST_VERSION "1.3.0"
 

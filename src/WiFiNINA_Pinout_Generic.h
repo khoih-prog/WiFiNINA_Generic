@@ -91,7 +91,7 @@
 
   #if !( defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRVIDOR4000) \
       || defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
-  #warning You have to modify pin usage accoring to actual connection for SAMD
+  #warning You have to modify pin usage according to actual connection for SAMD
   // To define pin out for WiFiNINA here
 
   //#define PINS_COUNT           (60u)
@@ -104,26 +104,50 @@
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
   #endif     
-  
-  
-#elif    ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) )
 
-  #warning You have to modify pin usage accoring to actual connection for NRF528XX
-  // To define pin out for WiFiNINA here
+#elif  ( defined(NINA_B302_ublox) )
+
+  #warning You have to modify pin usage according to actual connection for NINA_B302_ublox running as NRF52840
+  // To define pin out for WiFiNINA here. This is just an example and tested working OK.
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
   //#define PINS_COUNT           (60u)
   //NINA
-  #define NINA_GPIO0 (26u)        //P0.26
-  #define NINA_RESETN (25u)       //P0.25
-  #define NINA_ACK (24u)          //P0.24
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
 
-  #define SPIWIFI_SS           16 //PIN_SPI1_SS //P0.16
-  #define SPIWIFI_ACK          24 //NINA_ACK //P0.24
-  #define SPIWIFI_RESET        25 //NINA_RESETN //P0.25
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12  
+
+#elif ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
+        defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
+        defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) )
+
+  #warning You have to modify pin usage according to actual connection for NRF528XX board
+  // To define pin out for WiFiNINA here. This is just an example
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+
+  //#define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
+
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
   
 #elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) )
 
-  #warning You have to modify pin usage accoring to actual connection for Mega 2560/1280
+  #warning You have to modify pin usage according to actual connection for Mega 2560/1280
   // To define pin out for WiFiNINA here
 
   #define PINS_COUNT           (60u)
@@ -138,7 +162,7 @@
 
 #elif defined(CORE_TEENSY)
 
-  #warning You have to modify pin usage accoring to actual connection for Teensy
+  #warning You have to modify pin usage according to actual connection for Teensy
   #define PINS_COUNT           (60u)
   //NINA
   #define NINA_GPIO0  (26u)                             //26
@@ -151,7 +175,7 @@
   
 #elif ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) ) 
  
-  #warning You have to modify pin usage accoring to actual connection for SAM DUE
+  #warning You have to modify pin usage according to actual connection for SAM DUE
   //#define PINS_COUNT           (60u)
   //NINA
   #define NINA_GPIO0  (26u)                             //26
@@ -164,7 +188,7 @@
 
 #elif ( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) )
 
-  #warning You have to modify pin usage accoring to actual connection for STM32
+  #warning You have to modify pin usage according to actual connection for STM32
   #define PINS_COUNT           (60u)
   //NINA
   #define NINA_GPIO0  (26u)                             //26

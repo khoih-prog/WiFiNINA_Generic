@@ -1,7 +1,7 @@
 {
   "name": "WiFiNINA_Generic",
-  "keywords": "wifi, wi-fi, WiFiNINA, U-Blox, W101, W102, shield, Teensy, SAM DUE, SAMD, STM32, Credentials, Manager",
-  "description": "Enables network connection (local and Internet) for SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc. in addition to Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Arduino UNO WiFi Rev.2 , Nano 33 IoT",
+  "keywords": "wifi, wi-fi, WiFiNINA, U-Blox B302, W101, W102, shield, Teensy, SAM DUE, SAMD, STM32, nRF52, Credentials, Manager",
+  "description": "Enables network connection (local and Internet) for SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, nRF52, U-blox B302, etc. in addition to Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Arduino UNO WiFi Rev.2 , Nano 33 IoT",
   "repository":
   {
     "type": "git",

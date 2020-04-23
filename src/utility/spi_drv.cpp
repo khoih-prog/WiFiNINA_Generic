@@ -42,6 +42,11 @@
 //KH
 #include "WiFiNINA_Pinout_Generic.h"
 
+#if defined(KH_WIFININA_DEBUG)
+#undef KH_WIFININA_DEBUG
+#endif
+#define KH_WIFININA_DEBUG   3
+
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 
 // check if a bitstream is already included
@@ -63,7 +68,7 @@
 #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
-//#define _DEBUG_
+#define _DEBUG_
 #if 1
 // From v1.5.1, For nRF52x
 #include "debug.h"
@@ -205,7 +210,7 @@ char SpiDrv::readChar()
 #define WAIT_START_CMD(x) waitSpiChar(START_CMD)
 
         
-#if 1
+#if 0
 
 #define IF_CHECK_START_CMD(x)                   \
     if (!WAIT_START_CMD(_data))                 \
@@ -283,7 +288,7 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
                 // Get Params data
                 //param[ii] = spiTransfer(DUMMY_DATA);
                 getParam(&param[ii]);
-                
+               
                 //KH
                 #if (KH_WIFININA_DEBUG > 2)
                 Serial.print("spi_drv-waitResponseCmd: *param_len = ");

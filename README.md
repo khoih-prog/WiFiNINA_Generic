@@ -7,7 +7,8 @@
 
 #### New in v1.5.1
 
-1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc. Raytac MDBT50Q-RX Dongle is not supported.
+2. Add support to ***NINA_B302_ublox running as nRF52840***. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 #### New in v1.5.0
 
@@ -26,7 +27,7 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
  5. [`Arduino SAMD core 1.8.5 or later`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
  6. [`Adafruit SAMD core 1.5.11 or later`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
  7. [`Arduino Core for STM32 v1.8.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
- 8. [`Adafruit nRF52 v0.19.0 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, etc.
+ 8. [`Adafruit nRF52 v0.19.0 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
  
 
 ## Quick Start
@@ -62,25 +63,60 @@ See examples :
 
 #### Important notes
 
-Please change the pin-to-pin connection in `WiFiNINA_Pinout_Generic.h` to match actual connection
+1. To add NINA_B302_ublox boards running as nRF52840, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. Supposing the Adafruit nRF52 version is 0.19.0
+These files must be copied into the directory:
+- `nRF52/0.19.0/board.txt`
+- `nRF52/0.19.0/variants/variant.h`
+- `nRF52/0.19.0/variants/variant.cpp`
+Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
+These files must be copied into the directory:
+- `nRF52/x.yy.z/board.txt`
+- `nRF52/x.yy.z/variants/variant.h`
+- `nRF52/x.yy.z/variants/variant.cpp`
 
+2. Please change the pin-to-pin connection in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox has been tested and working OK.
 For example
 
 ```
-#elif    ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) )
+#elif  ( defined(NINA_B302_ublox) )
 
-  #warning You have to modify pin usage accoring to actual connection for NRF528XX
+  #warning You have to modify pin usage according to actual connection for NRF528XX
   // To define pin out for WiFiNINA here
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
   //#define PINS_COUNT           (60u)
   //NINA
-  #define NINA_GPIO0  (26u)                             //26
-  #define NINA_RESETN (27u)
-  #define NINA_ACK    (28u)
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
 
-  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
-  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
-  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
+  
+#elif ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
+        defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
+        defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) )
+
+  #warning You have to modify pin usage according to actual connection for NRF528XX
+  // To define pin out for WiFiNINA here
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+
+  //#define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
+
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
 ```
 
 
@@ -221,7 +257,8 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 #### New in v1.5.1
 
-1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc. Raytac MDBT50Q-RX Dongle is not supported.
+2. Add support to ***NINA_B302_ublox running as nRF52840***. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 #### New in v1.5.0
 
@@ -230,7 +267,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 ### Contributions and thanks
 
 1. Forked from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
-2. Thanks to [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+2. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 ### Contributing
 

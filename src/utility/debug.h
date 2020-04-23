@@ -53,7 +53,7 @@
 }while (0);
 
 //KH
-//#define _DEBUG_
+#define _DEBUG_
 
 #ifdef _DEBUG_
 
@@ -78,7 +78,7 @@
 #define INFO(format, args...) do {} while(0);
 #endif
 
-#if 0
+#if 1
 #define WARN(args) do { PRINT_FILE_LINE()			\
 		Serial.print("-W-"); Serial.println(args);	\
 }while (0);
@@ -88,7 +88,7 @@
 
 
 //KH
-//#define _DEBUG_SPI_     false
+#define _DEBUG_SPI_     false
 
 #if _DEBUG_SPI_
 #define DBG_PIN2 5
