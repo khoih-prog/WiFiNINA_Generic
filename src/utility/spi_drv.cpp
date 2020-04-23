@@ -35,7 +35,6 @@
 
 #include "Arduino.h"
 #include <SPI.h>
-//#include "utility/spi_drv.h"
 #include "spi_drv.h"
 #include "pins_arduino.h"
 
@@ -45,7 +44,7 @@
 #if defined(KH_WIFININA_DEBUG)
 #undef KH_WIFININA_DEBUG
 #endif
-#define KH_WIFININA_DEBUG   3
+#define KH_WIFININA_DEBUG   0
 
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 
@@ -69,14 +68,9 @@
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
 #define _DEBUG_
-#if 1
+
 // From v1.5.1, For nRF52x
 #include "debug.h"
-#else
-extern "C" {
-#include "utility/debug.h"
-}
-#endif
 
 static uint8_t SLAVESELECT = 10; // ss
 static uint8_t SLAVEREADY  = 7;  // handshake pin

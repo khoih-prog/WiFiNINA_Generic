@@ -37,7 +37,6 @@
 #define WiFi_Spi_h
 
 #include <inttypes.h>
-//#include "utility/wl_definitions.h"
 #include "wl_definitions.h"
 
 #define CMD_FLAG        0

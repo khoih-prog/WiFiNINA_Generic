@@ -37,7 +37,6 @@
 #define Server_Drv_h
 
 #include <inttypes.h>
-//#include "utility/wifi_spi.h"
 #include "wifi_spi.h"
 
 typedef enum eProtMode {TCP_MODE, UDP_MODE, TLS_MODE, UDP_MULTICAST_MODE}tProtMode;

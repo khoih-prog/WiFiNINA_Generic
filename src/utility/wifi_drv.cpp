@@ -38,25 +38,15 @@
 #include <stdint.h>
 
 #include "Arduino.h"
-//#include "utility/spi_drv.h"
-//#include "utility/wifi_drv.h"
 #include "spi_drv.h"
 #include "wifi_drv.h"
 
 #define _DEBUG_
 
-#if 1
 // From v1.5.1, For nRF52x
 #include "wifi_spi.h"
 #include "wl_types.h"
 #include "debug.h"
-#else
-extern "C" {
-#include "utility/wifi_spi.h"
-#include "utility/wl_types.h"
-#include "utility/debug.h"
-}
-#endif
 
 // Array of data to cache the information related to the networks discovered
 char 	WiFiDrv::_networkSsid[][WL_SSID_MAX_LENGTH] = {{"1"},{"2"},{"3"},{"4"},{"5"}};

@@ -35,23 +35,14 @@
 
 #define _DEBUG_
 
-//#include "utility/server_drv.h"
 #include "server_drv.h"
 
 #include "Arduino.h"
-//#include "utility/spi_drv.h"
 #include "spi_drv.h"
 
-#if 1
 // From v1.5.1, For nRF52x
 #include "wl_types.h"
 #include "debug.h"
-#else
-extern "C" {
-#include "utility/wl_types.h"
-#include "utility/debug.h"
-}
-#endif
 
 // Start server TCP on port specified
 void ServerDrv::startServer(uint16_t port, uint8_t sock, uint8_t protMode)

@@ -37,7 +37,6 @@
 #define WiFi_Drv_h
 
 #include <inttypes.h>
-//#include "utility/wifi_spi.h"
 #include "wifi_spi.h"
 #include "IPAddress.h"
 #include "WiFiUdp_Generic.h"

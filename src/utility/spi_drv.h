@@ -37,7 +37,6 @@
 #define SPI_Drv_h
 
 #include <inttypes.h>
-//#include "utility/wifi_spi.h"
 #include "wifi_spi.h"
 
 #define SPI_START_CMD_DELAY 	10
