@@ -113,13 +113,13 @@
 
   //#define PINS_COUNT           (60u)
   //NINA
-  #define NINA_GPIO0  (26u)                             //26
-  #define NINA_RESETN (27u)
-  #define NINA_ACK    (28u)
+  #define NINA_GPIO0 (26u)        //P0.26
+  #define NINA_RESETN (25u)       //P0.25
+  #define NINA_ACK (24u)          //P0.24
 
-  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
-  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
-  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+  #define SPIWIFI_SS           16 //PIN_SPI1_SS //P0.16
+  #define SPIWIFI_ACK          24 //NINA_ACK //P0.24
+  #define SPIWIFI_RESET        25 //NINA_RESETN //P0.25
   
 #elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) )
 
