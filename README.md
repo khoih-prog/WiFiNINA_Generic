@@ -26,7 +26,7 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
  5. [`Arduino SAMD core 1.8.5 or later`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
  6. [`Adafruit SAMD core 1.5.11 or later`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
  7. [`Arduino Core for STM32 v1.8.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
- 8. [`Adafruit nRF52 v0.19.0 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
+ 8. [`Adafruit nRF52 v0.20.1 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
  
 
 ## Quick Start
@@ -62,11 +62,11 @@ See examples :
 
 #### Important notes
 
-1. To add NINA_B302_ublox boards running as nRF52840, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. Supposing the Adafruit nRF52 version is 0.19.0
+1. To add NINA_B302_ublox boards running as nRF52840, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. Supposing the Adafruit nRF52 version is 0.20.1
 These files must be copied into the directory:
-- `nRF52/0.19.0/board.txt`
-- `nRF52/0.19.0/variants/variant.h`
-- `nRF52/0.19.0/variants/variant.cpp`
+- `nRF52/0.20.1/board.txt`
+- `nRF52/0.20.1/variants/variant.h`
+- `nRF52/0.20.1/variants/variant.cpp`
 
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
