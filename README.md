@@ -67,6 +67,7 @@ These files must be copied into the directory:
 - `nRF52/0.19.0/board.txt`
 - `nRF52/0.19.0/variants/variant.h`
 - `nRF52/0.19.0/variants/variant.cpp`
+
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
 - `nRF52/x.yy.z/board.txt`
