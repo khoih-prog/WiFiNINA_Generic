@@ -114,20 +114,37 @@ void SpiDrv::begin()
 #endif
 
 #ifdef _DEBUG_
-      Serial.println("Used/default SPI pinout:");
-      Serial.print("MOSI:");
+#if (KH_WIFININA_DEBUG > 2)
+      Serial.println("===============================");
+      Serial.println("\nUsed/default SPI pinout: ");
+      Serial.print("MOSI: ");
       Serial.println(MOSI);
-      Serial.print("MISO:");
+      Serial.print("MISO: ");
       Serial.println(MISO);
-      Serial.print("SCK:");
+      Serial.print("SCK: ");
       Serial.println(SCK);
-      Serial.print("SS:");
+      Serial.print("SS: ");
       Serial.println(SS);
-      
-      Serial.print("SPIWIFI_SS:");
+      Serial.println("===============================");
+      Serial.println("\nUsed/default NINA pinout: ");
+      Serial.print("NINA_GPIO0: ");
+      Serial.println(NINA_GPIO0);
+      Serial.print("NINA_RESETN/SPIWIFI_RESET: ");
+      Serial.println(NINA_RESETN);
+      Serial.print("NINA_ACK: ");
+      Serial.println(NINA_ACK);
+      Serial.println("===============================");
+      Serial.println("\nActual final pinout to used: ");
+      Serial.print("SPIWIFI_SS: ");
       Serial.println(SPIWIFI_SS);
-      Serial.print("SLAVESELECT:");
+      Serial.print("SLAVESELECT/SPIWIFI_SS: ");
       Serial.println(SLAVESELECT);
+      Serial.print("SLAVEREADY/SPIWIFI_ACK/NINA_ACK: ");
+      Serial.println(SLAVEREADY);
+      Serial.print("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ");
+      Serial.println(SLAVERESET);
+      Serial.println("===============================\n");
+#endif
 #endif
 
       SPIWIFI.begin();
