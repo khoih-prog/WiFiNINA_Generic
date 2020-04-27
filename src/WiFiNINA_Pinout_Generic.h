@@ -162,16 +162,47 @@
 
 #elif defined(CORE_TEENSY)
 
-  #warning You have to modify pin usage according to actual connection for Teensy
-  #define PINS_COUNT           (60u)
-  //NINA
-  #define NINA_GPIO0  (26u)                             //26
-  #define NINA_RESETN (27u)
-  #define NINA_ACK    (28u)
+  #if defined(__IMXRT1062__)
+    // For Teensy 4.0
+    #warning You have to modify pin usage according to actual connection for Teensy 4.0
+    #define PINS_COUNT           (60u)
+    //NINA
+    #define NINA_GPIO0  (6u)                             //6
+    #define NINA_RESETN (2u)
+    #define NINA_ACK    (5u)
 
-  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
-  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
-  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+    #define SPIWIFI_SS       10   //PIN_SPI1_SS           //10
+    #define SPIWIFI_ACK      5   //NINA_ACK               //5
+    #define SPIWIFI_RESET    2   //NINA_RESETN            //7
+
+  #elif ( defined(__MKL26Z64__) || defined(ARDUINO_ARCH_AVR) )
+
+  // For BOARD_TYPE      "TEENSY LC or 2.0"
+    #warning You have to modify pin usage according to actual connection for Teensy LC or 2.0
+    #define PINS_COUNT           (60u)
+    //NINA
+    #define NINA_GPIO0  (6u)                             //6
+    #define NINA_RESETN (2u)
+    #define NINA_ACK    (5u)
+
+    #define SPIWIFI_SS       10   //PIN_SPI1_SS           //10
+    #define SPIWIFI_ACK      5   //NINA_ACK               //5
+    #define SPIWIFI_RESET    2   //NINA_RESETN            //7
+
+  #else
+
+    #warning You have to modify pin usage according to actual connection for Teensy 3.x
+    #define PINS_COUNT           (60u)
+    //NINA
+    #define NINA_GPIO0  (6u)                             //6
+    #define NINA_RESETN (2u)
+    #define NINA_ACK    (5u)
+
+    #define SPIWIFI_SS       10   //PIN_SPI1_SS           //10
+    #define SPIWIFI_ACK      5   //NINA_ACK               //5
+    #define SPIWIFI_RESET    2   //NINA_RESETN            //7
+
+  #endif
   
 #elif ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) ) 
  

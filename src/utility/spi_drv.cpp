@@ -113,6 +113,23 @@ void SpiDrv::begin()
       }      
 #endif
 
+#ifdef _DEBUG_
+      Serial.println("Used/default SPI pinout:");
+      Serial.print("MOSI:");
+      Serial.println(MOSI);
+      Serial.print("MISO:");
+      Serial.println(MISO);
+      Serial.print("SCK:");
+      Serial.println(SCK);
+      Serial.print("SS:");
+      Serial.println(SS);
+      
+      Serial.print("SPIWIFI_SS:");
+      Serial.println(SPIWIFI_SS);
+      Serial.print("SLAVESELECT:");
+      Serial.println(SLAVESELECT);
+#endif
+
       SPIWIFI.begin();
       pinMode(SLAVESELECT, OUTPUT);
       pinMode(SLAVEREADY, INPUT);
