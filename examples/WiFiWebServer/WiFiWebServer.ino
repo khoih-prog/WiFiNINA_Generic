@@ -19,7 +19,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.1
+  Version: 1.5.2
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -39,11 +39,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
   Version Modified By   Date      Comments
-  ------- -----------  ---------- -----------
+ ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
-  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
-                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certs on IDE   
+                                  Update default pin-outs.  
  *****************************************************************************************************************************/
 
 #include <SPI.h>
@@ -64,6 +66,16 @@ void setup()
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
   while (!Serial);
+
+  Serial.println("Used/default SPI pinout:");
+  Serial.print("MOSI:");
+  Serial.println(MOSI);
+  Serial.print("MISO:");
+  Serial.println(MISO);
+  Serial.print("SCK:");
+  Serial.println(SCK);
+  Serial.print("SS:");
+  Serial.println(SS);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)

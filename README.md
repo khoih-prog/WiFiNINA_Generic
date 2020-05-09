@@ -6,6 +6,13 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiNINA_Generic.svg)](http://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
+#### New in v1.5.2
+
+1. Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
+2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
+
+Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
+
 #### New in v1.5.1-final
 1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc. Raytac MDBT50Q-RX Dongle is not supported.
 2. Add support to ***NINA_B302_ublox running as nRF52840***. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
@@ -60,6 +67,7 @@ See examples :
 14. [WiFiWebClient](examples/WiFiWebClient)
 15. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
 16. [WiFiWebServer](examples/WiFiWebServer)
+17. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
 
 #### Important notes
 
@@ -68,14 +76,13 @@ These files must be copied into the directory:
 - `nRF52/0.20.1/board.txt`
 - `nRF52/0.20.1/variants/variant.h`
 - `nRF52/0.20.1/variants/variant.cpp`
-
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
 - `nRF52/x.yy.z/board.txt`
 - `nRF52/x.yy.z/variants/variant.h`
 - `nRF52/x.yy.z/variants/variant.cpp`
 
-2. Please change the pin-to-pin connection in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox has been tested and working OK.
+2. Please change the ***pin-to-pin connection*** in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox has been tested and working OK.
 For example
 
 ```
@@ -89,7 +96,7 @@ For example
 
   //#define PINS_COUNT           (60u)
   //NINA
-  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  #define NINA_GPIO0          (22u)                         // 22, IO4,  P0.16
   
   #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
   #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
@@ -121,9 +128,22 @@ For example
 ```
 
 
-#### Sample Code
+#### How to update WiFiNINA Firmware and SSL certificates
 
-[WiFiWebServer example](examples/WiFiWebServer)
+Please see the [Arduino Tutorial](https://www.arduino.cc/en/Tutorial/WiFiNINAFirmwareUpdater)
+
+`With the same procedure, you may load root certificates on the WiFi module to access securely specific websites. Your board must be running the FirmwareUpdater sketch to work .The root certificates are issued by a limited number of certification authorities, but it is difficult to know which site is using which authority. To ease your life, we allow you to specify directly the URL to which you need to connect securely, leaving to us the task to download the root certificate.
+`
+`The list you are building is not saved from one session to the next one. It might happen that a few websites share the same root certificate. You don't have to worry about this as we take care of it. The space available on your WiFi module to store the certificates is limited to around 10 certificates that, being issued by a limited number of authorities, should be more than enough for the average projects.`
+
+This is the screen to demonstrate the SSL certificates have been loaded successfully onto a nRF52-based NINA_B302_ublox board running with ublox WiFiNINA W102 .
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/Blynk_WM/blob/master/pics/SSL_certs.png">
+</p>
+
+
+#### Sample Code [WiFiWebServer example](examples/WiFiWebServer)
 
 ```cpp
 #include <SPI.h>
@@ -255,6 +275,13 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 ### TO DO
 
 1. Add support to many more boards still not working
+
+#### New in v1.5.2
+
+1. Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certificate using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
+2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
+
+Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
 
 #### New in v1.5.1
 

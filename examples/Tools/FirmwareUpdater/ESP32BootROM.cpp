@@ -1,8 +1,16 @@
-/*
-  ESP32BootROM - part of the Firmware Updater for the
-  Arduino MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2.
-
+/****************************************************************************************************************************
+  ESP32BootROM.cpp - part of the Firmware Updater for the 
+  Arduino Nano-33 IoT, MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2., Adafruit's nRF52 boards
+  
+  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
+  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
+  
+  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Licensed under MIT license
+  Version: 1.5.2
+   
   Copyright (c) 2018 Arduino SA. All rights reserved.
+  Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -17,15 +25,26 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+  
+  Version Modified By   Date      Comments
+ ------- -----------  ---------- -----------
+  1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
+                                  such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certs on IDE   
+                                  Update default pin-outs.                                                
+ *****************************************************************************************************************************/
 
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 #include <VidorPeripherals.h>
 
 #define NINA_GPIO0 FPGA_NINA_GPIO0
 #define NINA_RESETN FPGA_SPIWIFI_RESET
-#endif
 
+#elif defined(NINA_B302_ublox) ||  defined(NRF52_SERIES) 
+#include <WiFiNINA_Pinout_Generic.h>
+#endif
 
 #include "ESP32BootROM.h"
 
@@ -67,6 +86,41 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
   digitalWrite(_resetnPin, HIGH);
   delay(100);
   digitalWrite(_resetnPin, LOW);
+
+#elif defined(NINA_B302_ublox)
+  // To be changed
+  _serial->begin(115200);
+  
+  pinMode(_gpio0Pin, OUTPUT);
+  pinMode(_resetnPin, OUTPUT);
+  
+  digitalWrite(_gpio0Pin, LOW);
+  
+  digitalWrite(_resetnPin, LOW);
+  delay(100);
+  digitalWrite(_resetnPin, HIGH);
+  delay(100);
+  // check if we need this
+  digitalWrite(_gpio0Pin, HIGH);
+  delay(100);
+
+#elif defined(NRF52_SERIES)
+  // To be changed
+  _serial->begin(115200);
+  
+  pinMode(_gpio0Pin, OUTPUT);
+  pinMode(_resetnPin, OUTPUT);
+  
+  digitalWrite(_gpio0Pin, LOW);
+  
+  digitalWrite(_resetnPin, LOW);
+  delay(100);
+  digitalWrite(_resetnPin, HIGH);
+  delay(100);
+  // check if we need this
+  digitalWrite(_gpio0Pin, HIGH);
+  delay(100);
+  
 #else
   _serial->begin(115200);
 
@@ -87,7 +141,8 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
 
   int synced = 0;
 
-  for (int retries = 0; !synced && (retries < 5); retries++) {
+  for (int retries = 0; !synced && (retries < 5); retries++) 
+  {
     synced = sync();
   }
 
@@ -98,8 +153,10 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
 #if defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_AVR_UNO_WIFI_REV2)
   (void)baudrate;
 #else
-  if (baudrate != 115200) {
-    if (!changeBaudrate(baudrate)) {
+  if (baudrate != 115200) 
+  {
+    if (!changeBaudrate(baudrate)) 
+    {
       return 0;
     }
 
@@ -110,29 +167,34 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
   }
 #endif
 
-  if (!spiAttach()) {
+  if (!spiAttach()) 
+  {
     return 0;
   }
 
   return 1;
 }
 
-void ESP32BootROMClass::end() {
+void ESP32BootROMClass::end() 
+{
   _serial->end();
 }
 
 int ESP32BootROMClass::sync()
 {
-  const uint8_t data[] = {
+  const uint8_t data[] = 
+  {
     0x07, 0x07, 0x12, 0x20,
-    0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55
+    0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 
+    0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55
   };
 
   command(0x08, data, sizeof(data));
 
   int results[8];
 
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) 
+  {
     results[i] = response(0x08, 100);
   }
 
@@ -141,7 +203,8 @@ int ESP32BootROMClass::sync()
 
 int ESP32BootROMClass::changeBaudrate(unsigned long baudrate)
 {
-  const uint32_t data[2] = {
+  const uint32_t data[2] = 
+  {
     baudrate,
     0
   };
@@ -153,7 +216,8 @@ int ESP32BootROMClass::changeBaudrate(unsigned long baudrate)
 
 int ESP32BootROMClass::spiAttach()
 {
-  const uint8_t data[] = {
+  const uint8_t data[] = 
+  {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
   };
 
@@ -162,8 +226,10 @@ int ESP32BootROMClass::spiAttach()
   return (response(0x0d, 3000) == 0);
 }
 
-int ESP32BootROMClass::beginFlash(uint32_t offset, uint32_t size, uint32_t chunkSize) {
-  const uint32_t data[4] = {
+int ESP32BootROMClass::beginFlash(uint32_t offset, uint32_t size, uint32_t chunkSize) 
+{
+  const uint32_t data[4] = 
+  {
     size,
     size / chunkSize,
     chunkSize,
@@ -189,7 +255,8 @@ int ESP32BootROMClass::dataFlash(const void* data, uint32_t length)
 
   memcpy(&cmdData[4], data, length);
 
-  if (length < _chunkSize) {
+  if (length < _chunkSize) 
+  {
     memset(&cmdData[4 + (length / 4)], 0xff, _chunkSize - length);
   }
 
@@ -198,8 +265,10 @@ int ESP32BootROMClass::dataFlash(const void* data, uint32_t length)
   return (response(0x03, 3000) == 0);
 }
 
-int ESP32BootROMClass::endFlash(uint32_t reboot) {
-  const uint32_t data[1] = {
+int ESP32BootROMClass::endFlash(uint32_t reboot) 
+{
+  const uint32_t data[1] = 
+  {
     reboot
   };
 
@@ -210,7 +279,8 @@ int ESP32BootROMClass::endFlash(uint32_t reboot) {
 
 int ESP32BootROMClass::md5Flash(uint32_t offset, uint32_t size, uint8_t* result)
 {
-  const uint32_t data[4] = {
+  const uint32_t data[4] = 
+  {
     offset,
     size,
     0,
@@ -221,13 +291,15 @@ int ESP32BootROMClass::md5Flash(uint32_t offset, uint32_t size, uint8_t* result)
 
   uint8_t asciiResult[32];
 
-  if (response(0x13, 3000, asciiResult) != 0) {
+  if (response(0x13, 3000, asciiResult) != 0) 
+  {
     return 0;
   }
 
   char temp[3] = { 0, 0, 0 };
 
-  for (int i = 0; i < 16; i++) {
+  for (int i = 0; i < 16; i++) 
+  {
     temp[0] = asciiResult[i * 2];
     temp[1] = asciiResult[i * 2 + 1];
 
@@ -241,10 +313,12 @@ void ESP32BootROMClass::command(int opcode, const void* data, uint16_t length)
 {
   uint32_t checksum = 0;
 
-  if (opcode == 0x03) {
+  if (opcode == 0x03) 
+  {
     checksum = 0xef; // seed
 
-    for (uint16_t i = 16; i < length; i++) {
+    for (uint16_t i = 16; i < length; i++) 
+    {
       checksum ^= ((const uint8_t*)data)[i];
     }
   }
@@ -270,11 +344,14 @@ int ESP32BootROMClass::response(int opcode, unsigned long timeout, void* body)
 
   uint8_t responseLength = 4;
 
-  for (unsigned long start = millis(); (index < (uint16_t)(10 + responseLength)) && (millis() - start) < timeout;) {
-    if (_serial->available()) {
+  for (unsigned long start = millis(); (index < (uint16_t)(10 + responseLength)) && (millis() - start) < timeout;) 
+  {
+    if (_serial->available()) 
+    {
       data[index] = _serial->read();
 
-      if (index == 3) {
+      if (index == 3) 
+      {
         responseLength = data[index];
       }
 
@@ -283,11 +360,14 @@ int ESP32BootROMClass::response(int opcode, unsigned long timeout, void* body)
   }
 
 #ifdef DEBUG
-  if (index) {
-    for (int i = 0; i < index; i++) {
+  if (index) 
+  {
+    for (int i = 0; i < index; i++) 
+    {
       byte b = data[i];
 
-      if (b < 0x10) {
+      if (b < 0x10) 
+      {
         Serial.print('0');
       }
 
@@ -298,15 +378,19 @@ int ESP32BootROMClass::response(int opcode, unsigned long timeout, void* body)
   }
 #endif
 
-  if (index != (uint16_t)(10 + responseLength)) {
+  if (index != (uint16_t)(10 + responseLength)) 
+  {
     return -1;
   }
 
-  if (data[0] != 0xc0 || data[1] != 0x01 || data[2] != opcode || data[responseLength + 5] != 0x00 || data[responseLength + 6] != 0x00 || data[responseLength + 9] != 0xc0) {
+  if (data[0] != 0xc0 || data[1] != 0x01 || data[2] != opcode || data[responseLength + 5] != 0x00 
+   || data[responseLength + 6] != 0x00 || data[responseLength + 9] != 0xc0) 
+  {
     return -1;
   }
 
-  if (body) {
+  if (body) 
+  {
     memcpy(body, &data[9], responseLength - 4);
   }
 
@@ -331,5 +415,105 @@ void ESP32BootROMClass::writeEscapedBytes(const uint8_t* data, uint16_t length)
     }
   }
 }
+
+/*
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
+
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12 
+ 
+ */
+#if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
+
+#if defined(NINA_B302_ublox)
+
+// For  NINA_B302_ublox boards. To be changed and added as necessary
+#warning To change the pin defintions to match actual assignment for NINA_B302_ublox
+
+#ifndef SerialNina
+  // Just need to do something such as
+  #define SerialNina  Serial1   //Serial2, etc.
+#endif
+
+#elif defined(NRF52840_ITSYBITSY)
+
+//Just a template for NRF52840_ITSYBITSY boards. Must be changed and added as necessary
+#warning To change the pin defintions to match actual assignment for NRF52840_ITSYBITSY
+#ifndef SerialNina
+  // Just need to do something such as
+  #define SerialNina  Serial1   //Serial2, etc.
+#endif
+
+#ifndef NINA_GPIO0
+  // Just need assign some pin, such as
+  #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
+#endif
+
+#ifndef NINA_RESETN
+  // Just need assign some pin, such as
+  #define NINA_RESETN (2u)                          //  2, IO21, P0.12
+#endif
+
+#ifndef NINA_ACK
+  // Just need assign some pin, such as
+  #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
+#endif
+
+#elif defined(NRF52_SERIES)
+
+//Just a template for NRF52_SERIES boards. Must be changed and added as necessary
+#warning To change the pin defintions to match actual assignment for NRF52_SERIES
+#ifndef SerialNina
+  // Just need to do something such as
+  #define SerialNina  Serial1   //Serial2, etc.
+#endif
+
+#ifndef NINA_GPIO0
+  // Just need assign some pin, such as
+  #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
+#endif
+
+#ifndef NINA_RESETN
+  // Just need assign some pin, such as
+  #define NINA_RESETN (2u)                          //  2, IO21, P0.12
+#endif
+
+#ifndef NINA_ACK
+  // Just need assign some pin, such as
+  #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
+#endif
+
+#else
+
+// For other nRF52 boards. To be changed and added as necessary
+#warning To change the pin defintions to match actual assignment for nRF52
+
+#ifndef SerialNina
+  // Just need to do something such as
+  #define SerialNina  Serial1   //Serial2, etc.
+#endif
+
+#ifndef NINA_GPIO0
+  // Just need assign some pin, such as
+  #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
+#endif
+
+#ifndef NINA_RESETN
+  // Just need assign some pin, such as
+  #define NINA_RESETN (2u)                          //  2, IO21, P0.12
+#endif
+
+#ifndef NINA_ACK
+  // Just need assign some pin, such as
+  #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
+#endif
+
+#endif    //#if defined(NINA_B302_ublox)
+
+#endif    //#if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
 
 ESP32BootROMClass ESP32BootROM(SerialNina, NINA_GPIO0, NINA_RESETN);
