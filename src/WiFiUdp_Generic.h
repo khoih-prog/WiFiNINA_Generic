@@ -31,8 +31,8 @@
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
   1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
                                   Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certs on IDE   
-                                  Update default pin-outs.                            
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.                          
  *****************************************************************************************************************************/
 
 #ifndef WiFiUDP_Generic_h

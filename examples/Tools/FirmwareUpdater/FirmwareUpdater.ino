@@ -32,30 +32,9 @@
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
   1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
                                   Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certs on IDE   
-                                  Update default pin-outs.                                                
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.                                                
  *****************************************************************************************************************************/
-
-/*
-  nRF52840_FirmwareUpdater - Firmware Updater for the
-  Arduino MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2.
-
-  Copyright (c) 2018 Arduino SA. All rights reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 
 #include "ESP32BootROM.h"
 
@@ -80,9 +59,28 @@ static const int MAX_PAYLOAD_SIZE = 1024;
 void setup()
 {
 #if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES) 
+  #warning Serial speed currently set to 921,600 for nRF52 and NINA_B302_ublox
   Serial.begin(921600);
-#else
+#elif ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
+   || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) \
+   || defined(ARDUINO_SAMD_MKRWAN1310) || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500) \
+   || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) \
+   || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) || defined(__SAMD51G19A__) )
+  // Change according to the speed your board can support
+  // 1000000 is default and working for Nano 33 IoT, ARDUINO_SAMD_MKRWIFI1010, ARDUINO_SAMD_MKRVIDOR4000
+  #warning Serial speed currently set to 1,000,000 for SAMD21 and SAMD51
   Serial.begin(1000000);
+#elif ( defined(CORE_TEENSY) || defined(__IMXRT1062__) || defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__)\
+     || defined(__MK20DX128__) )
+   #if ( defined(__MKL26Z64__) || defined(ARDUINO_ARCH_AVR) )
+    #error Teensy LC and 2.0 not supported
+   #endif
+  // Change according to the speed your board can support
+  #warning Serial speed currently set to 921,600 for Teensy boards  
+  Serial.begin(921600);     
+#else
+  // Change according to the speed your board can support
+  Serial.begin(921600);
 #endif
 
   if (!ESP32BootROM.begin(921600)) 

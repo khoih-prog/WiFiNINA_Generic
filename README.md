@@ -8,7 +8,7 @@
 
 #### New in v1.5.2
 
-1. Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
+1. Port FirmwareUpdater to permit ***nRF52, Teensy, SAMD21, SAMD51, etc.*** boards to update WiFiNINA W101/W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
@@ -278,7 +278,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 #### New in v1.5.2
 
-1. Port FirmwareUpdater to permit nRF52 boards to update W102 firmware and SSL certificate using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
+1. Port FirmwareUpdater to permit ***nRF52, Teensy, SAMD21, SAMD51, etc.*** boards to update WiFiNINA W101/W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
