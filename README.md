@@ -10,6 +10,7 @@
 
 1. Port FirmwareUpdater to permit ***nRF52, Teensy, SAMD21, SAMD51, etc.*** boards to update WiFiNINA W101/W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
+3. Add support to UNI WiFi
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
 
