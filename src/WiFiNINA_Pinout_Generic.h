@@ -166,25 +166,9 @@
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
 
-#elif ( defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) )
+#elif ( defined(ARDUINO_AVR_UNO_WIFI_REV2) )
 
-  #warning You have to modify pin usage according to actual connection for UNO WiFi
-  // To define pin out for WiFiNINA here
-  //#define PIN_SPI_SS    (10)
-  //#define PIN_SPI_MOSI  (11)
-  //#define PIN_SPI_MISO  (12)
-  //#define PIN_SPI_SCK   (13)
-  
-  
-  #define PINS_COUNT           (26u)
-  //NINA
-  #define NINA_GPIO0  (26u)                             //26
-  #define NINA_RESETN (27u)
-  #define NINA_ACK    (28u)
-
-  #define SPIWIFI_SS       13   //PIN_SPI_SS             //13 == PF2 ??
-  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
-  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+  #warning Use WiFiNINA for UNO WiFi Rev2
   
 #elif defined(CORE_TEENSY)
 
