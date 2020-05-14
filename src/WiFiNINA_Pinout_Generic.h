@@ -32,7 +32,7 @@
   1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
                                   Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
   1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.                                            
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.                                                       
  *****************************************************************************************************************************/
 
 #ifndef WiFiNINA_Pinout_Generic_h
@@ -147,10 +147,14 @@
   #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
   #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
   
-#elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) )
+#elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) || defined(AVR_ADK) )
 
   #warning You have to modify pin usage according to actual connection for Mega 2560/1280
   // To define pin out for WiFiNINA here
+  //#define PIN_SPI_SS    (53)
+  //#define PIN_SPI_MOSI  (51)
+  //#define PIN_SPI_MISO  (50)
+  //#define PIN_SPI_SCK   (52)
 
   #define PINS_COUNT           (60u)
   //NINA
@@ -158,10 +162,30 @@
   #define NINA_RESETN (27u)
   #define NINA_ACK    (28u)
 
-  #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
+  #define SPIWIFI_SS       53   //PIN_SPI_SS             //53
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
 
+#elif ( defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) )
+
+  #warning You have to modify pin usage according to actual connection for UNO WiFi
+  // To define pin out for WiFiNINA here
+  //#define PIN_SPI_SS    (10)
+  //#define PIN_SPI_MOSI  (11)
+  //#define PIN_SPI_MISO  (12)
+  //#define PIN_SPI_SCK   (13)
+  
+  
+  #define PINS_COUNT           (26u)
+  //NINA
+  #define NINA_GPIO0  (26u)                             //26
+  #define NINA_RESETN (27u)
+  #define NINA_ACK    (28u)
+
+  #define SPIWIFI_SS       13   //PIN_SPI_SS             //13 == PF2 ??
+  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
+  #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+  
 #elif defined(CORE_TEENSY)
 
   #if defined(__IMXRT1062__)
@@ -231,6 +255,18 @@
   #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+
+#else  
+  #warning You have to modify pin usage according to actual connection for your unknown board
+  #define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0  (26u)                             //26
+  #define NINA_RESETN (27u)
+  #define NINA_ACK    (28u)
+
+  #define SPIWIFI_SS       10   //PIN_SPI_SS             //10
+  #define SPIWIFI_ACK      28   //NINA_ACK               //28 
+  #define SPIWIFI_RESET    27   //NINA_RESETN            //27  
   
 #endif
 
