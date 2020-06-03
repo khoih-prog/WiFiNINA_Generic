@@ -604,3 +604,46 @@ ninab302.menu.debug.l2.build.debug_flags=-DCFG_DEBUG=2
 ninab302.menu.debug.l3=Level 3 (Segger SystemView)
 ninab302.menu.debug.l3.build.debug_flags=-DCFG_DEBUG=3
 ninab302.menu.debug.l3.build.sysview_flags=-DCFG_SYSVIEW=1
+
+# ----------------------------------
+# NINA B112
+# ----------------------------------
+ninab112.name=NINA B112 ublox 
+ninab112.bootloader.tool=bootburn
+
+# Upload
+ninab112.upload.tool=nrfutil
+ninab112.upload.protocol=nrfutil
+ninab112.upload.use_1200bps_touch=false
+ninab112.upload.wait_for_upload_port=false
+ninab112.upload.native_usb=false
+ninab112.upload.maximum_size=290816
+ninab112.upload.maximum_data_size=52224
+
+# Build
+ninab112.build.mcu=cortex-m4
+ninab112.build.f_cpu=64000000
+ninab112.build.board=NINA_B112_ublox
+ninab112.build.core=nRF5
+ninab112.build.variant=NINA_B112_ublox
+feather52840.build.usb_manufacturer="Adafruit LLC"
+feather52840.build.usb_product="Feather nRF52832"
+ninab112.build.extra_flags=-DNRF52832_XXAA -DNINA_B112_ublox -DNRF52
+ninab112.build.ldscript=nrf52832_s132_v6.ld
+
+# SofDevice Menu
+ninab112.menu.softdevice.s132v6=0.3.2 SoftDevice s132 6.1.1
+ninab112.menu.softdevice.s132v6.build.sd_name=s132
+ninab112.menu.softdevice.s132v6.build.sd_version=6.1.1
+ninab112.menu.softdevice.s132v6.build.sd_fwid=0x00B7
+
+# Debug Menu
+ninab112.menu.debug.l0=Level 0 (Release)
+ninab112.menu.debug.l0.build.debug_flags=-DCFG_DEBUG=0
+ninab112.menu.debug.l1=Level 1 (Error Message)
+ninab112.menu.debug.l1.build.debug_flags=-DCFG_DEBUG=1
+ninab112.menu.debug.l2=Level 2 (Full Debug)
+ninab112.menu.debug.l2.build.debug_flags=-DCFG_DEBUG=2
+ninab112.menu.debug.l3=Level 3 (Segger SystemView)
+ninab112.menu.debug.l3.build.debug_flags=-DCFG_DEBUG=3
+ninab112.menu.debug.l3.build.sysview_flags=-DCFG_SYSVIEW=1
