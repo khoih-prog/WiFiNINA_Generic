@@ -16,8 +16,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _VARIANT_FEATHER52832_
-#define _VARIANT_FEATHER52832_
+#ifndef _VARIANT_NINA_B112_UBLOX_
+#define _VARIANT_NINA_B112_UBLOX_
+
+#define NRF_CLOCK_LFCLKSRC {.source = NRF_CLOCK_LF_SRC_XTAL, \
+ .rc_ctiv = 0, \
+.rc_temp_ctiv = 0, \
+.xtal_accuracy = NRF_CLOCK_LF_XTAL_ACCURACY_20_PPM}
 
 /** Master clock frequency */
 #define VARIANT_MCK       (64000000ul)
@@ -43,13 +48,15 @@ extern "C"
 #define NUM_ANALOG_OUTPUTS   (0u)
 
 // LEDs
-#define PIN_LED              (14) // P0.14 D13
+#define PIN_LED              LED1
 #define LED_BUILTIN          PIN_LED
 
 //LEDs onboard
 #define LED1 (8)  // Red
 #define LED2 (16) // Green/SW1
 #define LED3 (18) // Blue
+
+#define LED_STATE_ON         1         // State when LED is litted
 
 //Switch
 
@@ -59,18 +66,6 @@ extern "C"
 // NFC
 #define PIN_NFC_1	(9)  // P0.9
 #define PIN_NFC_2	(10) // P0.10
-
-// LEDs
-#define PIN_LED1             (17)
-#define PIN_LED2             (19)
-
-//#define LED_BUILTIN          PIN_LED1
-#define LED_CONN             PIN_LED2
-
-#define LED_RED              PIN_LED1
-#define LED_BLUE             PIN_LED2
-
-#define LED_STATE_ON         1         // State when LED is litted
 
 /*
  * Analog pins
@@ -122,18 +117,16 @@ static const uint8_t D14  = PIN_D14 ;
 static const uint8_t D15  = PIN_D15 ;
 
 // Other pins
+//static const uint8_t AREF = PIN_AREF;
+
 //#define PIN_AREF           (24)
 //#define PIN_VBAT           PIN_A7
-#define PIN_NFC1           (9)
-#define PIN_NFC2           (10)
-
-//static const uint8_t AREF = PIN_AREF;
 
 /*
  * Serial interfaces
  */
-//#define PIN_SERIAL_RX       (8)
-//#define PIN_SERIAL_TX       (6)
+//#define PIN_SERIAL_RX       (8)  //used for original Adafruit Bootloader
+//#define PIN_SERIAL_TX       (6)  //used for original Adafruit Bootloader
 
 #define PIN_SERIAL_RX       (5) // P0.05
 #define PIN_SERIAL_TX       (6) // P0.06
@@ -175,5 +168,6 @@ static const uint8_t SCL = PIN_WIRE_SCL;
 /*----------------------------------------------------------------------------
  *        Arduino objects - C++ only
  *----------------------------------------------------------------------------*/
+
 
 #endif    //_VARIANT_NINA_B112_UBLOX_
