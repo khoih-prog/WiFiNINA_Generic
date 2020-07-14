@@ -6,6 +6,13 @@
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiNINA_Generic.svg)](http://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
+---
+
+#### New in v1.5.3
+
+1. Add function to support new WebSockets2_Generic Library
+2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
+
 #### New in v1.5.2
 
 1. Port FirmwareUpdater to permit ***nRF52, Teensy, SAMD21, SAMD51, etc.*** boards to update WiFiNINA W101/W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
@@ -26,19 +33,25 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
+---
 
 ## Prerequisite
  1. [`Arduino IDE 1.8.12 or later` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino Core for STM32 v1.8.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
- 3. [`Teensy core 1.51 or later`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
+ 2. [`Arduino Core for STM32 v1.9.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
+ 3. [`Teensy core 1.53 or later`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12 or later`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards
- 5. [`Arduino SAMD core 1.8.5 or later`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
- 6. [`Adafruit SAMD core 1.5.11 or later`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
- 7. [`Arduino Core for STM32 v1.8.0 or later`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
- 8. [`Adafruit nRF52 v0.20.1 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, etc.
+ 5. [`Arduino SAMD core 1.8.6 or later`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
+ 6. [`Adafruit SAMD core 1.5.14 or later`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
+ 8. [`Adafruit nRF52 v0.20.5 or later`](www.adafruit.com) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox etc.
  
+---
 
-## Quick Start
+## Installation
+
+### Use Arduino Library Manager
+The best and easiest way is to use `Arduino Library Manager`. Search for `WiFiNINA_Generic`, then select / install the latest version.
+You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) for more detailed instructions.
+
 
 ### Manual Install
 
@@ -48,6 +61,17 @@ To install:
 2. Download the latest release `WiFiNINA_Generic-master.zip`.
 3. Extract the zip file to `WiFiNINA_Generic-master` directory 
 4. Copy whole `WiFiNINA_Generic-master/src` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+
+### VS Code & PlatformIO:
+
+1. Install [VS Code](https://code.visualstudio.com/)
+2. Install [PlatformIO](https://platformio.org/platformio-ide)
+3. Install **WiFiNINA_Generic** library by using [Library Manager](https://docs.platformio.org/en/latest/librarymanager/)
+4. Use included [platformio.ini](examples/platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automaticly.
+
+[![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic)
+
+---
 
 ### Using
 
@@ -70,23 +94,25 @@ See examples :
 16. [WiFiWebServer](examples/WiFiWebServer)
 17. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
 
+---
+
 #### Important notes
 
-1. To add NINA_B302_ublox boards running as nRF52840, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. Supposing the Adafruit nRF52 version is 0.20.1
+1. To add NINA_B302_ublox and NINA_B112_ublox boards running as nRF52840/nRF52832, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. Supposing the Adafruit nRF52 version is 0.20.5
 These files must be copied into the directory:
-- `nRF52/0.20.1/board.txt`
-- `nRF52/0.20.1/variants/variant.h`
-- `nRF52/0.20.1/variants/variant.cpp`
+- `nRF52/0.20.5/board.txt`
+- `nRF52/0.20.5/variants/variant.h`
+- `nRF52/0.20.5/variants/variant.cpp`
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
 - `nRF52/x.yy.z/board.txt`
 - `nRF52/x.yy.z/variants/variant.h`
 - `nRF52/x.yy.z/variants/variant.cpp`
 
-2. Please change the ***pin-to-pin connection*** in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox has been tested and working OK.
+2. Please change the ***pin-to-pin connection*** in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox and NINA_B112_ublox has been tested and working OK.
 For example
 
-```
+```cpp
 #elif  ( defined(NINA_B302_ublox) )
 
   #warning You have to modify pin usage according to actual connection for NRF528XX
@@ -127,7 +153,6 @@ For example
   #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
   #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
 ```
-
 
 #### How to update WiFiNINA Firmware and SSL certificates
 
@@ -277,6 +302,13 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 1. Add support to many more boards still not working
 
+---
+
+#### New in v1.5.3
+
+1. Add function to support new WebSockets2_Generic Library
+2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
+
 #### New in v1.5.2
 
 1. Port FirmwareUpdater to permit ***nRF52, Teensy, SAMD21, SAMD51, etc.*** boards to update WiFiNINA W101/W102 firmware and SSL certificates using ***Arduino IDE WiFi101/WiFiNINA Firmware Updater.*** 
@@ -293,10 +325,12 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
 
+---
+
 ### Contributions and thanks
 
-1. Forked from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
-2. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
+2. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840 and U-Box B112 running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 ### Contributing
 

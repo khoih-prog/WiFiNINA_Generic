@@ -6,7 +6,7 @@
   
   Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
   Licensed under MIT license
-  Version: 1.5.2
+  Version: 1.5.3
    
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -32,7 +32,8 @@
   1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
                                   Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
   1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.                          
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.  
+  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library                      
  *****************************************************************************************************************************/
 
 extern "C" {
@@ -235,13 +236,18 @@ void WiFiClient::stop() {
   _sock = 255;
 }
 
-uint8_t WiFiClient::connected() {
-
-  if (_sock == 255) {
+uint8_t WiFiClient::connected() 
+{
+  if (_sock == 255) 
+  {
     return 0;
-  } else if (available()) {
+  } 
+  else if (available()) 
+  {
     return 1;
-  } else {
+  } 
+  else 
+  {
     uint8_t s = status();
 
     uint8_t result =  !(s == LISTEN || s == CLOSED || s == FIN_WAIT_1 ||
@@ -249,12 +255,15 @@ uint8_t WiFiClient::connected() {
                       s == SYN_SENT || s== SYN_RCVD ||
                       (s == CLOSE_WAIT));
 
-    if (result == 0) {
+    if (result == 0) 
+    {
       WiFiSocketBuffer.close(_sock);
       _sock = 255;
     }
 
     return result;
+    // KH Debug
+    //return 0;
   }
 }
 
