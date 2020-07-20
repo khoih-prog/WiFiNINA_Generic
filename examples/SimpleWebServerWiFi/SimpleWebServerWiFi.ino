@@ -25,9 +25,9 @@
   Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
   to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
 
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.5.3
+  Version: 1.6.0
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -47,21 +47,26 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
   Version Modified By   Date      Comments
- ------- -----------  ---------- -----------
+  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
-  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
-                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.  
-  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library 
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
+  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
+  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
 *****************************************************************************************************************************/
+#include "defines.h"
+#include "arduino_secrets.h"
+
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "****";        // your network SSID (name)
-char pass[] = "********";    // your network password (use for WPA, or use as key for WEP), length must be 8+
+char ssid[] = SECRET_SSID;        // your network SSID (name)
+char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
+
 int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
@@ -73,6 +78,8 @@ void setup()
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
   while (!Serial);
+
+  Serial.println("\nStart SimpleWebServerWiFi on " + String(BOARD_NAME));
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
@@ -99,6 +106,7 @@ void setup()
     // wait 10 seconds for connection:
     //delay(10000);
   }
+  
   server.begin();                           // start the web server on port 80
   printWifiStatus();                        // you're connected now, so print out the status
 }
@@ -107,18 +115,28 @@ void loop()
 {
   WiFiClient client = server.available();   // listen for incoming clients
 
-  if (client) {                             // if you get a client,
+  if (client) 
+  {                             
+    // if you get a client,
     Serial.println("new client");           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
-    while (client.connected()) {            // loop while the client's connected
-      if (client.available()) {             // if there's bytes to read from the client,
+    
+    while (client.connected()) 
+    {            
+      // loop while the client's connected
+      if (client.available()) 
+      {             
+        // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
         Serial.write(c);                    // print it out the serial monitor
-        if (c == '\n') {                    // if the byte is a newline character
-
+        
+        if (c == '\n') 
+        {                    
+          // if the byte is a newline character
           // if the current line is blank, you got two newline characters in a row.
           // that's the end of the client HTTP request, so send a response:
-          if (currentLine.length() == 0) {
+          if (currentLine.length() == 0) 
+          {
             // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
             // and a content-type so the client knows what's coming, then a blank line:
             client.println("HTTP/1.1 200 OK");
@@ -133,18 +151,27 @@ void loop()
             client.println();
             // break out of the while loop:
             break;
-          } else {    // if you got a newline, then clear currentLine:
+          } 
+          else 
+          {    
+            // if you got a newline, then clear currentLine:
             currentLine = "";
           }
-        } else if (c != '\r') {  // if you got anything else but a carriage return character,
+        } 
+        else if (c != '\r') 
+        {  
+          // if you got anything else but a carriage return character,
           currentLine += c;      // add it to the end of the currentLine
         }
 
         // Check to see if the client request was "GET /H" or "GET /L":
-        if (currentLine.endsWith("GET /H")) {
+        if (currentLine.endsWith("GET /H")) 
+        {
           digitalWrite(9, HIGH);               // GET /H turns the LED on
         }
-        if (currentLine.endsWith("GET /L")) {
+        
+        if (currentLine.endsWith("GET /L")) 
+        {
           digitalWrite(9, LOW);                // GET /L turns the LED off
         }
       }
