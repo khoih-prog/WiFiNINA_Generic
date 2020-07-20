@@ -7,6 +7,10 @@
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiNINA_Generic.svg)](http://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
 ---
+## Important Notes
+
+1. Currently, the ***NINA Firmware v1.4.0 creates some not-yet-identified issue to WebServer. Please don't update yet and continue to use NINA Firmware v1.3.0***
+2. Investigating now.
 
 #### New in v1.6.0
 
