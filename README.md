@@ -78,7 +78,7 @@ To install:
 
 #### Important notes
 
-1. To add NINA_B302_ublox and NINA_B112_ublox boards running as nRF52840/nRF52832, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. 
+1. To add NINA_B302_ublox and NINA_B112_ublox boards running as nRF52840/nRF52832, you have to copy the whole nRF52 directory into Adafruit nRF52 directory. The patch also enable automatically detecting and displaying BOARD_NAME in sketch.
 
 Supposing the Adafruit nRF52 version is 0.20.5. These files must be copied into the directory:
 - `~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5/platform.txt`
@@ -99,6 +99,7 @@ These files must be copied into the directory:
 - `~/.arduino15/packages/adafruit/hardware/nrf52/x.yy.z/variants/NINA_B112_ublox/variant.cpp`
 
 2. Please change the ***pin-to-pin connection*** in `WiFiNINA_Pinout_Generic.h` to match actual connection. The section for NINA_B302_ublox and NINA_B112_ublox has been tested and working OK.
+
 For example
 
 
@@ -385,6 +386,19 @@ void printWifiStatus()
 }
 ```
 ---
+
+### Debug
+
+Debug is enabled by default on Serial. Debug Level from 0 to 4. To disable, change the _WEBSOCKETS_LOGLEVEL_ to 0
+
+```cpp
+// Use this to output debug msgs to Serial
+#define DEBUG_WIFININA_PORT       Serial
+// Use this to disable all output debug msgs
+//#define DEBUG_WEBSOCKETS_PORT
+// Debug Level from 0 to 4
+#define _WIFININA_LOGLEVEL_       0
+```
 
 ## Troubleshooting
 If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.0+` or this library version.
