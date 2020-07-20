@@ -1,9 +1,9 @@
 /****************************************************************************************************************************
-  WiFiSocketBuffer.h - Library for Arduino WifiNINA module/shield.
+  WiFiStorage_Generic.cpp - Library for Arduino WifiNINA module/shield.
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-
+  
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
   Version: 1.6.0
@@ -37,39 +37,17 @@
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
  *****************************************************************************************************************************/
 
-#ifndef WiFiSocketBuffer_h
-#define WiFiSocketBuffer_h
+#include "WiFiStorage_Generic.h"
 
-#include <stddef.h>
-#include <stdint.h>
-
-extern "C"
+WiFiStorageFile WiFiStorageClass::open(const char *filename)
 {
-  #include "utility/wl_definitions.h"
+  WiFiStorageFile file(filename);
+  file.size();
+
+  return file;
 }
 
-class WiFiSocketBufferClass
+WiFiStorageFile WiFiStorageClass::open(String filename)
 {
-
-  public:
-    WiFiSocketBufferClass();
-    ~WiFiSocketBufferClass();
-
-    void close(int socket);
-
-    int available(int socket);
-    int peek(int socket);
-    int read(int socket, uint8_t* data, size_t length);
-
-  private:
-    struct
-    {
-      uint8_t* data;
-      uint8_t* head;
-      int length;
-    } _buffers[WIFI_MAX_SOCK_NUM];
-};
-
-extern WiFiSocketBufferClass WiFiSocketBuffer;
-
-#endif    // WiFiSocketBuffer_h
+  return open(filename.c_str());
+}

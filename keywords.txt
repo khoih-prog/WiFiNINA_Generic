@@ -13,6 +13,10 @@ WiFiClient	KEYWORD1
 WiFiSSLClient	KEYWORD1
 WiFiServer	KEYWORD1
 WiFiUDP	KEYWORD1
+WiFiStorageFile KEYWORD1
+WiFiStorageClass  KEYWORD1
+
+######
 
 ServerDrv KEYWORD1
 SpiDrv  KEYWORD1
@@ -79,6 +83,34 @@ beginPacket	KEYWORD2
 endPacket	KEYWORD2
 parsePacket	KEYWORD2
 
+###################
+# WiFiStorageClass
+###################
+
+begin KEYWORD2
+open  KEYWORD2
+exists  KEYWORD2
+remove  KEYWORD2
+rename  KEYWORD2
+read  KEYWORD2
+write KEYWORD2
+download  KEYWORD2
+remove  KEYWORD2
+
+###################
+# WiFiStorageFile
+###################
+
+read  KEYWORD2
+write KEYWORD2
+seek  KEYWORD2
+position  KEYWORD2
+size  KEYWORD2
+available KEYWORD2
+erase KEYWORD2
+flush KEYWORD2
+close KEYWORD2
+
 #############
 # server_drv
 #############
@@ -116,6 +148,7 @@ waitResponseData8 KEYWORD2
 waitResponseData16  KEYWORD2
 waitResponse  KEYWORD2
 sendParam KEYWORD2
+sendParamNoLen  KEYWORD2
 sendParamLen8 KEYWORD2
 sendParamLen16  KEYWORD2
 readParamLen8 KEYWORD2
@@ -127,39 +160,49 @@ sendCmd  KEYWORD2
 # wifi_drv
 #############
 
-wifiDriverInit
-wifiDriverDeinit
-wifiSetNetwork
-wifiSetPassphrase
-wifiSetKey
-wifiSetApNetwork
-wifiSetApPassphrase
-getReasonCode
-getConnectionStatus
-getMacAddress
-getIpAddress
-getSubnetMask
-getGatewayIP
-getCurrentSSID
-getCurrentBSSID
-getCurrentRSSI
-getCurrentEncryptionType
-startScanNetworks
-getScanNetworks
-getRSSINetoworks
-getEncTypeNetowrks
-getBSSIDNetowrks
-getChannelNetowrks
-getHostByName
-getFwVersion
-getTime
-setPowerMode
-wifiSetApNetwork
-wifiSetApPassphrase
-wifiSetEnterprise
-ping
-debug
-getTemperature
+wifiDriverInit  KEYWORD2
+wifiDriverDeinit  KEYWORD2
+wifiSetNetwork  KEYWORD2
+wifiSetPassphrase KEYWORD2
+wifiSetKey  KEYWORD2
+wifiSetApNetwork  KEYWORD2
+wifiSetApPassphrase KEYWORD2
+getReasonCode KEYWORD2
+getConnectionStatus KEYWORD2
+getMacAddress KEYWORD2
+getIpAddress  KEYWORD2
+getSubnetMask KEYWORD2
+getGatewayIP  KEYWORD2
+getCurrentSSID  KEYWORD2
+getCurrentBSSID KEYWORD2
+getCurrentRSSI  KEYWORD2
+getCurrentEncryptionType  KEYWORD2
+startScanNetworks KEYWORD2
+getScanNetworks KEYWORD2
+getRSSINetoworks  KEYWORD2
+getEncTypeNetowrks  KEYWORD2
+getBSSIDNetowrks  KEYWORD2
+getChannelNetowrks  KEYWORD2
+getHostByName KEYWORD2
+getFwVersion  KEYWORD2
+getTime KEYWORD2
+setPowerMode  KEYWORD2
+wifiSetApNetwork  KEYWORD2
+wifiSetApPassphrase KEYWORD2
+wifiSetEnterprise KEYWORD2
+ping  KEYWORD2
+debug KEYWORD2
+getTemperature  KEYWORD2
+digitalWrite  KEYWORD2
+analogWrite KEYWORD2
+downloadFile  KEYWORD2
+renameFile  KEYWORD2
+fileOperation KEYWORD2
+readFile  KEYWORD2
+writeFile KEYWORD2
+deleteFile  KEYWORD2
+existsFile  KEYWORD2
+applyOTA  KEYWORD2
 
 
 #######################################

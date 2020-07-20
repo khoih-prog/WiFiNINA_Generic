@@ -1,13 +1,13 @@
 /****************************************************************************************************************************
   WiFiSSLClient_Generic.h - Library for Arduino WifiNINA module/shield.
+
+  Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
+  to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
   
-  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
-  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
-  
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.5.3
-   
+  Version: 1.6.0
+
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
@@ -24,16 +24,17 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
+
   Version Modified By   Date      Comments
- ------- -----------  ---------- -----------
+  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
-  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
-                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.  
-  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library                        
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
+  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
+  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
  *****************************************************************************************************************************/
 
 #ifndef WiFiSSLClient_Generic_h
@@ -41,14 +42,15 @@
 
 #include "WiFiClient_Generic.h"
 
-class WiFiSSLClient : public WiFiClient {
+class WiFiSSLClient : public WiFiClient 
+{
 
-public:
-	WiFiSSLClient();
-	WiFiSSLClient(uint8_t sock);
+  public:
+    WiFiSSLClient();
+    WiFiSSLClient(uint8_t sock);
 
-	virtual int connect(IPAddress ip, uint16_t port);
-	virtual int connect(const char* host, uint16_t port);
+    virtual int connect(IPAddress ip, uint16_t port);
+    virtual int connect(const char* host, uint16_t port);
 };
 
 #endif  //WiFiSSLClient_Generic_h

@@ -1,13 +1,13 @@
 /****************************************************************************************************************************
   spi_drv.h - Library for Arduino WifiNINA module/shield.
-  
-  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
-  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
-  
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+
+  Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
+  to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
+
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.5.3
-   
+  Version: 1.6.0
+
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
@@ -24,57 +24,60 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
+
   Version Modified By   Date      Comments
- ------- -----------  ---------- -----------
+  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
-  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
-                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.  
-  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library                       
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
+  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
+  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
  *****************************************************************************************************************************/
 
 #ifndef SPI_Drv_h
 #define SPI_Drv_h
 
 #include <inttypes.h>
-#include "wifi_spi.h"
+#include "utility/wifi_spi.h"
 
-#define SPI_START_CMD_DELAY 	10
+#define SPI_START_CMD_DELAY   10
 
 #define NO_LAST_PARAM   0
 #define LAST_PARAM      1
 
 #define DUMMY_DATA  0xFF
 
-#define WAIT_FOR_SLAVE_SELECT()	      \
-	if (!SpiDrv::initialized) {           \
-		SpiDrv::begin();      \
-	}                             \
-	SpiDrv::waitForSlaveReady();  \
-	SpiDrv::spiSlaveSelect();
+#define WAIT_FOR_SLAVE_SELECT() \
+  if (!SpiDrv::initialized)     \
+  {                             \
+    SpiDrv::begin();            \
+  }                             \
+  SpiDrv::waitForSlaveReady();  \
+  SpiDrv::spiSlaveSelect();
 
 class SpiDrv
 {
-private:
-	//static bool waitSlaveReady();
-	static void waitForSlaveSign();
-	static void getParam(uint8_t* param);
-public:
+  private:
+    //static bool waitSlaveReady();
+    static void waitForSlaveSign();
+    static void getParam(uint8_t* param);
+
+  public:
     static bool initialized;
 
     static void begin();
 
     static void end();
-    
+
     static void spiDriverInit();
-        
+
     static void spiSlaveSelect();
-    
+
     static void spiSlaveDeselect();
-    
+
     static char spiTransfer(volatile char data);
 
     static void waitForSlaveReady();
@@ -82,26 +85,29 @@ public:
     //static int waitSpiChar(char waitChar, char* readChar);
 
     static int waitSpiChar(unsigned char waitChar);
-    
+
     static int readAndCheckChar(char checkChar, char* readChar);
 
     static char readChar();
 
     static int waitResponseParams(uint8_t cmd, uint8_t numParam, tParam* params);
-    
+
     static int waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8_t* param_len);
 
     static int waitResponseData8(uint8_t cmd, uint8_t* param, uint8_t* param_len);
-     
+
     static int waitResponseData16(uint8_t cmd, uint8_t* param, uint16_t* param_len);
- /*
-    static int waitResponse(uint8_t cmd, tParam* params, uint8_t* numParamRead, uint8_t maxNumParams);
-    
-    static int waitResponse(uint8_t cmd, uint8_t numParam, uint8_t* param, uint16_t* param_len);
-*/
+
+    //static int waitResponse(uint8_t cmd, tParam* params, uint8_t* numParamRead, uint8_t maxNumParams);
+
+    //static int waitResponse(uint8_t cmd, uint8_t numParam, uint8_t* param, uint16_t* param_len);
+
     static int waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, uint8_t maxNumParams);
 
     static void sendParam(uint8_t* param, uint8_t param_len, uint8_t lastParam = NO_LAST_PARAM);
+    
+    // New from v1.6.0
+    static void sendParamNoLen(uint8_t* param, size_t param_len, uint8_t lastParam = NO_LAST_PARAM);
 
     static void sendParamLen8(uint8_t param_len);
 
@@ -114,11 +120,11 @@ public:
     static void sendBuffer(uint8_t* param, uint16_t param_len, uint8_t lastParam = NO_LAST_PARAM);
 
     static void sendParam(uint16_t param, uint8_t lastParam = NO_LAST_PARAM);
-    
+
     static void sendCmd(uint8_t cmd, uint8_t numParam);
 
     static int available();
-};                                                                 
+};
 
 extern SpiDrv spiDrv;
 

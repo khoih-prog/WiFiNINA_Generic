@@ -1,13 +1,13 @@
 /****************************************************************************************************************************
   debug.h - Library for Arduino WifiNINA module/shield.
   
-  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
-  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
+  Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
+  to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
   
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.5.3
-   
+  Version: 1.6.0
+
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
 
@@ -24,16 +24,17 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
+
   Version Modified By   Date      Comments
- ------- -----------  ---------- -----------
+  ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
                                   such as Arduino Mega, Teensy, SAMD21, SAMD51, STM32, etc
-  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, 
-                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.         
-  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA  
-                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.  
-  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library                      
+  1.5.1   K Hoang      22/04/2020 Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense,
+                                  Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, etc.
+  1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
+                                  W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
+  1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
+  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)        
  *****************************************************************************************************************************/
 
 //*********************************************/
@@ -50,10 +51,50 @@
 #include <stdio.h>
 #include <string.h>
 
+// KH Add, v1.6.0
+#ifdef DEBUG_WIFININA_PORT
+  #define DBG_PORT      DEBUG_WIFININA_PORT
+#else
+  #define DBG_PORT      Serial
+#endif
+
+// Change _WIFININA_LOGLEVEL_ to set tracing and logging verbosity
+// 0: DISABLED: no logging
+// 1: ERROR: errors
+// 2: WARN: errors and warnings
+// 3: INFO: errors, warnings and informational (default)
+// 4: DEBUG: errors, warnings, informational and debug
+
+#ifndef _WIFININA_LOGLEVEL_
+  #define _WIFININA_LOGLEVEL_       1
+#endif
+
+// Error waitResponse message
+#define ERROR_RESPONSE  ":Error waitResponse"
+
+#define LOGERROR(x)     if(_WIFININA_LOGLEVEL_>0) { DBG_PORT.print("[NN] "); DBG_PORT.println(x); }
+#define LOGERROR1(x,y)  if(_WIFININA_LOGLEVEL_>0) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.println(y); }
+
+#define LOGWARN(x)      if(_WIFININA_LOGLEVEL_>1) { DBG_PORT.print("[NN] "); DBG_PORT.println(x); }
+#define LOGWARN1(x,y)   if(_WIFININA_LOGLEVEL_>1) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.println(y); }
+
+#define LOGINFO(x)      if(_WIFININA_LOGLEVEL_>2) { DBG_PORT.print("[NN] "); DBG_PORT.println(x); }
+#define LOGINFO1(x,y)   if(_WIFININA_LOGLEVEL_>2) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.println(y); }
+#define LOGINFO2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.print(y); DBG_PORT.print(" "); DBG_PORT.println(z); }
+#define LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.print(y); DBG_PORT.print(" "); DBG_PORT.println(z); DBG_PORT.print(" "); DBG_PORT.println(w); }
+
+#define LOGDEBUG(x)      if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.println(x); }
+#define LOGDEBUG0(x)     if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); }
+#define LOGDEBUG1(x,y)   if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.println(y); }
+#define LOGDEBUG2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.print(y); DBG_PORT.print(" "); DBG_PORT.println(z); }
+#define LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT.print("[NN] "); DBG_PORT.print(x); DBG_PORT.print(" "); DBG_PORT.print(y); DBG_PORT.print(" "); DBG_PORT.println(z); DBG_PORT.print(" "); DBG_PORT.println(w); }
+
+//////
+
 #define PRINT_FILE_LINE() do { 						\
 		Serial.print("[");Serial.print(__FILE__);		\
 		Serial.print("::");Serial.print(__LINE__);Serial.print("]");\
-}while (0);
+} while (0);
 
 //KH
 #define _DEBUG_
@@ -68,11 +109,11 @@
 
 #define INFO1(x) do { PRINT_FILE_LINE() Serial.print("-I-");\
 		Serial.println(x);    			\
-}while (0);
+} while (0);
 
 #define INFO2(x,y) do { PRINT_FILE_LINE() Serial.print("-I-");\
 		Serial.print(x,16);Serial.print(",");Serial.println(y,16); \
-}while (0);
+} while (0);
 
 
 #else
@@ -82,11 +123,11 @@
 #endif
 
 #if 1
-#define WARN(args) do { PRINT_FILE_LINE()			\
-		Serial.print("-W-"); Serial.println(args);	\
-}while (0);
+  #define WARN(args) do { PRINT_FILE_LINE()			\
+		  Serial.print("-W-"); Serial.println(args);	\
+  } while (0);
 #else
-#define WARN(args) do {} while (0);
+  #define WARN(args) do {} while (0);
 #endif
 
 
@@ -94,27 +135,27 @@
 #define _DEBUG_SPI_     false
 
 #if _DEBUG_SPI_
-#define DBG_PIN2 5
-#define DBG_PIN 4
+  #define DBG_PIN2 5
+  #define DBG_PIN 4
 
-#define START()         digitalWrite(DBG_PIN2, HIGH);
-#define END()           digitalWrite(DBG_PIN2, LOW);
-#define SET_TRIGGER()   digitalWrite(DBG_PIN, HIGH);
-#define RST_TRIGGER()   digitalWrite(DBG_PIN, LOW);
+  #define START()         digitalWrite(DBG_PIN2, HIGH);
+  #define END()           digitalWrite(DBG_PIN2, LOW);
+  #define SET_TRIGGER()   digitalWrite(DBG_PIN, HIGH);
+  #define RST_TRIGGER()   digitalWrite(DBG_PIN, LOW);
 
-#define INIT_TRIGGER()  pinMode(DBG_PIN, OUTPUT); \
-                        pinMode(DBG_PIN2, OUTPUT); \
-                        RST_TRIGGER()
-#define TOGGLE_TRIGGER() SET_TRIGGER() \
-                           delayMicroseconds(2);    \
-                               RST_TRIGGER()
+  #define INIT_TRIGGER()  pinMode(DBG_PIN, OUTPUT); \
+                          pinMode(DBG_PIN2, OUTPUT); \
+                          RST_TRIGGER()
+  #define TOGGLE_TRIGGER() SET_TRIGGER() \
+                             delayMicroseconds(2);    \
+                                 RST_TRIGGER()
 #else
-#define START()
-#define END()
-#define SET_TRIGGER()
-#define RST_TRIGGER()
-#define INIT_TRIGGER()
-#define TOGGLE_TRIGGER()
+  #define START()
+  #define END()
+  #define SET_TRIGGER()
+  #define RST_TRIGGER()
+  #define INIT_TRIGGER()
+  #define TOGGLE_TRIGGER()
 #endif
 
-#endif
+#endif    // Debug_H
