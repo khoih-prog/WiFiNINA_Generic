@@ -12,6 +12,7 @@
 
 1. Sync'ed with latest WiFiNINA Library v1.6.0. 
 2. New features include ***WiFiStorage*** and update to ***NINA Firmware v1.4.0*** from v1.3.0
+3. Enhance debugging tool
 
 #### New in v1.5.3
 

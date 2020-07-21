@@ -43,6 +43,8 @@
 extern "C" 
 {
   #include "utility/wl_definitions.h"
+  // KH, from v1.6.0
+  #include "utility/debug.h"
 }
 
 #include "Server.h"

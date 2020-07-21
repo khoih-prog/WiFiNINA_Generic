@@ -40,6 +40,8 @@
 #include <string.h>
 #include "utility/server_drv.h"
 
+#define _WIFININA_LOGLEVEL_         1
+
 extern "C" 
 {
   #include "utility/debug.h"
@@ -88,12 +90,27 @@ WiFiClient WiFiServer::available(byte* status)
   {
     // check previous received client socket
     if (_lastSock != NO_SOCKET_AVAIL) 
-    {
+    {     
       WiFiClient client(_lastSock);
+      
+      // KH, from v1.6.0 debug
+      NN_LOGDEBUG1("WiFiServer::available: _lastSock =", _lastSock);
+      
+      if (client.connected()) 
+        NN_LOGDEBUG("WiFiServer::available: client.connected");
+        
+      if (client.available()) 
+        NN_LOGDEBUG("WiFiServer::available: client.available");
+        
+      
+      //////
 
       if (client.connected() && client.available()) 
       {
         sock = _lastSock;
+        
+        // KH, from v1.6.0 debug
+        NN_LOGDEBUG1("WiFiServer::available: sock/_lastSock =", sock);
       }
     }
 
@@ -101,6 +118,10 @@ WiFiClient WiFiServer::available(byte* status)
     {
       // check for new client socket
       sock = ServerDrv::availServer(_sock);
+      
+      // KH, from v1.6.0 debug
+      //NN_LOGDEBUG1("WiFiServer::available: sock =", sock);
+      //////
     }
   }
 
@@ -114,10 +135,18 @@ WiFiClient WiFiServer::available(byte* status)
     }
 
     _lastSock = sock;
+    
+    // KH, from v1.6.0 debug
+    NN_LOGDEBUG1("WiFiServer::available: Client OK, sock =", sock);
+    //////
 
     return client;
   }
 
+  // KH, from v1.6.0 debug
+  NN_LOGDEBUG("WiFiServer::available: Client not OK");
+  //////
+    
   return WiFiClient(255);
 }
 

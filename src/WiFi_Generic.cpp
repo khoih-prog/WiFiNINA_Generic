@@ -126,7 +126,7 @@ int WiFiClass::begin(const char* ssid, const char *passphrase)
       if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         //KH
-        LOGDEBUG1("WiFi-begin: return1 = ", status);
+        NN_LOGDEBUG1("WiFi-begin: return1 = ", status);
         break;
       }
     }
@@ -135,7 +135,7 @@ int WiFiClass::begin(const char* ssid, const char *passphrase)
   }
 
   //KH
-  LOGDEBUG1("WiFi-begin: return2 = ", status);
+  NN_LOGDEBUG1("WiFi-begin: return2 = ", status);
 
   return status;
 }
@@ -159,7 +159,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel)
       if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         //KH
-        LOGDEBUG1("WiFi-beginAP2: return1 = ", status);
+        NN_LOGDEBUG1("WiFi-beginAP2: return1 = ", status);
 
         break;
       }
@@ -171,7 +171,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel)
   }
 
   //KH
-  LOGDEBUG1("WiFi-beginAP2: return2 = ", status);
+  NN_LOGDEBUG1("WiFi-beginAP2: return2 = ", status);
 
   return status;
 }
@@ -197,7 +197,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
       if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         //KH
-        LOGDEBUG1("WiFi-beginAP3: return1 = ", status);
+        NN_LOGDEBUG1("WiFi-beginAP3: return1 = ", status);
 
         break;
       }
@@ -209,7 +209,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, const char* passphrase, uint8_t cha
   }
 
   //KH
-  LOGDEBUG1("WiFi-beginAP3: return2 = ", status);
+  NN_LOGDEBUG1("WiFi-beginAP3: return2 = ", status);
 
   return status;
 }

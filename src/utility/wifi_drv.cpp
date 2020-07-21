@@ -173,7 +173,7 @@ int8_t WiFiDrv::wifiSetNetwork(const char* ssid, uint8_t ssid_len)
 
   if (!SpiDrv::waitResponseCmd(SET_NET_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetNetwork", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetNetwork", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -210,14 +210,14 @@ int8_t WiFiDrv::wifiSetPassphrase(const char* ssid, uint8_t ssid_len, const char
 
   if (!SpiDrv::waitResponseCmd(SET_PASSPHRASE_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetPassphrase", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetPassphrase", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
   SpiDrv::spiSlaveDeselect();
 
   //KH
-  LOGDEBUG1("WiFiDrv::wifiSetPassphrase: return = ", _data);
+  NN_LOGDEBUG1("WiFiDrv::wifiSetPassphrase: return = ", _data);
 
   return _data;
 }
@@ -252,7 +252,7 @@ int8_t WiFiDrv::wifiSetKey(const char* ssid, uint8_t ssid_len, uint8_t key_idx, 
 
   if (!SpiDrv::waitResponseCmd(SET_KEY_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetKey", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetKey", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -286,7 +286,7 @@ void WiFiDrv::config(uint8_t validParams, uint32_t local_ip, uint32_t gateway, u
 
   if (!SpiDrv::waitResponseCmd(SET_IP_CONFIG_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::config", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::config", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -313,7 +313,7 @@ void WiFiDrv::setDNS(uint8_t validParams, uint32_t dns_server1, uint32_t dns_ser
 
   if (!SpiDrv::waitResponseCmd(SET_DNS_CONFIG_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::setDNS", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::setDNS", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -347,7 +347,7 @@ void WiFiDrv::setHostname(const char* hostname)
 
   if (!SpiDrv::waitResponseCmd(SET_HOSTNAME_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::setHostname", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::setHostname", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -424,14 +424,14 @@ uint8_t WiFiDrv::getConnectionStatus()
   uint8_t _dataLen = 0;
 
   //KH
-  LOGDEBUG("WiFiDrv::getConnectionStatus start");
+  NN_LOGDEBUG("WiFiDrv::getConnectionStatus start");
 
   SpiDrv::waitResponseCmd(GET_CONN_STATUS_CMD, PARAM_NUMS_1, &_data, &_dataLen);
 
   SpiDrv::spiSlaveDeselect();
 
   //KH
-  LOGDEBUG1("WiFiDrv::getConnectionStatus: _data = ", _data);
+  NN_LOGDEBUG1("WiFiDrv::getConnectionStatus: _data = ", _data);
 
   return _data;
 }
@@ -626,7 +626,7 @@ int8_t WiFiDrv::startScanNetworks()
 
   if (!SpiDrv::waitResponseCmd(START_SCAN_NETWORKS, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::startScanNetworks", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::startScanNetworks", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -852,7 +852,7 @@ int WiFiDrv::getHostByName(IPAddress& aResult)
 
   if (!SpiDrv::waitResponseCmd(GET_HOST_BY_NAME_CMD, PARAM_NUMS_1, _ipAddr, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::getHostByName", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::getHostByName", ERROR_RESPONSE);
   }
   else
   {
@@ -893,7 +893,7 @@ const char*  WiFiDrv::getFwVersion()
 
   if (!SpiDrv::waitResponseCmd(GET_FW_VERSION_CMD, PARAM_NUMS_1, (uint8_t*)fwVersion, &_dataLen))
   {
-    WARN("error waitResponse");
+    NN_LOGDEBUG1("WiFiDrv::getFwVersion", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -918,7 +918,7 @@ uint32_t WiFiDrv::getTime()
 
   if (!SpiDrv::waitResponseCmd(GET_TIME_CMD, PARAM_NUMS_1, (uint8_t*)&_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::getTime", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::getTime", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -981,14 +981,14 @@ int8_t WiFiDrv::wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t cha
 
   if (!SpiDrv::waitResponseCmd(SET_AP_NET_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetApNetwork", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetApNetwork", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
   SpiDrv::spiSlaveDeselect();
 
   //KH
-  LOGDEBUG1("WiFiDrv::wifiSetApNetwork: _data = ", _data);
+  NN_LOGDEBUG1("WiFiDrv::wifiSetApNetwork: _data = ", _data);
 
   return (_data == WIFI_SPI_ACK) ? WL_SUCCESS : WL_FAILURE;
 }
@@ -1022,7 +1022,7 @@ int8_t WiFiDrv::wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const ch
 
   if (!SpiDrv::waitResponseCmd(SET_AP_PASSPHRASE_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetApPassphrase", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetApPassphrase", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1063,7 +1063,7 @@ int8_t WiFiDrv::wifiSetEnterprise(uint8_t eapType, const char* ssid, uint8_t ssi
 
   if (!SpiDrv::waitResponseCmd(SET_ENT_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::wifiSetEnterprise", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::wifiSetEnterprise", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1094,7 +1094,7 @@ int16_t WiFiDrv::ping(uint32_t ipAddress, uint8_t ttl)
 
   if (!SpiDrv::waitResponseCmd(PING_CMD, PARAM_NUMS_1, (uint8_t*)&_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::ping", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::ping", ERROR_RESPONSE);
     _data = WL_PING_ERROR;
   }
 
@@ -1147,7 +1147,7 @@ float WiFiDrv::getTemperature()
 
   if (!SpiDrv::waitResponseCmd(GET_TEMPERATURE_CMD, PARAM_NUMS_1, (uint8_t*)&_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::getTemperature", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::getTemperature", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -1177,7 +1177,7 @@ void WiFiDrv::pinMode(uint8_t pin, uint8_t mode)
 
   if (!SpiDrv::waitResponseCmd(SET_PIN_MODE, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::pinMode", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::pinMode", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1206,7 +1206,7 @@ void WiFiDrv::digitalWrite(uint8_t pin, uint8_t value)
 
   if (!SpiDrv::waitResponseCmd(SET_DIGITAL_WRITE, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::digitalWrite", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::digitalWrite", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1235,7 +1235,7 @@ void WiFiDrv::analogWrite(uint8_t pin, uint8_t value)
 
   if (!SpiDrv::waitResponseCmd(SET_ANALOG_WRITE, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::analogWrite", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::analogWrite", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1271,7 +1271,7 @@ int8_t WiFiDrv::downloadFile(const char* url, uint8_t url_len, const char *filen
 
   if (!SpiDrv::waitResponseCmd(DOWNLOAD_FILE, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("WiFiDrv::downloadFile", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::downloadFile", ERROR_RESPONSE);
     _data = WL_FAILURE;
   }
 
@@ -1308,7 +1308,7 @@ int8_t WiFiDrv::renameFile(const char * old_file_name, uint8_t const old_file_na
 
   if (!SpiDrv::waitResponseCmd(RENAME_FILE, PARAM_NUMS_1, &data, &dataLen))
   {
-    LOGDEBUG1("WiFiDrv::renameFile", ERROR_RESPONSE);
+    NN_LOGDEBUG1("WiFiDrv::renameFile", ERROR_RESPONSE);
     data = WL_FAILURE;
   }
 

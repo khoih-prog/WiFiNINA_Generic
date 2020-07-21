@@ -75,7 +75,7 @@ void ServerDrv::startServer(uint16_t port, uint8_t sock, uint8_t protMode)
 
   if (!SpiDrv::waitResponseCmd(START_SERVER_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::startServer1", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::startServer1", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -102,7 +102,7 @@ void ServerDrv::startServer(uint32_t ipAddress, uint16_t port, uint8_t sock, uin
 
   if (!SpiDrv::waitResponseCmd(START_SERVER_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::startServer2", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::startServer2", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -130,7 +130,7 @@ void ServerDrv::startClient(uint32_t ipAddress, uint16_t port, uint8_t sock, uin
 
   if (!SpiDrv::waitResponseCmd(START_CLIENT_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::startClient1", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::startClient1", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -167,7 +167,7 @@ void ServerDrv::startClient(const char* host, uint8_t host_len, uint32_t ipAddre
 
   if (!SpiDrv::waitResponseCmd(START_CLIENT_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::startClient2", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::startClient2", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -196,7 +196,7 @@ void ServerDrv::stopClient(uint8_t sock)
 
   if (!SpiDrv::waitResponseCmd(STOP_CLIENT_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::stopClient", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::stopClient", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -225,7 +225,7 @@ uint8_t ServerDrv::getServerState(uint8_t sock)
 
   if (!SpiDrv::waitResponseCmd(GET_STATE_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::getServerState", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::getServerState", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -255,7 +255,7 @@ uint8_t ServerDrv::getClientState(uint8_t sock)
 
   if (!SpiDrv::waitResponseCmd(GET_CLIENT_STATE_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::getClientState", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::getClientState", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -351,7 +351,7 @@ bool ServerDrv::getData(uint8_t sock, uint8_t *data, uint8_t peek)
 
   if (!SpiDrv::waitResponseData8(GET_DATA_TCP_CMD, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::getData", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::getData", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -392,7 +392,7 @@ bool ServerDrv::getDataBuf(uint8_t sock, uint8_t *_data, uint16_t *_dataLen)
   // Wait for reply
   if (!SpiDrv::waitResponseData16(GET_DATABUF_TCP_CMD, _data, _dataLen))
   {
-    LOGDEBUG1("ServerDrv::getDataBuf", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::getDataBuf", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -433,7 +433,7 @@ bool ServerDrv::insertDataBuf(uint8_t sock, const uint8_t *data, uint16_t _len)
 
   if (!SpiDrv::waitResponseData8(INSERT_DATABUF_CMD, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::insertDataBuf", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::insertDataBuf", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -468,7 +468,7 @@ bool ServerDrv::sendUdpData(uint8_t sock)
 
   if (!SpiDrv::waitResponseData8(SEND_DATA_UDP_CMD, &_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::sendUdpData", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::sendUdpData", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -509,7 +509,7 @@ uint16_t ServerDrv::sendData(uint8_t sock, const uint8_t *data, uint16_t len)
 
   if (!SpiDrv::waitResponseData8(SEND_DATA_TCP_CMD, (uint8_t*)&_data, &_dataLen))
   {
-    LOGDEBUG1("ServerDrv::sendData", ERROR_RESPONSE);
+    NN_LOGDEBUG1("ServerDrv::sendData", ERROR_RESPONSE);
   }
 
   SpiDrv::spiSlaveDeselect();
@@ -544,7 +544,7 @@ uint8_t ServerDrv::checkDataSent(uint8_t sock)
     // Wait for reply
     if (!SpiDrv::waitResponseCmd(DATA_SENT_TCP_CMD, PARAM_NUMS_1, &_data, &_dataLen))
     {
-      LOGDEBUG1("ServerDrv::checkDataSent", ERROR_RESPONSE);
+      NN_LOGDEBUG1("ServerDrv::checkDataSent", ERROR_RESPONSE);
     }
 
     SpiDrv::spiSlaveDeselect();

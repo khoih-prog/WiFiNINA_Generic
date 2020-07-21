@@ -117,25 +117,25 @@ void SpiDrv::begin()
 #endif
 
   // KH
-  LOGERROR ("===============================");
-  LOGERROR ("\nUsed/default SPI pinout: ");
-  LOGERROR1("MOSI: ", MOSI);
-  LOGERROR1("MISO: ", MISO);
-  LOGERROR1("SCK: " , SCK);
-  LOGERROR1("SS: "  , SS);
-  LOGERROR ("===============================");
-  LOGERROR ("\nUsed/default NINA pinout: ");
-  LOGERROR1("NINA_GPIO0: ", NINA_GPIO0);
-  LOGERROR1("NINA_RESETN/SPIWIFI_RESET: ", NINA_RESETN);
-  LOGERROR1("NINA_ACK: ", NINA_ACK);
-  LOGERROR1("SS: ", SS);
-  LOGERROR ("===============================");
-  LOGERROR ("\nActual final pinout to used: ");
-  LOGERROR1("SPIWIFI_SS: ", SPIWIFI_SS);
-  LOGERROR1("SLAVESELECT/SPIWIFI_SS: ", SLAVESELECT);
-  LOGERROR1("SLAVEREADY/SPIWIFI_ACK/NINA_ACK: ", SLAVEREADY);
-  LOGERROR1("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ", SLAVERESET);
-  LOGERROR ("===============================\n");
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nUsed/default SPI pinout: ");
+  NN_LOGERROR1("MOSI: ", MOSI);
+  NN_LOGERROR1("MISO: ", MISO);
+  NN_LOGERROR1("SCK: " , SCK);
+  NN_LOGERROR1("SS: "  , SS);
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nUsed/default NINA pinout: ");
+  NN_LOGERROR1("NINA_GPIO0: ", NINA_GPIO0);
+  NN_LOGERROR1("NINA_RESETN/SPIWIFI_RESET: ", NINA_RESETN);
+  NN_LOGERROR1("NINA_ACK: ", NINA_ACK);
+  NN_LOGERROR1("SS: ", SS);
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nActual final pinout to used: ");
+  NN_LOGERROR1("SPIWIFI_SS: ", SPIWIFI_SS);
+  NN_LOGERROR1("SLAVESELECT/SPIWIFI_SS: ", SLAVESELECT);
+  NN_LOGERROR1("SLAVEREADY/SPIWIFI_ACK/NINA_ACK: ", SLAVEREADY);
+  NN_LOGERROR1("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ", SLAVERESET);
+  NN_LOGERROR ("===============================\n");
   //////
 
   SPIWIFI.begin();
@@ -209,7 +209,7 @@ int SpiDrv::waitSpiChar(unsigned char waitChar)
 
     if (_readChar == ERR_CMD)
     {
-      LOGDEBUG("SpiDrv::waitSpiChar: Err cmd received");
+      NN_LOGDEBUG("SpiDrv::waitSpiChar: Err cmd received");
       return -1;
     }
   } while ((timeout-- > 0) && (_readChar != waitChar));
@@ -237,7 +237,7 @@ char SpiDrv::readChar()
   if (!WAIT_START_CMD(_data))             \
   {                                       \
     TOGGLE_TRIGGER()                      \
-    LOGDEBUG("Error waiting START_CMD");      \
+    NN_LOGDEBUG("Error waiting START_CMD");      \
     return 0;                             \
   }else                                   \
 
@@ -245,8 +245,8 @@ char SpiDrv::readChar()
   if (!readAndCheckChar(check, &x))       \
   {                                       \
     TOGGLE_TRIGGER()                      \
-    LOGDEBUG("Reply error");                  \
-    LOGINFO1(check, (uint8_t)x);             \
+    NN_LOGDEBUG("Reply error");                  \
+    NN_LOGINFO1(check, (uint8_t)x);             \
     return 0;                             \
   }else                                   \
 
@@ -292,8 +292,8 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
         getParam(&param[ii]);
 
         // KH
-        LOGDEBUG1("spi_drv-waitResponseCmd: *param_len = ", *param_len);
-        LOGDEBUG3("spi_drv-waitResponseCmd: *param[ ", ii, " ] = ", param[ii]);
+        NN_LOGDEBUG1("spi_drv-waitResponseCmd: *param_len = ", *param_len);
+        NN_LOGDEBUG3("spi_drv-waitResponseCmd: *param[ ", ii, " ] = ", param[ii]);
       }
     }
 
@@ -413,13 +413,13 @@ int SpiDrv::waitResponseParams(uint8_t cmd, uint8_t numParam, tParam* params)
     }
     else
     {
-      LOGDEBUG("SpiDrv::waitResponseParams: Error numParam == 0");
+      NN_LOGDEBUG("SpiDrv::waitResponseParams: Error numParam == 0");
       return 0;
     }
 
     if (numParam != _numParam)
     {
-      LOGDEBUG("SpiDrv::waitResponseParams: Mismatch numParam");
+      NN_LOGDEBUG("SpiDrv::waitResponseParams: Mismatch numParam");
       return 0;
     }
 
@@ -463,7 +463,7 @@ int SpiDrv::waitResponse(uint8_t cmd, tParam* params, uint8_t* numParamRead, uin
       }
       else
       {
-          LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
+          NN_LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
           Serial.println(cmd, 16);
           return 0;
       }
@@ -516,7 +516,7 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
     }
     else
     {
-      LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
+      NN_LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
       readAndCheckChar(END_CMD, &_data);
 
       return 0;

@@ -37,11 +37,14 @@
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
  *****************************************************************************************************************************/
 
-extern "C" {
-#include "utility/wl_definitions.h"
-#include "utility/wl_types.h"
-#include "string.h"
-#include "utility/debug.h"
+#define _WIFININA_LOGLEVEL_         1
+
+extern "C" 
+{
+  #include "utility/wl_definitions.h"
+  #include "utility/wl_types.h"
+  #include "string.h"
+  #include "utility/debug.h"
 }
 
 
@@ -101,7 +104,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
   else
   {
     // KH
-    LOGDEBUG("No Socket available");
+    NN_LOGDEBUG("No Socket available");
     
     return 0;
   }
@@ -136,7 +139,7 @@ int WiFiClient::connectSSL(IPAddress ip, uint16_t port)
   else
   {
     // KH
-    LOGDEBUG("No Socket available");
+    NN_LOGDEBUG("No Socket available");
 
     return 0;
   }
@@ -170,7 +173,7 @@ int WiFiClient::connectSSL(const char *host, uint16_t port)
   else
   {
     // KH
-    LOGDEBUG("No Socket available");
+    NN_LOGDEBUG("No Socket available");
 
     return 0;
   }
