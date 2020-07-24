@@ -7,7 +7,6 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.0
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -26,6 +25,8 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+  Version: 1.6.1
+
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
@@ -35,7 +36,8 @@
   1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
-  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)                                          
+  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
+  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards                                        
  *****************************************************************************************************************************/
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 #include <VidorPeripherals.h>
@@ -192,7 +194,8 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
     synced = sync();
   }
 
-  if (!synced) {
+  if (!synced) 
+  {
     return 0;
   }
 
@@ -376,6 +379,7 @@ void ESP32BootROMClass::command(int opcode, const void* data, uint16_t length)
   writeEscapedBytes((uint8_t*)&checksum, sizeof(checksum));
   writeEscapedBytes((uint8_t*)data, length);
   _serial->write(0xc0);
+  
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
   // _serial->flush(); // doesn't work!
 #else
@@ -447,16 +451,22 @@ void ESP32BootROMClass::writeEscapedBytes(const uint8_t* data, uint16_t length)
 {
   uint16_t written = 0;
 
-  while (written < length) {
+  while (written < length) 
+  {
     uint8_t b = data[written++];
 
-    if (b == 0xdb) {
+    if (b == 0xdb) 
+    {
       _serial->write(0xdb);
       _serial->write(0xdd);
-    } else if (b == 0xc0) {
+    } 
+    else if (b == 0xc0) 
+    {
       _serial->write(0xdb);
       _serial->write(0xdc);
-    } else {
+    } 
+    else 
+    {
       _serial->write(b);
     }
   }

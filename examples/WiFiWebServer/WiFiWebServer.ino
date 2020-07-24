@@ -19,7 +19,6 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.0
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -38,6 +37,8 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+  Version: 1.6.1
+
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.5.0   K Hoang      27/03/2020 Initial coding to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, etc.
@@ -48,6 +49,7 @@
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
+  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards
  *****************************************************************************************************************************/
 
 #include "defines.h"
