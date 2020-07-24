@@ -6,7 +6,7 @@
 
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.0
+  Version: 1.6.1
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -35,6 +35,7 @@
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
+  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards
  *****************************************************************************************************************************/
 /*****************************
   wl_definitions.h

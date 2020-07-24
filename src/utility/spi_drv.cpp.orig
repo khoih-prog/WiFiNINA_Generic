@@ -1,12 +1,12 @@
 /****************************************************************************************************************************
   spi_drv.cpp - Library for Arduino WifiNINA module/shield.
-  
-  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
-  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
-  
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+
+  Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
+  to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
+
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.1
+  Version: 1.6.0
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -35,47 +35,44 @@
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
-  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards                
  *****************************************************************************************************************************/
 
 #include "Arduino.h"
 #include <SPI.h>
-#include "spi_drv.h"
+#include "utility/spi_drv.h"
 #include "pins_arduino.h"
 
 //KH
 #include "WiFiNINA_Pinout_Generic.h"
 
-#if defined(KH_WIFININA_DEBUG)
-#undef KH_WIFININA_DEBUG
-#endif
-#define KH_WIFININA_DEBUG   0
-
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 
-// check if a bitstream is already included
-#if __has_include(<VidorFPGA.h>)
-// yes, so use the existing VidorFPGA include
-#include <VidorFPGA.h>
-#else
-// otherwise, fallback to VidorPeripherals and it's bistream
-#include <VidorPeripherals.h>
-#endif
-
-#define NINA_GPIO0    FPGA_NINA_GPIO0
-#define SPIWIFI_SS    FPGA_SPIWIFI_SS
-#define SPIWIFI_ACK   FPGA_SPIWIFI_ACK
-#define SPIWIFI_RESET FPGA_SPIWIFI_RESET
-
-#define pinMode(pin, mode)       FPGA.pinMode(pin, mode)
-#define digitalRead(pin)         FPGA.digitalRead(pin)
-#define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
+  // check if a bitstream is already included
+  #if __has_include(<VidorFPGA.h>)
+    // yes, so use the existing VidorFPGA include
+    #include <VidorFPGA.h>
+  #else
+    // otherwise, fallback to VidorPeripherals and it's bistream
+    #include <VidorPeripherals.h>
+  #endif
+  
+  #define NINA_GPIO0    FPGA_NINA_GPIO0
+  #define SPIWIFI_SS    FPGA_SPIWIFI_SS
+  #define SPIWIFI_ACK   FPGA_SPIWIFI_ACK
+  #define SPIWIFI_RESET FPGA_SPIWIFI_RESET
+  
+  #define pinMode(pin, mode)       FPGA.pinMode(pin, mode)
+  #define digitalRead(pin)         FPGA.digitalRead(pin)
+  #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
 #define _DEBUG_
 
 // From v1.5.1, For nRF52x
-#include "debug.h"
+extern "C"
+{
+  #include "utility/debug.h"
+}
 
 static uint8_t SLAVESELECT = 10; // ss
 static uint8_t SLAVEREADY  = 7;  // handshake pin
@@ -86,7 +83,7 @@ static bool inverted_reset = false;
 #define DELAY_TRANSFER()
 
 #ifndef SPIWIFI
-#define SPIWIFI SPI
+  #define SPIWIFI     SPI
 #endif
 
 bool SpiDrv::initialized = false;
@@ -112,45 +109,34 @@ void SpiDrv::begin()
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
   inverted_reset = false;
 #else
-  if (SLAVERESET > PINS_COUNT) {
+  if (SLAVERESET > PINS_COUNT)
+  {
     inverted_reset = true;
     SLAVERESET = ~SLAVERESET;
   }
 #endif
 
-#ifdef _DEBUG_
-#if (KH_WIFININA_DEBUG > 2)
-  Serial.println("===============================");
-  Serial.println("\nUsed/default SPI pinout: ");
-  Serial.print("MOSI: ");
-  Serial.println(MOSI);
-  Serial.print("MISO: ");
-  Serial.println(MISO);
-  Serial.print("SCK: ");
-  Serial.println(SCK);
-  Serial.print("SS: ");
-  Serial.println(SS);
-  Serial.println("===============================");
-  Serial.println("\nUsed/default NINA pinout: ");
-  Serial.print("NINA_GPIO0: ");
-  Serial.println(NINA_GPIO0);
-  Serial.print("NINA_RESETN/SPIWIFI_RESET: ");
-  Serial.println(NINA_RESETN);
-  Serial.print("NINA_ACK: ");
-  Serial.println(NINA_ACK);
-  Serial.println("===============================");
-  Serial.println("\nActual final pinout to used: ");
-  Serial.print("SPIWIFI_SS: ");
-  Serial.println(SPIWIFI_SS);
-  Serial.print("SLAVESELECT/SPIWIFI_SS: ");
-  Serial.println(SLAVESELECT);
-  Serial.print("SLAVEREADY/SPIWIFI_ACK/NINA_ACK: ");
-  Serial.println(SLAVEREADY);
-  Serial.print("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ");
-  Serial.println(SLAVERESET);
-  Serial.println("===============================\n");
-#endif
-#endif
+  // KH
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nUsed/default SPI pinout: ");
+  NN_LOGERROR1("MOSI: ", MOSI);
+  NN_LOGERROR1("MISO: ", MISO);
+  NN_LOGERROR1("SCK: " , SCK);
+  NN_LOGERROR1("SS: "  , SS);
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nUsed/default NINA pinout: ");
+  NN_LOGERROR1("NINA_GPIO0: ", NINA_GPIO0);
+  NN_LOGERROR1("NINA_RESETN/SPIWIFI_RESET: ", NINA_RESETN);
+  NN_LOGERROR1("NINA_ACK: ", NINA_ACK);
+  NN_LOGERROR1("SS: ", SS);
+  NN_LOGERROR ("===============================");
+  NN_LOGERROR ("\nActual final pinout to used: ");
+  NN_LOGERROR1("SPIWIFI_SS: ", SPIWIFI_SS);
+  NN_LOGERROR1("SLAVESELECT/SPIWIFI_SS: ", SLAVESELECT);
+  NN_LOGERROR1("SLAVEREADY/SPIWIFI_ACK/NINA_ACK: ", SLAVEREADY);
+  NN_LOGERROR1("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ", SLAVERESET);
+  NN_LOGERROR ("===============================\n");
+  //////
 
   SPIWIFI.begin();
   pinMode(SLAVESELECT, OUTPUT);
@@ -196,7 +182,6 @@ void SpiDrv::spiSlaveSelect()
   for (unsigned long start = millis(); (digitalRead(SLAVEREADY) != HIGH) && (millis() - start) < 5;);
 }
 
-
 void SpiDrv::spiSlaveDeselect()
 {
   digitalWrite(SLAVESELECT, HIGH);
@@ -219,11 +204,12 @@ int SpiDrv::waitSpiChar(unsigned char waitChar)
 
   do
   {
-    _readChar = readChar(); //get data byte
+    //get data byte
+    _readChar = readChar();
 
     if (_readChar == ERR_CMD)
     {
-      WARN("Err cmd received\n");
+      NN_LOGDEBUG("SpiDrv::waitSpiChar: Err cmd received");
       return -1;
     }
   } while ((timeout-- > 0) && (_readChar != waitChar));
@@ -247,50 +233,27 @@ char SpiDrv::readChar()
 
 #define WAIT_START_CMD(x) waitSpiChar(START_CMD)
 
-
-#if 0
-
 #define IF_CHECK_START_CMD(x)             \
   if (!WAIT_START_CMD(_data))             \
   {                                       \
     TOGGLE_TRIGGER()                      \
+    NN_LOGDEBUG("Error waiting START_CMD");      \
     return 0;                             \
-  } else                                  \
+  }else                                   \
 
 #define CHECK_DATA(check, x)              \
   if (!readAndCheckChar(check, &x))       \
   {                                       \
     TOGGLE_TRIGGER()                      \
-    INFO2(check, (uint8_t)x);             \
+    NN_LOGDEBUG("Reply error");                  \
+    NN_LOGINFO1(check, (uint8_t)x);             \
     return 0;                             \
   }else                                   \
 
-
-#else
-
-#define IF_CHECK_START_CMD(x)             \
-  if (!WAIT_START_CMD(_data))             \
-  {                                       \
-    TOGGLE_TRIGGER()                      \
-    WARN("Error waiting START_CMD");      \
-    return 0;                             \
-  } else                                  \
-
-#define CHECK_DATA(check, x)              \
-  if (!readAndCheckChar(check, &x))       \
-  {                                       \
-    TOGGLE_TRIGGER()                      \
-    WARN("Reply error");                  \
-    INFO2(check, (uint8_t)x);             \
-    return 0;                             \
-  }else                                   \
-
-#endif
-
-#define waitSlaveReady() (digitalRead(SLAVEREADY) == LOW)
-#define waitSlaveSign() (digitalRead(SLAVEREADY) == HIGH)
-#define waitSlaveSignalH() while(digitalRead(SLAVEREADY) != HIGH){}
-#define waitSlaveSignalL() while(digitalRead(SLAVEREADY) != LOW){}
+#define waitSlaveReady()      (digitalRead(SLAVEREADY) == LOW)
+#define waitSlaveSign()       (digitalRead(SLAVEREADY) == HIGH)
+#define waitSlaveSignalH()    while(digitalRead(SLAVEREADY) != HIGH)  {}
+#define waitSlaveSignalL()    while(digitalRead(SLAVEREADY) != LOW)   {}
 
 void SpiDrv::waitForSlaveSign()
 {
@@ -321,21 +284,16 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
     CHECK_DATA(numParam, _data)
     {
       readParamLen8(param_len);
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
         //param[ii] = spiTransfer(DUMMY_DATA);
         getParam(&param[ii]);
 
-        //KH
-#if (KH_WIFININA_DEBUG > 2)
-        Serial.print("spi_drv-waitResponseCmd: *param_len = ");
-        Serial.println(*param_len);
-        Serial.print("spi_drv-waitResponseCmd: *param[ ");
-        Serial.print(ii);
-        Serial.print(" ] = ");
-        Serial.println(param[ii]);
-#endif
+        // KH
+        NN_LOGDEBUG1("spi_drv-waitResponseCmd: *param_len = ", *param_len);
+        NN_LOGDEBUG3("spi_drv-waitResponseCmd: *param[ ", ii, " ] = ", param[ii]);
       }
     }
 
@@ -344,31 +302,33 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
 
   return 1;
 }
+
 /*
-  int SpiDrv::waitResponse(uint8_t cmd, uint8_t numParam, uint8_t* param, uint16_t* param_len)
+int SpiDrv::waitResponse(uint8_t cmd, uint8_t numParam, uint8_t* param, uint16_t* param_len)
+{
+  char _data = 0;
+  int i =0, ii = 0;
+
+  IF_CHECK_START_CMD(_data)
   {
-    char _data = 0;
-    int i =0, ii = 0;
+      CHECK_DATA(cmd | REPLY_FLAG, _data){};
 
-    IF_CHECK_START_CMD(_data)
-    {
-        CHECK_DATA(cmd | REPLY_FLAG, _data){};
+      CHECK_DATA(numParam, _data);
+      {
+          readParamLen16(param_len);
 
-        CHECK_DATA(numParam, _data);
-        {
-            readParamLen16(param_len);
-            for (ii=0; ii<(*param_len); ++ii)
-            {
-                // Get Params data
-                param[ii] = spiTransfer(DUMMY_DATA);
-            }
-        }
+          for (ii=0; ii<(*param_len); ++ii)
+          {
+              // Get Params data
+              param[ii] = spiTransfer(DUMMY_DATA);
+          }
+      }
 
-        readAndCheckChar(END_CMD, &_data);
-    }
-
-    return 1;
+      readAndCheckChar(END_CMD, &_data);
   }
+
+  return 1;
+}
 */
 
 int SpiDrv::waitResponseData16(uint8_t cmd, uint8_t* param, uint16_t* param_len)
@@ -381,11 +341,11 @@ int SpiDrv::waitResponseData16(uint8_t cmd, uint8_t* param, uint16_t* param_len)
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t numParam = readChar();
-    
+
     if (numParam != 0)
     {
       readParamLen16(param_len);
-      
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -409,11 +369,11 @@ int SpiDrv::waitResponseData8(uint8_t cmd, uint8_t* param, uint8_t* param_len)
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t numParam = readChar();
-    
+
     if (numParam != 0)
     {
       readParamLen8(param_len);
-      
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -432,83 +392,86 @@ int SpiDrv::waitResponseParams(uint8_t cmd, uint8_t numParam, tParam* params)
   char _data = 0;
   int i = 0, ii = 0;
 
-
   IF_CHECK_START_CMD(_data)
   {
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t _numParam = readChar();
-    
+
     if (_numParam != 0)
     {
       for (i = 0; i < _numParam; ++i)
       {
         params[i].paramLen = readParamLen8();
-        
+
         for (ii = 0; ii < params[i].paramLen; ++ii)
         {
           // Get Params data
           params[i].param[ii] = spiTransfer(DUMMY_DATA);
         }
       }
-    } 
+    }
     else
     {
-      WARN("Error numParam == 0");
+      NN_LOGDEBUG("SpiDrv::waitResponseParams: Error numParam == 0");
       return 0;
     }
 
     if (numParam != _numParam)
     {
-      WARN("Mismatch numParam");
+      NN_LOGDEBUG("SpiDrv::waitResponseParams: Mismatch numParam");
       return 0;
     }
 
     readAndCheckChar(END_CMD, &_data);
   }
-  
+
   return 1;
 }
 
 /*
-  int SpiDrv::waitResponse(uint8_t cmd, tParam* params, uint8_t* numParamRead, uint8_t maxNumParams)
+int SpiDrv::waitResponse(uint8_t cmd, tParam* params, uint8_t* numParamRead, uint8_t maxNumParams)
+{
+  char _data = 0;
+  int i =0, ii = 0;
+
+  IF_CHECK_START_CMD(_data)
   {
-    char _data = 0;
-    int i =0, ii = 0;
+      CHECK_DATA(cmd | REPLY_FLAG, _data){};
 
-    IF_CHECK_START_CMD(_data)
-    {
-        CHECK_DATA(cmd | REPLY_FLAG, _data){};
+      uint8_t numParam = readChar();
 
-        uint8_t numParam = readChar();
+      if (numParam > maxNumParams)
+      {
+          numParam = maxNumParams;
+      }
 
-        if (numParam > maxNumParams)
-        {
-            numParam = maxNumParams;
-        }
-         numParamRead = numParam;
-        if (numParam != 0)
-        {
-            for (i=0; i<numParam; ++i)
-            {
-                params[i].paramLen = readParamLen8();
+       numParamRead = numParam;
 
-                for (ii=0; ii<params[i].paramLen; ++ii)
-                {
-                    // Get Params data
-                    params[i].param[ii] = spiTransfer(DUMMY_DATA);
-                }
-            }
-        } else
-        {
-            WARN("Error numParams == 0");
-            Serial.println(cmd, 16);
-            return 0;
-        }
-        readAndCheckChar(END_CMD, &_data);
-    }
-    return 1;
+      if (numParam != 0)
+      {
+          for (i=0; i<numParam; ++i)
+          {
+              params[i].paramLen = readParamLen8();
+
+              for (ii=0; ii<params[i].paramLen; ++ii)
+              {
+                  // Get Params data
+                  params[i].param[ii] = spiTransfer(DUMMY_DATA);
+              }
+          }
+      }
+      else
+      {
+          NN_LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
+          Serial.println(cmd, 16);
+          return 0;
+      }
+
+      readAndCheckChar(END_CMD, &_data);
   }
+  return 1;
+}
 */
 
 int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, uint8_t maxNumParams)
@@ -531,15 +494,15 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
     {
       numParam = maxNumParams;
     }
-    
+
     *numParamRead = numParam;
-    
+
     if (numParam != 0)
     {
       for (i = 0; i < numParam; ++i)
       {
         uint8_t paramLen = readParamLen8();
-        
+
         for (ii = 0; ii < paramLen; ++ii)
         {
           //ssid[ii] = spiTransfer(DUMMY_DATA);
@@ -547,27 +510,47 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
           index[i][ii] = (uint8_t)spiTransfer(DUMMY_DATA);
 
         }
-        
+
         index[i][ii] = 0;
       }
-    } 
+    }
     else
     {
-      WARN("Error numParams == 0");
+      NN_LOGDEBUG("SpiDrv::waitResponse: Error numParams == 0");
       readAndCheckChar(END_CMD, &_data);
+
       return 0;
     }
-    
+
     readAndCheckChar(END_CMD, &_data);
   }
-  
+
   return 1;
 }
 
+// New from v1.6.0
+void SpiDrv::sendParamNoLen(uint8_t* param, size_t param_len, uint8_t lastParam)
+{
+  int i = 0;
+
+  // Send Spi paramLen
+  sendParamLen8(0);
+
+  // Send Spi param data
+  for (i = 0; i < param_len; ++i)
+  {
+    spiTransfer(param[i]);
+  }
+
+  // if lastParam==1 Send Spi END CMD
+  if (lastParam == 1)
+    spiTransfer(END_CMD);
+}
 
 void SpiDrv::sendParam(uint8_t* param, uint8_t param_len, uint8_t lastParam)
 {
   int i = 0;
+
   // Send Spi paramLen
   sendParamLen8(param_len);
 
@@ -598,24 +581,24 @@ void SpiDrv::sendParamLen16(uint16_t param_len)
 uint8_t SpiDrv::readParamLen8(uint8_t* param_len)
 {
   uint8_t _param_len = spiTransfer(DUMMY_DATA);
-  
+
   if (param_len != NULL)
   {
     *param_len = _param_len;
   }
-  
+
   return _param_len;
 }
 
 uint16_t SpiDrv::readParamLen16(uint16_t* param_len)
 {
   uint16_t _param_len = spiTransfer(DUMMY_DATA) << 8 | (spiTransfer(DUMMY_DATA) & 0xff);
-  
+
   if (param_len != NULL)
   {
     *param_len = _param_len;
   }
-  
+
   return _param_len;
 }
 
