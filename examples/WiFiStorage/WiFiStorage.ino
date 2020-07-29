@@ -1,14 +1,6 @@
 /****************************************************************************************************************************
-  ConnectWithWPA.ino
-
-  This example connects to an unencrypted Wifi network.
-  Then it prints the  MAC address of the Wifi module,
-  the IP address obtained, and other network details.
-
-  created 13 July 2010
-  by dlf (Metodo2 srl)
-  modified 31 May 2012
-  by Tom Igoe
+  WiFiStorage.ino
+  For boards with WiFiNINA module/shield.
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
@@ -47,26 +39,24 @@
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
   1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards
   1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0
-*****************************************************************************************************************************/
-#include "defines.h"
-#include "arduino_secrets.h"
+ *****************************************************************************************************************************/
+/*
+  This example shows how to interact with NiNa internal memory partition
+  APIs are modeled on SerialFlash library (not on SD) to speedup operations and avoid buffers.
+*/
 
-#include <SPI.h>
 #include <WiFiNINA_Generic.h>
 
-///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
+#ifndef BOARD_NAME
+  #define BOARD_NAME    "Unknown board"
+#endif
 
-int status = WL_IDLE_STATUS;
-
-void setup()
+void setup() 
 {
-  //Initialize serial and wait for port to open:
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart ConnectWithWPA on " + String(BOARD_NAME));
+  Serial.println("\nStart WiFiStorage on " + String(BOARD_NAME));
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
@@ -77,92 +67,37 @@ void setup()
   }
 
   String fv = WiFi.firmwareVersion();
-
+  
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.println("Please upgrade the firmware");
   }
 
-  // attempt to connect to Wifi network:
-  while (status != WL_CONNECTED)
+  WiFiStorageFile file = WiFiStorage.open("/fs/testfile");
+
+  if (file) 
   {
-    Serial.print("Attempting to connect to WPA SSID: ");
-    Serial.println(ssid);
-    // Connect to WPA/WPA2 network:
-    status = WiFi.begin(ssid, pass);
-
-    // wait 10 seconds for connection:
-    //delay(10000);
+    file.erase();
   }
+  else
+    Serial.println("WiFiStorage error");
 
-  // you're connected now, so print out the data:
-  Serial.print("You're connected to the network");
-  printCurrentNet();
-  printWifiData();
+  String test = "WiFiStorage on " + String(BOARD_NAME) + " is OK if you see this long line.";
+    
+  file.write(test.c_str(), test.length());
 
-}
-
-void loop()
-{
-  // check the network connection once every 10 seconds:
-  delay(10000);
-  printCurrentNet();
-}
-
-void printWifiData()
-{
-  // print your board's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
-  Serial.println(ip);
-  Serial.println(ip);
-
-  // print your MAC address:
-  byte mac[6];
-  WiFi.macAddress(mac);
-  Serial.print("MAC address: ");
-  printMacAddress(mac);
-}
-
-void printCurrentNet()
-{
-  // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
-  Serial.println(WiFi.SSID());
-
-  // print the MAC address of the router you're attached to:
-  byte bssid[6];
-  WiFi.BSSID(bssid);
-  Serial.print("BSSID: ");
-  printMacAddress(bssid);
-
-  // print the received signal strength:
-  long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
-  Serial.println(rssi);
-
-  // print the encryption type:
-  byte encryption = WiFi.encryptionType();
-  Serial.print("Encryption Type:");
-  Serial.println(encryption, HEX);
-  Serial.println();
-}
-
-void printMacAddress(byte mac[])
-{
-  for (int i = 5; i >= 0; i--)
+  if (file) 
   {
-    if (mac[i] < 16)
-    {
-      Serial.print("0");
-    }
-    Serial.print(mac[i], HEX);
+    uint8_t buf[128];
 
-    if (i > 0)
-    {
-      Serial.print(":");
-    }
-  }
+    file.seek(0);
+    file.read(buf, 128);
+          
+    Serial.println((char*) buf);
+  }  
+}
 
-  Serial.println();
+void loop() 
+{
+  // put your main code here, to run repeatedly:
 }
