@@ -2,11 +2,10 @@
   WiFi_Generic.cpp - Library for Arduino WifiNINA module/shield.
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
-  to support nRF52, SAMD21/SAMD51, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
+  to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
   
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.1
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -24,6 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+  
+  Version: 1.6.2
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -35,7 +36,8 @@
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
-  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards
+  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
+  1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0   
  *****************************************************************************************************************************/
 
 #include "utility/wifi_drv.h"

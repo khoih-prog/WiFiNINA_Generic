@@ -8,6 +8,11 @@
 
 ---
 
+### New in v1.6.2
+
+1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
+2. Add example for WiFiStorage.
+
 #### New in v1.6.1
 
 1. Add support to all STM32F/L/H/G/WB/MP1
@@ -85,9 +90,9 @@ To install:
 
 ---
 
-#### Important notes
+### Packages' Patches
 
-1. ***To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards***, you have to copy the whole [nRF52 0.20.5](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/Packages_Patches/adafruit/hardware/nrf52/0.20.5) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5). 
+1. ***To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards***, you have to copy the whole [nRF52 0.20.5](Packages_Patches/adafruit/hardware/nrf52/0.20.5) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5). 
 
 Supposing the Adafruit nRF52 version is 0.20.5. These files must be copied into the directory:
 - `~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5/platform.txt`
@@ -154,7 +159,7 @@ For example
   #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
 ```
 
-3. ***To be able to compile and run on Teensy boards***, you have to copy the file [Teensy boards.txt](https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/Packages_Patches/hardware/teensy/avr/boards.txt) into Teensy hardware directory (./arduino-1.8.12/hardware/teensy/avr/boards.txt). 
+3. ***To be able to compile and run on Teensy boards***, you have to copy the file [Teensy boards.txt](Packages_Patches/hardware/teensy/avr/boards.txt) into Teensy hardware directory (./arduino-1.8.12/hardware/teensy/avr/boards.txt). 
 
 Supposing the Arduino version is 1.8.12. This file must be copied into the directory:
 
@@ -165,7 +170,7 @@ This file must be copied into the directory:
 
 - `./arduino-x.yy.zz/hardware/teensy/avr/boards.txt`
 
-4. ***To be able to compile and run on SAM DUE boards***, you have to copy the whole [SAM DUE](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/Packages_Patches/arduino/hardware/sam/1.6.12) directory into Arduino sam directory (~/.arduino15/packages/arduino/hardware/sam/1.6.12). 
+4. ***To be able to compile and run on SAM DUE boards***, you have to copy the whole [SAM DUE](Packages_Patches/arduino/hardware/sam/1.6.12) directory into Arduino sam directory (~/.arduino15/packages/arduino/hardware/sam/1.6.12). 
 
 Supposing the Arduino SAM core version is 1.6.12. This file must be copied into the directory:
 
@@ -176,7 +181,7 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/arduino/hardware/sam/x.yy.zz/platform.txt`
 
-5. ***To be able to automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the file [Arduino SAMD platform.txt](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/Packages_Patches/arduino/hardware/samd/1.8.6) into Arduino samd directory (~/.arduino15/packages/arduino/hardware/samd/1.8.6). 
+5. ***To be able to automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the file [Arduino SAMD platform.txt](Packages_Patches/arduino/hardware/samd/1.8.6) into Arduino samd directory (~/.arduino15/packages/arduino/hardware/samd/1.8.6). 
 
 Supposing the Arduino SAMD core version is 1.8.6. This file must be copied into the directory:
 
@@ -187,7 +192,7 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/arduino/hardware/samd/x.yy.zz/platform.txt`
 
-6. ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/Packages_Patches/adafruit/hardware/samd/1.6.0) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.0). 
+6. ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.0) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.0). 
 
 Supposing the Adafruit SAMD core version is 1.6.0. This file must be copied into the directory:
 
@@ -198,7 +203,7 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/platform.txt`
 
-7. ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/Packages_Patches/Seeeduino/hardware/samd/1.7.7) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7). 
+7. ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.7) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7). 
 
 Supposing the Seeeduino SAMD core version is 1.7.7. This file must be copied into the directory:
 
@@ -268,7 +273,7 @@ Latest firmware version available : 1.4.0
 
 Check result: PASSED
 ```
-
+---
 
 ### How to update SSL certificates
 
@@ -306,6 +311,7 @@ See examples :
 15. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
 16. [WiFiWebServer](examples/WiFiWebServer)
 17. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
+18. [WiFiStorage](examples/WiFiStorage)
 
 ---
 
@@ -745,6 +751,7 @@ The following are debug terminal output and screen shot when running example [Ad
 <p align="center">
     <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/AdvancedWebServer.png">
 </p>
+
 ---
 
 ### Debug
@@ -764,11 +771,12 @@ If you get compilation errors, more often than not, you may need to install a ne
 
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
-### TO DO
-
-1. Add support to many more boards still not working
-
 ---
+
+#### New in v1.6.2
+
+1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
+2. Add example for WiFiStorage.
 
 #### New in v1.6.1
 
@@ -809,24 +817,32 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 1. Bug Searching and Killing
 2. Support more types of boards using WiFiNINA and other WiFi shields.
 
+
 ### DONE
 
- 1. Add support to Arduino SAMD21, Adafruit SAMD21/SAMD51, Seeeduino SAMD21/SAMD51.
- 2. Add support to nRF52.
- 3. Add support to SAM DUE.
- 4. Add support to Teensy.
- 5. Add support to all STM32F/L/H/G/WB/MP1.
+ 1. Add support to ***Adafruit SAMD21 (Itsy-Bitsy M0, Metro M0, Feather M0 Express, etc.)***.
+ 2. Add support to ***Adafruit SAMD51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)***.
+ 3. Add support to ***Adafruit nRF52 ( Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.)***.
+ 4. Add support to SAM DUE.
+ 5. Add support to Teensy.
+ 6. Add support to all ***STM32F/L/H/G/WB/MP1***
+ 7. Add support to ***Seeeduino SAMD21/SAMD51 boards (SEEED_WIO_TERMINAL, SEEED_FEMTO_M0, SEEED_XIAO_M0, Wio_Lite_MG126, WIO_GPS_BOARD, SEEEDUINO_ZERO, SEEEDUINO_LORAWAN, SEEED_GROVE_UI_WIRELESS, etc.)***
+ 8. Add function to support new WebSockets2_Generic Library
+ 9. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
+
  
 --- 
 
-### Contributions and thanks
+### Contributions and Thanks
 
 1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
 2. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840 and U-Box B112 running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
 
 <table>
   <tr>
     <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>⭐️ tcpipchip</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/AppsByDavideV"><img src="https://github.com/AppsByDavideV.png" width="100px;" alt="AppsByDavideV"/><br /><sub><b>AppsByDavideV</b></sub></a><br /></td>
   </tr> 
 </table>
 

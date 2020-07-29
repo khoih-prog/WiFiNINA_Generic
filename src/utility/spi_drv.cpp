@@ -1,12 +1,11 @@
 /****************************************************************************************************************************
   spi_drv.cpp - Library for Arduino WifiNINA module/shield.
   
-  Based on and modified from WiFiNINA libarary https://www.arduino.cc/en/Reference/WiFiNINA
-  to support other boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR4000, Adafruit's nRF52 boards, etc.
+  Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
+  to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
   
-  Built by Khoi Hoang https://github.com/khoih-prog/ESP8266_AT_WebServer
+  Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
-  Version: 1.6.1
 
   Copyright (c) 2018 Arduino SA. All rights reserved.
   Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
@@ -24,6 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+  
+  Version: 1.6.2
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -35,7 +36,8 @@
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
   1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
-  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards                
+  1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
+  1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0
  *****************************************************************************************************************************/
 
 #include "Arduino.h"
@@ -72,7 +74,7 @@
 #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
-#define _DEBUG_
+//#define _DEBUG_
 
 // From v1.5.1, For nRF52x
 #include "debug.h"
@@ -321,6 +323,7 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
     CHECK_DATA(numParam, _data)
     {
       readParamLen8(param_len);
+      
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -516,7 +519,7 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
   char _data = 0;
   int i = 0, ii = 0;
 
-  char    *index[WL_SSID_MAX_LENGTH];
+  char *index[WL_SSID_MAX_LENGTH];
 
   for (i = 0 ; i < WL_NETWORKS_LIST_MAXNUM ; i++)
     index[i] = (char *)params + WL_SSID_MAX_LENGTH * i;
@@ -564,6 +567,22 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
   return 1;
 }
 
+void SpiDrv::sendParamNoLen(uint8_t* param, size_t param_len, uint8_t lastParam)
+{
+  int i = 0;
+  // Send Spi paramLen
+  sendParamLen8(0);
+
+  // Send Spi param data
+  for (i = 0; i < param_len; ++i)
+  {
+    spiTransfer(param[i]);
+  }
+
+  // if lastParam==1 Send Spi END CMD
+  if (lastParam == 1)
+    spiTransfer(END_CMD);
+}
 
 void SpiDrv::sendParam(uint8_t* param, uint8_t param_len, uint8_t lastParam)
 {

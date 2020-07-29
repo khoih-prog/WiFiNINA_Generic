@@ -15,13 +15,14 @@ WiFiServer	KEYWORD1
 WiFiUDP	KEYWORD1
 WiFiStorageFile KEYWORD1
 WiFiStorageClass  KEYWORD1
+WiFiSocketBufferClass KEYWORD1
 
 ######
 
 ServerDrv KEYWORD1
 SpiDrv  KEYWORD1
 WiFiDrv KEYWORD1
-WiFiSocketBufferClass KEYWORD1
+
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -134,6 +135,8 @@ getSocket KEYWORD2
 # spi_drv
 #############
 
+begin KEYWORD2
+end KEYWORD2
 spiDriverInit KEYWORD2
 spiSlaveSelect  KEYWORD2
 spiSlaveDeselect  KEYWORD2
@@ -155,6 +158,7 @@ readParamLen8 KEYWORD2
 readParamLen16  KEYWORD2
 sendBuffer  KEYWORD2
 sendCmd  KEYWORD2
+available KEYWORD2
 
 #############
 # wifi_drv
