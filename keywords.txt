@@ -96,6 +96,7 @@ rename  KEYWORD2
 read  KEYWORD2
 write KEYWORD2
 download  KEYWORD2
+downloadOTA KEYWORD2
 remove  KEYWORD2
 
 ###################

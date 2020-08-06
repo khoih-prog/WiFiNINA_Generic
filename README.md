@@ -8,7 +8,12 @@
 
 ---
 
-### New in v1.6.2
+### New in v1.7.0
+
+1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
+2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
+
+#### New in v1.6.2
 
 1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
 2. Add example for WiFiStorage.
@@ -45,6 +50,8 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 #### New in v1.5.0
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
+
+---
 
 ## Features
 
@@ -92,7 +99,9 @@ To install:
 
 ### Packages' Patches
 
- 1. ***To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards***, you have to copy the whole [nRF52 0.20.5](Packages_Patches/adafruit/hardware/nrf52/0.20.5) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5). 
+#### 1. Adafruit nRF52
+ 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards***, you have to copy the whole [nRF52 0.20.5](Packages_Patches/adafruit/hardware/nrf52/0.20.5) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5). 
 
 Supposing the Adafruit nRF52 version is 0.20.5. These files must be copied into the directory:
 - `~/.arduino15/packages/adafruit/hardware/nrf52/0.20.5/platform.txt`
@@ -114,7 +123,9 @@ These files must be copied into the directory:
 - `~/.arduino15/packages/adafruit/hardware/nrf52/x.yy.z/variants/NINA_B112_ublox/variant.cpp`
 - ***`~/.arduino15/packages/adafruit/hardware/nrf52/x.yy.z/cores/nRF5/Udp.h`***
 
- 2. ***To be able to compile and run on Teensy boards***, you have to copy the file [Teensy boards.txt](Packages_Patches/hardware/teensy/avr/boards.txt) into Teensy hardware directory (./arduino-1.8.12/hardware/teensy/avr/boards.txt). 
+#### 2. Teensy
+ 
+ ***To be able to compile and run on Teensy boards***, you have to copy the file [Teensy boards.txt](Packages_Patches/hardware/teensy/avr/boards.txt) into Teensy hardware directory (./arduino-1.8.12/hardware/teensy/avr/boards.txt). 
 
 Supposing the Arduino version is 1.8.12. This file must be copied into the directory:
 
@@ -125,7 +136,9 @@ This file must be copied into the directory:
 
 - `./arduino-x.yy.zz/hardware/teensy/avr/boards.txt`
 
- 3. ***To be able to compile and run on SAM DUE boards***, you have to copy the whole [SAM DUE](Packages_Patches/arduino/hardware/sam/1.6.12) directory into Arduino sam directory (~/.arduino15/packages/arduino/hardware/sam/1.6.12). 
+#### 3. Arduino SAM DUE
+ 
+ ***To be able to compile and run on SAM DUE boards***, you have to copy the whole [SAM DUE](Packages_Patches/arduino/hardware/sam/1.6.12) directory into Arduino sam directory (~/.arduino15/packages/arduino/hardware/sam/1.6.12). 
 
 Supposing the Arduino SAM core version is 1.6.12. This file must be copied into the directory:
 
@@ -136,7 +149,9 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/arduino/hardware/sam/x.yy.zz/platform.txt`
 
- 4. ***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.7](Packages_Patches/arduino/hardware/samd/1.8.7) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.7).
+#### 4. Arduino SAMD
+
+***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.7](Packages_Patches/arduino/hardware/samd/1.8.7) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.7).
  
 Supposing the Arduino SAMD version is 1.8.7. These files must be copied into the directory:
 - `~/.arduino15/packages/arduino/hardware/samd/1.8.7/platform.txt`
@@ -156,9 +171,11 @@ These files must be copied into the directory:
      min(const _Tp& __a, const _Tp& __b, _Compare __comp)
 ```
 
-Whenever the above-mentioned compiler error issue is fixed with the new Arduino SAMD releas, you don't need to copy the `Arduino.h` file anymore.
+Whenever the above-mentioned compiler error issue is fixed with the new Arduino SAMD release, you don't need to copy the `Arduino.h` file anymore.
 
- 5. ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.0) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.0). 
+#### 5. Adafruit SAMD
+ 
+ ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.0) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.0). 
 
 Supposing the Adafruit SAMD core version is 1.6.0. This file must be copied into the directory:
 
@@ -169,7 +186,9 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/platform.txt`
 
- 6. ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.7) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7). 
+#### 6. Seeeduino SAMD
+ 
+ ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.7) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7). 
 
 Supposing the Seeeduino SAMD core version is 1.7.7. This file must be copied into the directory:
 
@@ -180,7 +199,9 @@ This file must be copied into the directory:
 
 - `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/platform.txt`
 
-7. ***To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards***, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/1.9.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
+#### 7. STM32 stm32
+
+***To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards***, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/1.9.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
 Supposing the STM32 stm32 core version is 1.9.0. These files must be copied into the directory:
 
@@ -347,7 +368,7 @@ See examples :
 
 ## Example [WiFiWebServer](examples/WiFiWebServer)
 
-### File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
+### 1. File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
 
 ```cpp
 #include "defines.h"
@@ -490,7 +511,7 @@ void printWifiStatus()
 }
 ```
 
-### File [defines.h](examples/WiFiWebServer/defines.h)
+### 2. File [defines.h](examples/WiFiWebServer/defines.h)
 
 ```cpp
 #ifndef defines_h
@@ -776,11 +797,158 @@ void printWifiStatus()
 
 ```
 
-The following are debug terminal output and screen shot when running example [AdvancedWebServer](https://github.com/khoih-prog/WiFiWebServer/tree/master/examples/AdvancedWebServer) on Arduino Nano 33 IoT board using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic)
+The following are screen shot and debug terminal output when running example [AdvancedWebServer](https://github.com/khoih-prog/WiFiWebServer/tree/master/examples/AdvancedWebServer) on Arduino SAMD21 Nano-33-IoT board using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic)
 
 <p align="center">
     <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/AdvancedWebServer.png">
 </p>
+
+
+```
+Starting AdvancedServer on SAMD_NANO_33_IOT
+[NN] ===============================
+[NN] 
+Used/default SPI pinout: 
+[NN] MOSI:  11
+[NN] MISO:  12
+[NN] SCK:  13
+[NN] SS:  10
+[NN] ===============================
+[NN] 
+Used/default NINA pinout: 
+[NN] NINA_GPIO0:  26
+[NN] NINA_RESETN/SPIWIFI_RESET:  27
+[NN] NINA_ACK:  28
+[NN] SS:  10
+[NN] ===============================
+[NN] 
+Actual final pinout to used: 
+[NN] SPIWIFI_SS:  24
+[NN] SLAVESELECT/SPIWIFI_SS:  24
+[NN] SLAVEREADY/SPIWIFI_ACK/NINA_ACK:  28
+[NN] SLAVERESET/SPIWIFI_RESET/NINA_RESETN:  27
+[NN] ===============================
+
+Connecting to WPA SSID: HueNet1
+HTTP server started @ 192.168.2.118
+WiFiWebServer::handleClient: New Client
+method:  GET
+url:  /
+search:
+headerName: Host
+headerValue: 192.168.2.118
+headerName: Connection
+headerValue: keep-alive
+headerName: Cache-Control
+headerValue: max-age=0
+headerName: DNT
+headerValue: 1
+headerName: Upgrade-Insecure-Requests
+headerValue: 1
+headerName: User-Agent
+headerValue: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36
+headerName: Accept
+headerValue: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+headerName: Accept-Encoding
+headerValue: gzip, deflate
+headerName: Accept-Language
+headerValue: en-GB,en-US;q=0.9,en;q=0.8
+headerName: Cookie
+headerValue: NINASESSIONID=0
+args:
+args count:  0
+args:
+args count:  0
+Request: /
+Arguments: 
+Final list of key/value pairs:
+WiFiWebServer::_handleRequest handle
+WiFiWebServer::send1: len =  330
+content =  <html><head><meta http-equiv='refresh' content='5'/><title>WiFiNINA SAMD_NANO_33_IOT</title><style>body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style></head><body><h1>Hello from WiFiNINA</h1><h2>on SAMD_NANO_33_IOT</h2><p>Uptime: 00:00:20</p><img src="/test.svg" /></body></html>
+WiFiWebServer::_prepareHeader sendHeader Conn close
+WiFiWebServer::send1: write header =  HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 330
+Connection: close
+
+
+WiFiWebServer::sendContent: Client.write content:  <html><head><meta http-equiv='refresh' content='5'/><title>WiFiNINA SAMD_NANO_33_IOT</title><style>body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style></head><body><h1>Hello from WiFiNINA</h1><h2>on SAMD_NANO_33_IOT</h2><p>Uptime: 00:00:20</p><img src="/test.svg" /></body></html>
+WiFiWebServer::_handleRequest OK
+WiFiWebServer::handleClient: Client disconnected
+WiFiWebServer::handleClient: Don't keepCurrentClient
+WiFiWebServer::handleClient: Client disconnected
+WiFiWebServer::handleClient: New Client
+method:  GET
+url:  /test.svg
+search:
+headerName: Host
+headerValue: 192.168.2.118
+headerName: Connection
+headerValue: keep-alive
+headerName: User-Agent
+headerValue: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36
+headerName: DNT
+headerValue: 1
+headerName: Accept
+headerValue: image/webp,image/apng,image/*,*/*;q=0.8
+headerName: Referer
+headerValue: http://192.168.2.118/
+headerName: Accept-Encoding
+headerValue: gzip, deflate
+headerName: Accept-Language
+headerValue: en-GB,en-US;q=0.9,en;q=0.8
+headerName: Cookie
+headerValue: NINASESSIONID=0
+args:
+args count:  0
+args:
+args count:  0
+Request: /test.svg
+Arguments: 
+Final list of key/value pairs:
+WiFiWebServer::_handleRequest handle
+WiFiWebServer::send1: len =  1946
+content =  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="310" height="150">
+<rect width="310" height="150" fill="rgb(250, 230, 210)" stroke-width="1" stroke="rgb(0, 0, 0)" />
+<g stroke="black">
+<line x1="10" y1="77" x2="20" y2="67" stroke-width="1" />
+<line x1="20" y1="67" x2="30" y2="98" stroke-width="1" />
+<line x1="30" y1="98" x2="40" y2="111" stroke-width="1" />
+<line x1="40" y1="111" x2="50" y2="90" stroke-width="1" />
+<line x1="50" y1="90" x2="60" y2="22" stroke-width="1" />
+<line x1="60" y1="22" x2="70" y2="98" stroke-width="1" />
+<line x1="70" y1="98" x2="80" y2="64" stroke-width="1" />
+<line x1="80" y1="64" x2="90" y2="104" stroke-width="1" />
+<line x1="90" y1="104" x2="100" y2="31" stroke-width="1" />
+<line x1="100" y1="31" x2="110" y2="59" stroke-width="1" />
+<line x1="110" y1="59" x2="120" y2="139" stroke-width="1" />
+<line x1="120" y1="139" x2="130" y2="117" stroke-width="1" />
+<line x1="130" y1="117" x2="140" y2="75" stroke-width="1" />
+<line x1="140" y1="75" x2="150" y2="72" stroke-width="1" />
+<line x1="150" y1="72" x2="160" y2="137" stroke-width="1" />
+<line x1="160" y1="137" x2="170" y2="20" stroke-width="1" />
+<line x1="170" y1="20" x2="180" y2="94" stroke-width="1" />
+<line x1="180" y1="94" x2="190" y2="81" stroke-width="1" />
+<line x1="190" y1="81" x2="200" y2="38" stroke-width="1" />
+<line x1="200" y1="38" x2="210" y2="33" stroke-width="1" />
+<line x1="210" y1="33" x2="220" y2="53" stroke-width="1" />
+<line x1="220" y1="53" x2="230" y2="88" stroke-width="1" />
+<line x1="230" y1="88" x2="240" y2="32" stroke-width="1" />
+<line x1="240" y1="32" x2="250" y2="110" stroke-width="1" />
+<line x1="250" y1="110" x2="260" y2="87" stroke-width="1" />
+<line x1="260" y1="87" x2="270" y2="11" stroke-width="1" />
+<line x1="270" y1="11" x2="280" y2="98" stroke-width="1" />
+<line x1="280" y1="98" x2="290" y2="76" stroke-width="1" />
+<line x1="290" y1="76" x2="300" y2="121" stroke-width="1" />
+</g>
+</svg>
+
+WiFiWebServer::_prepareHeader sendHeader Conn close
+WiFiWebServer::send1: write header =  HTTP/1.1 200 OK
+Content-Type: image/svg+xml
+Content-Length: 1946
+Connection: close
+```
 
 ---
 
@@ -802,6 +970,11 @@ If you get compilation errors, more often than not, you may need to install a ne
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
 ---
+
+### New in v1.7.0
+
+1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
+2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
 
 #### New in v1.6.2
 
@@ -865,8 +1038,8 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 
 ### Contributions and Thanks
 
-1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA)
-2. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840 and U-Box B112 running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
+2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840 and U-Box B112 running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
 
 <table>
@@ -883,6 +1056,8 @@ If you want to contribute to this project:
 - Ask for enhancements
 - Create issues and pull requests
 - Tell other people about this library
+
+---
 
 ### Copyright
 

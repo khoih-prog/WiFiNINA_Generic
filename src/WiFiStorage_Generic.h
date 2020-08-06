@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.6.2
+  Version: 1.7.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -35,9 +35,10 @@
   1.5.2   K Hoang      09/05/2020 Port FirmwareUpdater to permit nRF52, Teensy, SAMD21, SAMD51, etc. boards to update WiFiNINA
                                   W101/W102 firmware and SSL certs on IDE. Update default pin-outs.
   1.5.3   K Hoang      14/07/2020 Add function to support new WebSockets2_Generic Library
-  1.6.0   K Hoang      19/07/2020 Sync with Aruino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
+  1.6.0   K Hoang      19/07/2020 Sync with Arduino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
   1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
-  1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0   
+  1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0  
+  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC 
  *****************************************************************************************************************************/
 
 #ifndef WiFiStorage_Generic_h
@@ -94,6 +95,19 @@ class WiFiStorageClass
       WiFiDrv::downloadFile(url, strlen(url), filename, strlen(filename));
       return true;
     }
+    
+    // From v1.7.0    
+    static bool downloadOTA(const char * url, uint8_t * res_ota_download = NULL) 
+    {
+		  uint8_t const res = WiFiDrv::downloadOTA(url, strlen(url));
+		  
+		  if (res_ota_download)
+		    *res_ota_download = res;
+		    
+		  bool const success = (res == 0);
+          return success;
+    }
+    //////
 
     static bool remove(String filename) 
     {
@@ -119,6 +133,13 @@ class WiFiStorageClass
     {
       return download(url.c_str(), filename.c_str());
     }
+    
+    // From v1.7.0
+    static bool download(String url, uint8_t * res_ota_download = NULL) 
+    {
+      return downloadOTA(url.c_str(), res_ota_download);
+    }  
+    //////
 };
 
 extern WiFiStorageClass WiFiStorage;
