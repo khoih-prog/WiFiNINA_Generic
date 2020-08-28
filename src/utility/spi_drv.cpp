@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.0
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,7 +38,8 @@
   1.6.0   K Hoang      19/07/2020 Sync with Arduino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
   1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
   1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0  
-  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC 
+  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
+  1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
  *****************************************************************************************************************************/
 
 #include "Arduino.h"
@@ -49,10 +50,10 @@
 //KH
 #include "WiFiNINA_Pinout_Generic.h"
 
-#if defined(KH_WIFININA_DEBUG)
-  #undef KH_WIFININA_DEBUG
+#if defined(KH_WIFININA_SPI_DEBUG)
+  #undef KH_WIFININA_SPI_DEBUG
 #endif
-#define KH_WIFININA_DEBUG   0
+#define KH_WIFININA_SPI_DEBUG   1
 
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 
@@ -75,7 +76,7 @@
 #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
-//#define _DEBUG_
+#define _DEBUG_
 
 // From v1.5.1, For nRF52x
 #include "debug.h"
@@ -122,7 +123,7 @@ void SpiDrv::begin()
 #endif
 
 #ifdef _DEBUG_
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_SPI_DEBUG > 2)
   Serial.println("===============================");
   Serial.println("\nUsed/default SPI pinout: ");
   Serial.print("MOSI: ");
@@ -332,7 +333,7 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
         getParam(&param[ii]);
 
         //KH
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_SPI_DEBUG > 2)
         Serial.print("spi_drv-waitResponseCmd: *param_len = ");
         Serial.println(*param_len);
         Serial.print("spi_drv-waitResponseCmd: *param[ ");

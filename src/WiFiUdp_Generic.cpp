@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.0
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,15 +38,16 @@
   1.6.0   K Hoang      19/07/2020 Sync with Arduino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
   1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
   1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0  
-  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC 
+  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
+  1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
  *****************************************************************************************************************************/
 
 #include <string.h>
 
-#ifdef KH_WIFININA_DEBUG
-  #undef KH_WIFININA_DEBUG
+#ifdef KH_WIFININA_UDP_DEBUG
+  #undef KH_WIFININA_UDP_DEBUG
 #endif
-#define KH_WIFININA_DEBUG   3
+#define KH_WIFININA_UDP_DEBUG   3
 
 extern "C" 
 {
@@ -100,12 +101,12 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
   
   if (sock != NO_SOCKET_AVAIL)
   {
-    // KH,  Debug test. Original is Server
-    //ServerDrv::startServer(ip, port, sock, UDP_MULTICAST_MODE);
-    ServerDrv::startServer(port, sock, UDP_MULTICAST_MODE);
+    // KH,  Debug test. Original is ServerDrv::startServer(ip, port, sock, UDP_MULTICAST_MODE);
+    ServerDrv::startServer(ip, port, sock, UDP_MULTICAST_MODE);
+    //ServerDrv::startServer(port, sock, UDP_MULTICAST_MODE);
     //ServerDrv::startClient(ip, port, sock, UDP_MULTICAST_MODE);
     
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 2)
     Serial.print("WiFiUDP::beginMulticast: Start Client(Server) on port ");
     Serial.println(port);   
 #endif
@@ -115,7 +116,7 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
     _parsed = 0;
     
     // KH
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 2)
     Serial.println("WiFiUDP::beginMulticast: Start Client(Server) OK");
 #endif
     
@@ -167,7 +168,7 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
   {
     ServerDrv::startClient(uint32_t(ip), port, _sock, UDP_MODE);
     
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 2)
     Serial.print("WiFiUDP::beginPacket: startClient, ip=");
     Serial.print(ip);
     Serial.print(", port=");
@@ -192,12 +193,28 @@ size_t WiFiUDP::write(uint8_t byte)
 
 size_t WiFiUDP::write(const uint8_t *buffer, size_t size)
 {
+#if (KH_WIFININA_UDP_DEBUG > 3)
+    Serial.print("\nWiFiUDP::write: buffer=");
+    for (int i = 0; i < size; i++)
+    {
+      Serial.print(String(buffer[i], HEX));
+      Serial.print(", ");
+      
+      if (( i > 0 ) && ( i % 20 == 0 ))
+        Serial.println("");
+      
+    }
+    
+    Serial.println("");
+#endif
+
   ServerDrv::insertDataBuf(_sock, buffer, size);
   return size;
 }
 
 int WiFiUDP::parsePacket()
 {
+#if 0
   while (_parsed--)
   {
     // discard previously parsed packet data
@@ -205,10 +222,11 @@ int WiFiUDP::parsePacket()
 
     WiFiSocketBuffer.read(_sock, &b, sizeof(b));
   }
+#endif
 
   _parsed = ServerDrv::availData(_sock);
 
-#if (KH_WIFININA_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 2)
     if (_parsed > 0)
     {
       Serial.print("WiFiUDP::parsePacket: len=");
@@ -247,6 +265,21 @@ int WiFiUDP::read(unsigned char* buffer, size_t len)
   {
     _parsed -= result;
   }
+  
+#if (KH_WIFININA_UDP_DEBUG > 2)
+    Serial.print("WiFiUDP::read: buffer=");
+    for (int i = 0; i < result; i++)
+    {
+      Serial.print(String(buffer[i], HEX));
+      Serial.print(", ");
+      
+      if (( i > 0 ) && ( i % 20 == 0 ))
+        Serial.println("");
+      
+    }
+    
+    Serial.println("");
+#endif  
 
   return result;
 }

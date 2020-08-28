@@ -8,7 +8,11 @@
 
 ---
 
-### New in v1.7.0
+### New in v1.7.1
+
+1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
+
+#### New in v1.7.0
 
 1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
 2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
@@ -58,15 +62,16 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
 ---
+---
 
 ## Prerequisite
  1. [`Arduino IDE 1.8.12+` for Arduino](https://www.arduino.cc/en/Main/Software)
  2. `Arduino AVR core 1.8.3+` for Arduino (Use Arduino Board Manager) for AVR boards
  3. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  4. [`Arduino SAM DUE core v1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards.
- 5. [`Arduino SAMD core 1.8.7+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
+ 5. [`Arduino SAMD core 1.8.8+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
  6. [`Adafruit SAMD core 1.6.0+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
- 7. [`Seeeduino SAMD core 1.7.7+`](https://www.adafruit.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
+ 7. [`Seeeduino SAMD core 1.7.8+`](https://www.adafruit.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
  8. [`Adafruit nRF52 v0.20.5+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.
  9. [`Arduino Core for STM32 v1.9.0+`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards 
  
@@ -95,6 +100,7 @@ To install:
 3. Install **WiFiNINA_Generic** library by using [Library Manager](https://docs.platformio.org/en/latest/librarymanager/). Search for WiFiNINA_Generic in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](examples/platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automaticly.
 
+---
 ---
 
 ### Packages' Patches
@@ -151,11 +157,11 @@ This file must be copied into the directory:
 
 #### 4. Arduino SAMD
 
-***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.7](Packages_Patches/arduino/hardware/samd/1.8.7) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.7).
+***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.8](Packages_Patches/arduino/hardware/samd/1.8.8) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.8).
  
-Supposing the Arduino SAMD version is 1.8.7. These files must be copied into the directory:
-- `~/.arduino15/packages/arduino/hardware/samd/1.8.7/platform.txt`
-- ***`~/.arduino15/packages/arduino/hardware/samd/1.8.7/cores/arduino/Arduino.h`***
+Supposing the Arduino SAMD version is 1.8.8. These files must be copied into the directory:
+- `~/.arduino15/packages/arduino/hardware/samd/1.8.8/platform.txt`
+- ***`~/.arduino15/packages/arduino/hardware/samd/1.8.8/cores/arduino/Arduino.h`***
 
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 
@@ -188,11 +194,11 @@ This file must be copied into the directory:
 
 #### 6. Seeeduino SAMD
  
- ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.7) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7). 
+ ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.8) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.8). 
 
-Supposing the Seeeduino SAMD core version is 1.7.7. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.7.8. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.7.7/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.7.8/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -215,6 +221,7 @@ theses files must be copied into the corresponding directory:
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_L053R8/variant.h`
 
 
+---
 ---
 
 ### HOWTO Change pin definitions for WiFiNINA
@@ -268,11 +275,11 @@ For example
 
 ---
 
-### HOWTO Update WiFiNINA Firmware (latest version is v1.4.0 as of July 2020)
+### HOWTO Update WiFiNINA Firmware (latest version is v1.4.1 as of August 2020)
 
 #### 1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin
 
-- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of July 2020, the latest WiFiNINA FW is v1.4.0, use [WiFi101-FirmwareUpdater-Plugin version v0.10.11](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.11).
+- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of August 2020, the latest WiFiNINA FW is v1.4.1, use [WiFi101-FirmwareUpdater-Plugin version v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12).
 - Unzip the downloaded file into WiFi101 folder (WiFi101/tool/firmwares folder and WiFi101/tool/WiFi101.jar file)
 - Copy the whole WiFi101 folder to ./arduino-1.8.yy/tools to overwrite the old WiFi101 folder.
 - Restart the Arduino IDE if running.
@@ -296,7 +303,7 @@ For example
 
 - Select the port of your board from the list under "1. Select port of the WiFi module".
 
-- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.0)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.1)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
 
 - Click "Update Firmware"
 
@@ -319,8 +326,8 @@ For example
 ```
 WiFiNINA firmware check.
 
-Firmware version installed: 1.4.0
-Latest firmware version available : 1.4.0
+Firmware version installed: 1.4.1
+Latest firmware version available : 1.4.1
 
 Check result: PASSED
 ```
@@ -965,13 +972,17 @@ Debug is enabled by default on Serial. Debug Level from 0 to 4. To disable, chan
 ```
 
 ## Troubleshooting
-If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.0+` or this library version.
+If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.1+` or this library version.
 
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
 ---
 
-### New in v1.7.0
+### New in v1.7.1
+
+1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
+
+#### New in v1.7.0
 
 1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
 2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
@@ -1039,7 +1050,7 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 ### Contributions and Thanks
 
 1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
-2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***U-Box B302 running as nRF52840 and U-Box B112 running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially ***NINA_B302_ublox running as nRF52840 and NINA_B112_ublox running as nRF52832***, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
 
 <table>

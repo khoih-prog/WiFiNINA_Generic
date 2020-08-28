@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.0
+  Version: 1.7.1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,7 +38,8 @@
   1.6.0   K Hoang      19/07/2020 Sync with Arduino WiFiNINA Library v1.6.0 (new Firmware 1.4.0 and WiFiStorage)
   1.6.1   K Hoang      24/07/2020 Add support to all STM32F/L/H/G/WB/MP1 and Seeeduino SAMD21/SAMD51 boards 
   1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0  
-  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC 
+  1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
+  1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
  *****************************************************************************************************************************/
 
 //*********************************************/
@@ -76,19 +77,24 @@
 // Error waitResponse message
 #define ERROR_RESPONSE  ":Error waitResponse"
 
-#define NN_LOGERROR(x)     if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGERROR1(x,y)  if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
+#define NN_LOGERROR0(x)     if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print(x); }
+#define NN_LOGERROR(x)      if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
+#define NN_LOGERROR1(x,y)   if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
+#define NN_LOGERROR2(x,y,z) if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
 
+#define NN_LOGWARN0(x)     if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print(x); }
 #define NN_LOGWARN(x)      if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
 #define NN_LOGWARN1(x,y)   if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
+#define NN_LOGWARN2(x,y,z) if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
 
+#define NN_LOGINFO0(x)     if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print(x); }
 #define NN_LOGINFO(x)      if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
 #define NN_LOGINFO1(x,y)   if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
 #define NN_LOGINFO2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
 #define NN_LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(w); }
 
+#define NN_LOGDEBUG0(x)     if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print(x); }
 #define NN_LOGDEBUG(x)      if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGDEBUG0(x)     if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); }
 #define NN_LOGDEBUG1(x,y)   if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
 #define NN_LOGDEBUG2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
 #define NN_LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(w); }
