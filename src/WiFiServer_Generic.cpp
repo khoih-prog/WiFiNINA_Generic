@@ -45,7 +45,7 @@
 #include <string.h>
 #include "utility/server_drv.h"
 
-#define _WIFININA_LOGLEVEL_         1
+#define _WIFININA_LOGLEVEL_         4
 
 extern "C" 
 {
@@ -56,7 +56,13 @@ extern "C"
 #include "WiFiClient_Generic.h"
 #include "WiFiServer_Generic.h"
 
+// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+#if USING_MULTI_SERVER_ISSUE_FIX
+WiFiServer::WiFiServer(uint16_t port) : _sock(NO_SOCKET_AVAIL)
+#else
 WiFiServer::WiFiServer(uint16_t port) : _sock(NO_SOCKET_AVAIL), _lastSock(NO_SOCKET_AVAIL)
+#endif
 {
   _port = port;
 }
@@ -93,6 +99,11 @@ WiFiClient WiFiServer::available(byte* status)
 
   if (_sock != NO_SOCKET_AVAIL) 
   {
+// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+#if USING_MULTI_SERVER_ISSUE_FIX
+    sock = ServerDrv::availServer(_sock);
+#else
     // check previous received client socket
     if (_lastSock != NO_SOCKET_AVAIL) 
     {     
@@ -128,6 +139,8 @@ WiFiClient WiFiServer::available(byte* status)
       //NN_LOGDEBUG1("WiFiServer::available: sock =", sock);
       //////
     }
+#endif
+    
   }
 
   if (sock != NO_SOCKET_AVAIL) 
@@ -139,7 +152,11 @@ WiFiClient WiFiServer::available(byte* status)
       *status = client.status();
     }
 
+// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+#if !USING_MULTI_SERVER_ISSUE_FIX
     _lastSock = sock;
+#endif
     
     // KH, from v1.6.0 debug
     NN_LOGDEBUG1("WiFiServer::available: Client OK, sock =", sock);
@@ -149,7 +166,7 @@ WiFiClient WiFiServer::available(byte* status)
   }
 
   // KH, from v1.6.0 debug
-  NN_LOGDEBUG("WiFiServer::available: Client not OK");
+  //NN_LOGDEBUG("WiFiServer::available: Client not OK");
   //////
     
   return WiFiClient(255);

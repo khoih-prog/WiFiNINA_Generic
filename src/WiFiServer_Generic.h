@@ -45,6 +45,10 @@
 #ifndef WiFiServer_Generic_h
 #define WiFiServer_Generic_h
 
+// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+#define USING_MULTI_SERVER_ISSUE_FIX      true
+
 extern "C" 
 {
   #include "utility/wl_definitions.h"
@@ -60,7 +64,11 @@ class WiFiServer : public Server
 {
   private:
     uint8_t _sock;
+    
+#if !USING_MULTI_SERVER_ISSUE_FIX
     uint8_t _lastSock;
+#endif
+    
     uint16_t _port;
     void*     pcb;
     
