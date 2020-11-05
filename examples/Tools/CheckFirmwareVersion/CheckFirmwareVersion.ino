@@ -25,7 +25,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.7.1
+  Version: 1.7.2
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,6 +41,7 @@
   1.6.2   K Hoang      28/07/2020 Fix WiFiStorage bug from v1.6.0  
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
+  1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
  *****************************************************************************************************************************/
 
 /*
@@ -64,8 +65,8 @@ void setup()
   while (!Serial);
 
   // Print a welcome message
-  Serial.println("WiFiNINA firmware check.");
-  Serial.println();
+  Serial.println("\nStart WiFiNINA CheckFirmwareVersion on " + String(BOARD_NAME));
+  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
