@@ -221,6 +221,10 @@
       #define SPIWIFI_ACK       2   //NINA_ACK               //2
       #define SPIWIFI_RESET     1   //NINA_RESETN            //1      
     
+    #elif ( defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE) || defined(ADAFRUIT_PYBADGE_AIRLIFT_M4) )
+    
+      #warning ADAFRUIT_METRO_M4_AIRLIFT_LITE or ADAFRUIT_PYBADGE_AIRLIFT_M4 are OK to use
+      
     #else
       #warning You have to modify pin usage according to actual connection for SAMD
       // To define pin out for WiFiNINA here
