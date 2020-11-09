@@ -11,7 +11,7 @@
 
 ### Why do we need this [WiFiNINA_Generic library](https://github.com/khoih-prog/WiFiNINA_Generic)
 
-The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.
+The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
 
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
@@ -19,10 +19,10 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
 
 ### New in v1.7.2
 
-1. Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
+1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
 2. Add WIFININA_GENERIC_VERSION
 
-### New in v1.7.1
+#### New in v1.7.1
 
 1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
 
@@ -38,15 +38,15 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
 
 #### New in v1.6.1
 
-1. Add support to all **STM32F/L/H/G/WB/MP1 having 64K+** Flash program memory.
-2. Add support to Seeeduino SAMD21/SAMD51 boards 
+1. Add support to all **STM32F/L/H/G/WB/MP1**
+2. Add support to **Seeeduino SAMD21/SAMD51 boards **
 3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
 
 #### New in v1.6.0
 
 1. Sync'ed with latest WiFiNINA Library v1.6.0. 
 2. New features include **WiFiStorage** and update to **NINA Firmware v1.4.0** from v1.3.0
-3. Enhance debugging tool
+
 
 #### New in v1.5.3
 
@@ -57,18 +57,17 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
 
 1. Port FirmwareUpdater to permit **nRF52, Teensy, SAMD21, SAMD51, etc.** boards to update WiFiNINA W101/W102 firmware and SSL certificates using **Arduino IDE WiFi101/WiFiNINA Firmware Updater.** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
-3. Add support to **Arduino UNO WiFi (R2)**
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
 
-#### New in v1.5.1-final
+#### New in v1.5.1
 
-1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc. Raytac MDBT50Q-RX Dongle is not supported.
+1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
 2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 #### New in v1.5.0
 
-1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
+1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
 
 ---
 ---
@@ -80,8 +79,8 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
  3. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  4. [`Arduino SAM DUE core v1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards.
  5. [`Arduino SAMD core 1.8.9+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
- 6. [`Adafruit SAMD core 1.6.3+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
- 7. [`Seeeduino SAMD core 1.7.9+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
+ 6. [`Adafruit SAMD core 1.6.4+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
+ 7. [`Seeeduino SAMD core 1.8.1+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
  8. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.
  9. [`Arduino Core for STM32 v1.9.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards 
  
@@ -109,7 +108,7 @@ To install:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**WiFiNINA_Generic** library](https://platformio.org/lib/show/11284/WiFiNINA_Generic) by using [Library Manager](https://platformio.org/lib/show/11284/WiFiNINA_Generic/installation). Search for WiFiNINA_Generic in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**WiFiNINA_Generic** library](https://platformio.org/lib/show/11284/WiFiNINA_Generic) by using [Library Manager](https://platformio.org/lib/show/11284/WiFiNINA_Generic/installation). Search for **WiFiNINA_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
@@ -183,22 +182,22 @@ These files must be copied into the directory:
 
 Whenever the above-mentioned compiler error issue is fixed with the new Arduino SAMD release, you don't need to copy the `Arduino.h` file anymore.
 
- 5. **To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards**, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.3) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.3). 
+ 5. ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.4) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.4). 
 
-Supposing the Adafruit SAMD core version is 1.6.3. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.6.4. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.6.3/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.6.4/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
 
 - `~/.arduino15/packages/adafruit/hardware/samd/x.yy.zz/platform.txt`
 
- 6. **To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards**, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.7.9) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.7.9). 
+ 6. ***To be able to automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the file [Seeeduino SAMD platform.txt](Packages_Patches/Seeeduino/hardware/samd/1.8.1) into Adafruit samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.1). 
 
-Supposing the Seeeduino SAMD core version is 1.7.9. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.8.1. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.7.9/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.1/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -355,19 +354,26 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
  3. [ConnectWithWEP](examples/ConnectWithWEP)
  4. [ConnectWithWPA](examples/ConnectWithWPA)
  5. [ConnectWithWPA2Enterprise](examples/ConnectWithWPA2Enterprise)
- 6. [ScanNetworks](examples/ScanNetworks)
- 7. [ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
- 8. [SimpleWebServerWiFi](examples/SimpleWebServerWiFi)
- 9. [WiFiChatServer](examples/WiFiChatServer)
-10. [WiFiPing](examples/WiFiPing)
-11. [WiFiSSLClient](examples/WiFiSSLClient)
-12. [WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
-13. [WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
-14. [WiFiWebClient](examples/WiFiWebClient)
-15. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
-16. [WiFiWebServer](examples/WiFiWebServer)
-17. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
-18. [WiFiStorage](examples/WiFiStorage)
+ 6. [MultiServers](examples/MultiServers), credit of [**Oscar den Uijl**](https://github.com/ocrdu)
+ 7. [ScanNetworks](examples/ScanNetworks)
+ 8. [ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+ 9. [SimpleWebServerWiFi](examples/SimpleWebServerWiFi)
+10. [WiFiChatServer](examples/WiFiChatServer)
+11. [WiFiPing](examples/WiFiPing)
+12. [WiFiSSLClient](examples/WiFiSSLClient)
+13. [WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
+14. [WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
+15. [WiFiWebClient](examples/WiFiWebClient)
+16. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+17. [WiFiWebServer](examples/WiFiWebServer)
+18. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
+19. [WiFiStorage](examples/WiFiStorage)
+
+### Tools
+
+20. [CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
+21. [FirmwareUpdater](examples/Tools/FirmwareUpdater)
+22. [SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
 
 ---
 
@@ -991,10 +997,10 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 ### New in v1.7.2
 
-1. Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
+1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
 2. Add WIFININA_GENERIC_VERSION
 
-### New in v1.7.1
+#### New in v1.7.1
 
 1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
 
@@ -1010,8 +1016,8 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 #### New in v1.6.1
 
-1. Add support to all STM32F/L/H/G/WB/MP1
-2. Add support to Seeeduino SAMD21/SAMD51 boards 
+1. Add support to all **STM32F/L/H/G/WB/MP1**
+2. Add support to **Seeeduino SAMD21/SAMD51 boards **
 3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
 
 #### New in v1.6.0
@@ -1034,12 +1040,12 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 
 #### New in v1.5.1
 
-1. Add support to nRF52 boards, such as AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc. Raytac MDBT50Q-RX Dongle is not supported.
+1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
 2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
 #### New in v1.5.0
 
-1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.
+1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
 
 ---
 
@@ -1069,12 +1075,16 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
 2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **NINA_B302_ublox running as nRF52840 and NINA_B112_ublox running as nRF52832**, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
-4. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
+4. Thanks to [Oscar den Uijl](https://github.com/ocrdu) for : 
+  - the fix, reported in [Version 1.4.0 can break code that uses more than one WiFiServer and socket](https://github.com/arduino-libraries/WiFiNINA/issues/87) and has been included.
+  - the newly-added example [MultiServers](examples/MultiServers)
+5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
 
 <table>
   <tr>
     <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>⭐️ Miguel Wisintainer</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/AppsByDavideV"><img src="https://github.com/AppsByDavideV.png" width="100px;" alt="AppsByDavideV"/><br /><sub><b>AppsByDavideV</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/ocrdu"><img src="https://github.com/ocrdu.png" width="100px;" alt="ocrdu"/><br /><sub><b>Oscar den Uijl</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/gmstuff"><img src="https://github.com/gmstuff.png" width="100px;" alt="gmstuff"/><br /><sub><b>Gerard Moorcroft</b></sub></a><br /></td>
   </tr> 
 </table>
