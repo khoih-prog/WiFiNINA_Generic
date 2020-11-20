@@ -17,6 +17,12 @@ With this library you can instantiate Servers, Clients and send/receive UDP pack
 
 ---
 
+### New in v1.8.0
+
+1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
+3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
+
 ### New in v1.7.2
 
 1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
@@ -72,7 +78,7 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 ---
 ---
 
-## Prerequisite
+## Prerequisites
 
  1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
  2. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install.
@@ -419,7 +425,10 @@ void setup()
 
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.println("Please upgrade the firmware");
+    Serial.print("Your current firmware NINA FW v");
+    Serial.println(fv);
+    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
   // attempt to connect to Wifi network:
@@ -823,7 +832,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-Version 1.7.2
+Version 1.8.0
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -994,6 +1003,12 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 ---
 
 ## Releases
+
+### New in v1.8.0
+
+1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
+3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
 
 ### New in v1.7.2
 

@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.2
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,6 +41,7 @@
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
+  1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
  *****************************************************************************************************************************/
 
 #include <stdio.h>
@@ -52,6 +53,11 @@
 #include "wifi_drv.h"
 
 #define _DEBUG_
+
+#if defined(KH_WIFININA_DRV_DEBUG)
+  #undef KH_WIFININA_DRV_DEBUG
+#endif
+#define KH_WIFININA_DRV_DEBUG   0
 
 // From v1.5.1, For nRF52x
 #include "wifi_spi.h"
@@ -220,7 +226,7 @@ int8_t WiFiDrv::wifiSetPassphrase(const char* ssid, uint8_t ssid_len, const char
     _data = WL_FAILURE;
 
     //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
     Serial.println("WiFiDrv-wifiSetPassphrase: waitResponseCmd = WL_FAILURE");
 #endif
   }
@@ -228,7 +234,7 @@ int8_t WiFiDrv::wifiSetPassphrase(const char* ssid, uint8_t ssid_len, const char
   SpiDrv::spiSlaveDeselect();
 
   //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
   Serial.print("WiFiDrv-wifiSetPassphrase: return = ");
   Serial.println(_data);
 #endif
@@ -435,7 +441,7 @@ uint8_t WiFiDrv::getConnectionStatus()
   uint8_t _dataLen = 0;
   
   //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
   Serial.println("WiFiDrv-getConnectionStatus");
 #endif
 
@@ -444,7 +450,7 @@ uint8_t WiFiDrv::getConnectionStatus()
   SpiDrv::spiSlaveDeselect();
 
   //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
   Serial.print("WiFiDrv-getConnectionStatus: _data = ");
   Serial.println(_data);
 #endif
@@ -990,7 +996,7 @@ int8_t WiFiDrv::wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t cha
     WARN("error waitResponse");
 
 //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
     Serial.println("WiFiDrv-wifiSetApNetwork: waitResponseCmd = WL_FAILURE");
 #endif
 
@@ -1000,7 +1006,7 @@ int8_t WiFiDrv::wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t cha
   SpiDrv::spiSlaveDeselect();
 
 //KH
-#if (KH_WIFININA_DEBUG > 0)
+#if (KH_WIFININA_DRV_DEBUG > 0)
   Serial.print("WiFiDrv-wifiSetApNetwork: _data = ");
   Serial.println(_data);
 #endif

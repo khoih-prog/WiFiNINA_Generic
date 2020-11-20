@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.2
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,6 +41,7 @@
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
+  1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
  *****************************************************************************************************************************/
 
 #define _WIFININA_LOGLEVEL_         1
@@ -110,7 +111,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
   else
   {
     // KH
-    NN_LOGDEBUG("No Socket available");
+    NN_LOGDEBUG(F("No Socket available"));
     
     return 0;
   }
@@ -145,7 +146,7 @@ int WiFiClient::connectSSL(IPAddress ip, uint16_t port)
   else
   {
     // KH
-    NN_LOGDEBUG("No Socket available");
+    NN_LOGDEBUG(F("No Socket available"));
 
     return 0;
   }
@@ -179,13 +180,85 @@ int WiFiClient::connectSSL(const char *host, uint16_t port)
   else
   {
     // KH
-    NN_LOGDEBUG("No Socket available");
+    NN_LOGDEBUG(F("No Socket available"));
 
     return 0;
   }
 
   return 1;
 }
+
+// From v1.8.0
+int WiFiClient::connectBearSSL(IPAddress ip, uint16_t port)
+{
+  if (_sock != NO_SOCKET_AVAIL)
+  {
+    stop();
+  }
+
+  _sock = ServerDrv::getSocket();
+
+  if (_sock != NO_SOCKET_AVAIL)
+  {
+    ServerDrv::startClient(uint32_t(ip), port, _sock, TLS_BEARSSL_MODE);
+
+    unsigned long start = millis();
+
+    // wait 4 second for the connection to close
+    while (!connected() && millis() - start < 10000)
+      delay(1);
+
+    if (!connected())
+    {
+      return 0;
+    }
+  } 
+  else 
+  {
+    // KH
+    NN_LOGDEBUG(F("No Socket available"));
+    
+    return 0;
+  }
+  
+  return 1;
+}
+
+int WiFiClient::connectBearSSL(const char *host, uint16_t port)
+{
+  if (_sock != NO_SOCKET_AVAIL)
+  {
+    stop();
+  }
+
+  _sock = ServerDrv::getSocket();
+  
+  if (_sock != NO_SOCKET_AVAIL)
+  {
+    ServerDrv::startClient(host, strlen(host), uint32_t(0), port, _sock, TLS_BEARSSL_MODE);
+
+    unsigned long start = millis();
+
+    // wait 4 second for the connection to close
+    while (!connected() && millis() - start < 10000)
+      delay(1);
+
+    if (!connected())
+    {
+      return 0;
+    }
+  } 
+  else 
+  {
+    // KH
+    NN_LOGDEBUG(F("No Socket available"));
+    
+    return 0;
+  }
+  
+  return 1;
+}
+//////
 
 size_t WiFiClient::write(uint8_t b)
 {

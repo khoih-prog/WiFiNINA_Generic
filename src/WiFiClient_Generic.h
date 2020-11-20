@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.2
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,10 +41,10 @@
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
+  1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
  *****************************************************************************************************************************/
 
-#ifndef WiFiClient_Generic_h
-#define WiFiClient_Generic_h
+#pragma once
 
 #include "Arduino.h"
 #include "Print.h"
@@ -63,6 +63,10 @@ class WiFiClient : public Client
     virtual int connect(const char *host, uint16_t port);
     virtual int connectSSL(IPAddress ip, uint16_t port);
     virtual int connectSSL(const char *host, uint16_t port);
+    // From v1.8.0
+    virtual int connectBearSSL(IPAddress ip, uint16_t port);
+    virtual int connectBearSSL(const char *host, uint16_t port);
+    //////
     virtual size_t write(uint8_t);
     virtual size_t write(const uint8_t *buf, size_t size);
     virtual int available();
@@ -88,4 +92,3 @@ class WiFiClient : public Client
     uint16_t  _socket;
 };
 
-#endif    //WiFiClient_Generic_h

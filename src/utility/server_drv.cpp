@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.2
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,11 +41,12 @@
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
+  1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
  *****************************************************************************************************************************/
 
 #define _DEBUG_
 
-#define KH_WIFININA_DRV_DEBUG   1
+#define KH_WIFININA_SERVER_DRV_DEBUG   1
 
 #include "server_drv.h"
 
@@ -273,14 +274,14 @@ uint16_t ServerDrv::availData(uint8_t sock)
   if  (!SpiDrv::available()) 
   {
     // KH
-#if (KH_WIFININA_DRV_DEBUG > 3)
+#if (KH_WIFININA_SERVER_DRV_DEBUG > 3)
     Serial.println("ServerDrv::availData: SpiDrv not available");
 #endif    
     return 0;
   }
  
   // KH
-#if (KH_WIFININA_DRV_DEBUG > 2)    
+#if (KH_WIFININA_SERVER_DRV_DEBUG > 2)    
   Serial.println("ServerDrv::availData: SpiDrv OK");
 #endif  
 
@@ -307,7 +308,7 @@ uint16_t ServerDrv::availData(uint8_t sock)
   SpiDrv::spiSlaveDeselect();
   
   // KH
-#if (KH_WIFININA_DRV_DEBUG > 2)
+#if (KH_WIFININA_SERVER_DRV_DEBUG > 2)
   Serial.print("ServerDrv::availData: len =");
   Serial.println(len);
 #endif

@@ -11,6 +11,7 @@ WiFiNINA	KEYWORD1
 WiFiUdp	KEYWORD1
 WiFiClient	KEYWORD1
 WiFiSSLClient	KEYWORD1
+WiFiBearSSLClient KEYWORD1
 WiFiServer	KEYWORD1
 WiFiUDP	KEYWORD1
 WiFiStorageFile KEYWORD1
@@ -22,6 +23,10 @@ WiFiSocketBufferClass KEYWORD1
 ServerDrv KEYWORD1
 SpiDrv  KEYWORD1
 WiFiDrv KEYWORD1
+
+######
+
+tProtMode KEYWORD1
 
 
 #######################################
@@ -59,12 +64,25 @@ noLowPowerMode	KEYWORD2
 ping	KEYWORD2
 setTimeout	KEYWORD2
 
+################
+# WiFiSSLClient
+################
+
+connect KEYWORD2
+
+####################
+# WiFiBearSSLClient
+####################
+
+connect KEYWORD2
+
 #############
 # WiFiClient
 #############
 
 connect	KEYWORD2
 connectSSL	KEYWORD2
+connectBearSSL  KEYWORD2
 write	KEYWORD2
 available	KEYWORD2
 read	KEYWORD2

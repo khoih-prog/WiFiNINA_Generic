@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.7.2
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -41,10 +41,10 @@
   1.7.0   K Hoang      06/08/2020 Sync with Arduino WiFiNINA Library v1.7.0 : Add downloadOTA() and verify length/CRC
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
+  1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
  *****************************************************************************************************************************/
 
-#ifndef WiFiStorage_Generic_h
-#define WiFiStorage_Generic_h
+#pragma once
 
 #include "utility/wifi_drv.h"
 
@@ -101,6 +101,14 @@ class WiFiStorageClass
     // From v1.7.0    
     static bool downloadOTA(const char * url, uint8_t * res_ota_download = NULL) 
     {
+      /* The buffer within the nina firmware allows a maximum
+      * url size of 128 bytes. It's better to prevent the
+      * transmission of over-sized URL as soon as possible.
+      */
+      // From v1.8.0
+      if (strlen(url) > 128)
+        return false;
+			
 		  uint8_t const res = WiFiDrv::downloadOTA(url, strlen(url));
 		  
 		  if (res_ota_download)
@@ -223,4 +231,3 @@ class WiFiStorageFile
     const char* filename;
 };
 
-#endif    // WiFiStorage_Generic_h
