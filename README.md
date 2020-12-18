@@ -1,17 +1,17 @@
-## WiFiManager_NINA_Lite (Light Weight Credentials / WiFi Manager for WiFiNINA modules/shields)
+## WiFiNINA_Generic ( Library for WiFiNINA modules/shields to support many more boards )
 
-[![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiManager_NINA_Lite.svg?)](https://www.ardu-badge.com/WiFiManager_NINA_Lite)
-[![GitHub release](https://img.shields.io/github/release/khoih-prog/WiFiManager_NINA_Lite.svg)](https://github.com/khoih-prog/WiFiManager_NINA_Lite/releases)
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/WiFiManager_NINA_Lite/blob/master/LICENSE)
+[![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic)
+[![GitHub release](https://img.shields.io/github/release/khoih-prog/WiFiNINA_Generic.svg)](https://github.com/khoih-prog/WiFiNINA_Generic/releases)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
-[![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiManager_NINA_Lite.svg)](http://github.com/khoih-prog/WiFiManager_NINA_Lite/issues)
+[![GitHub issues](https://img.shields.io/github/issues/khoih-prog/WiFiNINA_Generic.svg)](http://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
 ---
 ---
 
 ## Table of Contents
 
-* [Why do we need this WiFiManager_NINA_Lite library](#why-do-we-need-this-wifimanager_nina_lite-library)
+* [Why do we need this WiFiNINA_Generic library](#why-do-we-need-this-wifinina_generic-library)
 * [Changelog](#changelog)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
@@ -28,167 +28,154 @@
   * [5. For Adafruit SAMD boards](#5-for-adafruit-samd-boards)
   * [6. For Seeeduino SAMD boards](#6-for-seeeduino-samd-boards)
   * [7. For STM32 boards](#7-for-stm32-boards) 
-* [How It Works](#how-it-works)
-* [How to use](#how-to-use)
+* [HOWTO Change pin definitions for WiFiNINA](#howto-change-pin-definitions-for-wifinina) 
+  * [1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin](#1-update-the-wifi101--wifinina-firmwareupdater-plugin) 
+  * [2) Upload the WiFiNINA_Generic library's FirmwareUpdater sketch](#2-upload-the-wifinina_generic-librarys-firmwareupdater-sketch) 
+  * [3) Update WiFiNINA Firmware](#3-update-wifinina-firmware) 
+  * [4) Verify by uploading the WiFiNINA_Generic library's CheckFirmwareVersion sketch](#4-verify-by-uploading-the-wifinina_generic-librarys-checkfirmwareversion-sketch) 
+* [How to update SSL certificates](#how-to-update-ssl-certificates) 
 * [Examples](#examples)
-* [So, how it works?](#so-how-it-works)
-* [Important Notes](#important-notes)
-* [How to use default Credentials and have them pre-loaded onto Config Portal](#how-to-use-default-credentials-and-have-them-pre-loaded-onto-config-portal)
-  * [1. To always load Default Credentials and override Config Portal data](#1-to-always-load-default-credentials-and-override-config-portal-data)
-  * [2. To load Default Credentials when there is no valid Credentials. Config Portal data input will be override DEFAULT_CONFIG_DATA](2-to-load-default-credentials-when-there-is-no-valid-credentials-config-portal-data-input-will-be-override-default_config_data)
-  * [3. Example of Default Credentials](#3-example-of-default-credentials)
-* [How to add dynamic parameters from sketch](#how-to-add-dynamic-parameters-from-sketch)
-* [Important Notes for using Dynamic Parameters' ids](#important-notes-for-using-dynamic-parameters-ids)
-* [Example SAMD_WiFiNINA](#example-samd_wifinina)
-  * [1. File SAMD_WiFiNINA.ino](#1-file-samd_wifininaino)
+* [Example WiFiWebServer](#example-wifiwebserver)
+  * [1. File WiFiWebServer.ino](#1-file-wifiwebserverino)
   * [2. File defines.h](#2-file-definesh)
-  * [3. File Credentials.h](#3-file-credentialsh)
-  * [4. File dynamicParams.h](#4-file-dynamicparamsh)
-* [Debug Termimal Output Samples](#debug-terminal-output-samples)
-  * [1. Open Config Portal](#1-open-config-portal)
-  * [2. Received data from Config Portal](#2-received-data-from-config-portal)
-  * [3. Got valid Credential from Config Portal, then connected to WiFi](#3-got-valid-credential-from-config-portal-then-connected-to-wifi)
-  * [4. Lost a WiFi and autoconnect to another WiFi AP](#4-lost-a-wifi-and-autoconnect-to-another-wifi-ap)
-  * [5. Reopen Config Portal if can't connect to any of the 2 WiFi APs](#5-reopen-config-portal-if-cant-connect-to-any-of-the-2-wifi-aps)
-  * [6. DRD Not Detected](#6-drd-not-detected) 
-  * [7. DRD detected and Config Portal is forcefully opened](#7drd-detected-and-config-portal-is-forcefully-opened)
+* [Debug Terminal Output Samples](#debug-terminal-output-samples)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
+* [Releases](#releases)
+  * [New in v1.8.0](#new-in-v180-1)
+  * [New in v1.7.2](#new-in-v172-1)
+  * [New in v1.7.1](#new-in-v171-1)
+  * [New in v1.7.0](#new-in-v170-1)
+  * [New in v1.6.2](#new-in-v162-1)
+  * [New in v1.6.1](#new-in-v161-1)
+  * [New in v1.6.0](#new-in-v160-1)
+  * [New in v1.5.3](#new-in-v153-1)
+  * [New in v1.5.2](#new-in-v152-1)
+  * [New in v1.5.1](#new-in-v151-1)
+  * [New in v1.5.0](#new-in-v150-1)
 * [TO DO](#to-do)
 * [DONE](#done)
-* [Releases](#releases)
-  * [New Release v1.0.5](#new-release-v105-1)
-  * [Major Release v1.0.4](#major-release-v104-1)
-  * [Major Release v1.0.3](#major-release-v103-1)
-  * [New in v1.0.2](#new-in-v102-1)
-  * [New in v1.0.1](#new-in-v101-1)
-  * [New in v1.0.0](#new-in-v100-1)
 * [Issues](#issues)
 * [Contributions and Thanks](#contributions-and-thanks)
 * [Contributing](#contributing)
-* [License](#license)
 * [Copyright](#copyright)
 
 ---
 ---
 
-### Why do we need this [WiFiManager_NINA_Lite library](https://github.com/khoih-prog/WiFiManager_NINA_Lite)
 
-If you have used the full-fledge WiFiManager such as :
+### Why do we need this [WiFiNINA_Generic library](https://github.com/khoih-prog/WiFiNINA_Generic)
 
-1. [`Tzapu WiFiManager`](https://github.com/tzapu/WiFiManager)
-2. [`Ken Taylor WiFiManager`](https://github.com/kentaylor/WiFiManager)
-3. [`Khoi Hoang ESP_WiFiManager`](https://github.com/khoih-prog/ESP_WiFiManager)
+The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
 
-and have to write complicated callback functions to save custom parameters in SPIFFS, you'd appreciate the simplicity of this Light-Weight Credentials / WiFiManager.
-
-This library is a Light Weight Credentials / WiFi Manager for WiFiNINA modules/shields, specially designed to support **Teensy, SAM DUE, SAMD21 (Nano-33 IoT, Itsy-Bitsy M0, etc), SAMD51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.), STM32F (F1, F2, F3, F4, F7, Nucleo-144, etc.), nRF52 (Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, NINA_B302_ublox, NINA_B112_ublox, etc.), etc. boards running WiFiNINA modules/shields.** with smaller memory (64+K bytes)
-
-The AVR-family boards (UNO, Nano, etc.) are **not supported** as they don't have enough memory to run Config Portal WebServer.
-
-This is a Credentials / WiFi Connection Manager, permitting the addition of custom parameters to be configured in Config Portal. The parameters then will be saved automatically, **without the complicated callback functions** to handle data saving / retrieving.
-
-You can also specify DHCP HostName, static AP and STA IP. Use much less memory compared to full-fledge WiFiManager. Config Portal will be auto-adjusted to match the number of dynamic custom parameters. Credentials are saved in EEPROM, FlashStorage or DueFlashStorage.
-
-The web configuration portal, served from the `WiFiNINA modules/shields` is operating as an access point (AP) with configurable static IP address or use default IP Address of 192.168.4.1
-
-New recent features:
-
-- **MultiWiFi** feature for configuring/auto(re)connecting **WiFiNINA** shields to the available MultiWiFi APs at runtime.
-- **DoubleDetectDetector** feature to force Config Portal when double reset is detected within predetermined time, default 10s.
-- Configurable **Config Portal Title** to be either BoardName or default undistinguishable names.
-- Examples are redesigned to separate Credentials / Defines / Dynamic Params / Code so that you can change Credentials / Dynamic Params quickly for each device.
+With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
 ---
 ---
 
 ## Changelog
 
-### New Release v1.0.5
+### New in v1.8.0
 
-1. Modify LOAD_DEFAULT_CONFIG_DATA logic.
-4. Enhance MultiWiFi connection logic. 
-5. Add Adafruit MQTT examples.
+1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
+3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
 
-#### Major Release v1.0.4
+### New in v1.7.2
 
-1. Configurable **Config Portal Title** to be either HostName, BoardName or default undistinguishable names.
-2. Optional default **Credentials as well as Dynamic parameters to be optionally autoloaded into Config Portal** to use or change instead of manually input.
-3. **DoubleDetectDetector** feature to force Config Portal when double reset is detected within predetermined time, default 10s.
-4. Examples are redesigned to separate Credentials / Defines / Dynamic Params / Code so that you can change Credentials / Dynamic Params quickly for each device.
-5. Add Board Name
+1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
+2. Add WIFININA_GENERIC_VERSION
 
-Thanks to [Thor Johnson](https://github.com/thorathome) to test, suggest and encourage to add those new features in [**Blynk_WM Library**](https://github.com/khoih-prog/Blynk_WM), such as Default Credentials/Dynamic Params, Configurable Config Portal Title, DRD. Now those features are speading fast into libraries having similar functionalities.
+#### New in v1.7.1
 
-#### Major Release v1.0.3
+1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
 
-1. **Multiple WiFi Credentials (SSID, Password)** and system will autoconnect to the available WiFi AP. It will then autoreconnect to the remaining WiFi AP if the current connection is lost.
-2. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.**
-3. WiFi Password max length is 63, according to WPA2 standard
-4. Permit to input special chars such as **%** and **#** into data fields.
-5. Add option to have built-in, yet configurable RFC-952-conformed DHCP hostname.
-6. Fix bug
+#### New in v1.7.0
 
-#### New in v1.0.2
+1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
+2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
 
-1. Fix bug
-2. Add support to **SAM51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
+#### New in v1.6.2
 
-#### New in v1.0.1
+1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
+2. Add example for WiFiStorage.
 
-1. Use new [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Generic) to provide support to many more boards (Teensy, AVR Mega, SAM DUE, SAMD51, STM32, etc.) running WiFiNINA. The original WiFiNINA library only supports Nano-33 IoT, Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2.
-2. Use new [**FlashStorage_SAMD library**](https://github.com/khoih-prog/FlashStorage_SAMD) to provide EEPROM/FlashStorage support to SAMD51 boards (Itsy-Bitsy M4, etc).
+#### New in v1.6.1
 
-#### New in v1.0.0
+1. Add support to all **STM32F/L/H/G/WB/MP1**
+2. Add support to **Seeeduino SAMD21/SAMD51 boards **
+3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
 
-1. New **powerful-yet-simple-to-use feature to enable adding dynamic custom parameters** from sketch and input using the same Config Portal. Config Portal will be auto-adjusted to match the number of dynamic parameters.
-2. Dynamic custom parameters to be saved **automatically in EEPROM, SAMD EEPROM-emulated FlashStorage or SAM DUE DueFlashStorage**.
+#### New in v1.6.0
+
+1. Sync'ed with latest WiFiNINA Library v1.6.0. 
+2. New features include **WiFiStorage** and update to **NINA Firmware v1.4.0** from v1.3.0
+
+
+#### New in v1.5.3
+
+1. Add function to support new WebSockets2_Generic Library
+2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
+
+#### New in v1.5.2
+
+1. Port FirmwareUpdater to permit **nRF52, Teensy, SAMD21, SAMD51, etc.** boards to update WiFiNINA W101/W102 firmware and SSL certificates using **Arduino IDE WiFi101/WiFiNINA Firmware Updater.** 
+2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
+
+Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
+
+#### New in v1.5.1
+
+1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
+2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+
+#### New in v1.5.0
+
+1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
 
 ---
 ---
 
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.13+` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino Core for STM32 v1.9.0+`](https://github.com/khoih-prog/Arduino_Core_STM32) for STM32 boards
- 3. [`Teensy core 1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
- 4. [`Arduino SAM DUE core 1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards
- 5. [`Arduino SAMD core 1.8.10+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards
- 6. [`Adafruit SAMD core 1.6.4+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.)
+ 1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
+ 2. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install.
+ 3. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
+ 4. [`Arduino SAM DUE core v1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards.
+ 5. [`Arduino SAMD core 1.8.10+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
+ 6. [`Adafruit SAMD core 1.6.4+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
  7. [`Seeeduino SAMD core 1.8.1+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
- 8. [`Adafruit nRF52 v0.21.0+`](www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc.
- 9. [`Functional-VLPP library v1.0.1+`](https://github.com/khoih-prog/functional-vlpp) to use server's lambda function. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Functional-Vlpp.svg?)](https://www.ardu-badge.com/Functional-Vlpp)
-10. [`WiFiNINA_Generic library v1.8.0+`](https://github.com/khoih-prog/WiFiNINA_Generic). To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic)
-11. [`WiFiWebServer library v1.1.0+`](https://github.com/khoih-prog/WiFiWebServer). To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiWebServer.svg?)](https://www.ardu-badge.com/WiFiWebServer)
-12. [`FlashStorage_SAMD library v1.0.0+`](https://github.com/khoih-prog/FlashStorage_SAMD) for SAMD21 and SAMD51 boards (ZERO, MKR, NANO_33_IOT, M0, M0 Pro, AdaFruit Itsy-Bitsy M4, etc.)
-13. [`DueFlashStorage library v1.0.0+`](https://github.com/sebnil/DueFlashStorage) for SAM DUE
-14. [`Adafruit's LittleFS/InternalFS`](www.adafruit.com) for nRF52
-15. [`DoubleResetDetector_Generic v1.0.2+`](https://github.com/khoih-prog/DoubleResetDetector_Generic). To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/DoubleResetDetector_Generic.svg?)](https://www.ardu-badge.com/DoubleResetDetector_Generic)
-
+ 8. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.
+ 9. [`Arduino Core for STM32 v1.9.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards 
+ 
+---
 ---
 
 ## Installation
 
 ### Use Arduino Library Manager
 
-The best and easiest way is to use `Arduino Library Manager`. Search for [**WiFiManager_NINA_Lite**](https://github.com/khoih-prog/WiFiManager_NINA_Lite), then select / install the latest version.
-You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiManager_NINA_Lite.svg?)](https://www.ardu-badge.com/WiFiManager_NINA_Lite) for more detailed instructions.
+The best and easiest way is to use `Arduino Library Manager`. Search for [**WiFiNINA_Generic**](https://github.com/khoih-prog/WiFiNINA_Generic), then select / install the latest version.
+You can also use this link [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiNINA_Generic.svg?)](https://www.ardu-badge.com/WiFiNINA_Generic) for more detailed instructions.
+
 
 ### Manual Install
 
-1. Navigate to [**WiFiManager_NINA_Lite**](https://github.com/khoih-prog/WiFiManager_NINA_Lite) page.
-2. Download the latest release `WiFiManager_NINA_Lite-master.zip`.
-3. Extract the zip file to `WiFiManager_NINA_Lite-master` directory 
-4. Copy the whole 
-  - `WiFiManager_NINA_Lite-master` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+To install:
+
+1. Navigate to [**WiFiNINA_Generic**](https://github.com/khoih-prog/WiFiNINA_Generic) page.
+2. Download the latest release `WiFiNINA_Generic-master.zip`.
+3. Extract the zip file to `WiFiNINA_Generic-master` directory 
+4. Copy whole `WiFiNINA_Generic-master/src` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
 
 ### VS Code & PlatformIO:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**WiFiManager_NINA_Lite** library](https://platformio.org/lib/show/7159/WiFiManager_NINA_Lite) by using [Library Manager](https://platformio.org/lib/show/7159/WiFiManager_NINA_Lite/installation). Search for **WiFiManager_NINA_Lite** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**WiFiNINA_Generic** library](https://platformio.org/lib/show/11284/WiFiNINA_Generic) by using [Library Manager](https://platformio.org/lib/show/11284/WiFiNINA_Generic/installation). Search for **WiFiNINA_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
+---
 ---
 
 ### Packages' Patches
@@ -324,1195 +311,893 @@ theses files must be copied into the corresponding directory:
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_L053R8/variant.h`
 
 
----
----
-
-## How It Works
-
-- The [**SAMD_WiFiNINA**](examples/SAMD_WiFiNINA) example shows how it works and should be used as the basis for a sketch that uses this library.
-- The concept of [**SAMD_WiFiNINA**](examples/SAMD_WiFiNINA) is that a new `WiFiNINA module/shield` will start a WiFi configuration portal when powered up, but has no valid stored Credentials or can't connect to WiFi APs after a pre-determined time.
-- There are 6 more custom parameters added in the sketch which you can use in your program later. In the example, they are: 2 sets of Blynk Servers and Tokens, Blynk Port and MQTT Server.
-- Using any WiFi enabled device with a browser (computer, phone, tablet) connect to the newly created AP and type in the configurable AP IP address (default 192.168.4.1). The Config Portal AP channel (default 10) is also configurable to avoid conflict with other APs.
-- The Config Portal is **auto-adjusted** to fix the 4 static parameters (WiFi SSIDs/PWDs) as well as 6 more dynamic custom parameters.
-- After the custom data entered, and **Save** button pressed, the configuration data will be saved in host's non-volatile memory, then the board reboots.
-- If there is valid stored Credentials, it'll go directly to connect to one of the **MultiWiFi APs** without starting / using the Config Portal.
-- `WiFiNINA module/shield` will try to connect. If successful, the dynamic DHCP and/or configured static IP address will be displayed in the configuration portal. 
-- The `WiFiNINA module/shield` WiFi Config Portal network and Web Server will shutdown to return control to the sketch code.
-- In the operation, if the current WiFi connection is lost because of any reason, the system will **auto(Re)connect** to the remaining WiFi AP.
-- **If system can't connect to any of the 2 WiFi APs, the Config Portal will start**, after some pre-determined time, to permit user to update the Credentials.
 
 ---
+---
 
-### How to use
+### HOWTO Change pin definitions for WiFiNINA
 
-- Include in your sketch
+ Please change the **pin-to-pin connection** in [`WiFiNINA_Pinout_Generic.h`](src/WiFiNINA_Pinout_Generic.h) to match actual connection. The section for **NINA_B302_ublox and NINA_B112_ublox** has been tested and working OK.
+
+For example
+
 
 ```cpp
-// Must be before #include <WiFiManager_NINA_Lite_SAMD.h>
-// Start location in EEPROM to store config data. Default 0
-// Config data Siz, not including your custom data, currently is 84 bytes)
-#define EEPROM_START      0
+#elif  ( defined(NINA_B302_ublox) )
 
-#include <WiFiManager_NINA_Lite_SAMD.h>
+  #warning You have to modify pin usage according to actual connection for NRF528XX
+  // To define pin out for WiFiNINA here
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
-WiFiManager_NINA_Lite* WiFiManager_NINA;
+  //#define PINS_COUNT        (60u)
+  //NINA
+  #define NINA_GPIO0          (22u)                         // 22, IO4,  P0.16
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
+
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
+  
+#elif ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
+        defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
+        defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) )
+
+  #warning You have to modify pin usage according to actual connection for NRF528XX
+  // To define pin out for WiFiNINA here
+  // The following is for NINA_B302_ublox as nRF52 and W102 WiFiNINA module
+  // Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip). 
+  // See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+
+  //#define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0          (12u)                         // 12, IO8,  P1.00
+  
+  #define NINA_RESETN         (2u)                          //  2, IO21, P0.12
+  #define NINA_ACK            (10u)                         // 10, IO2,  P0.14
+
+  #define SPIWIFI_SS           4            //PIN_SPI1_SS   //  4, IO1,  P0.13
+  #define SPIWIFI_ACK          10           //NINA_ACK      // 10, IO2,  P0.14
+  #define SPIWIFI_RESET        2            //NINA_RESETN   //  2, IO21, P0.12
 ```
 
-- To add custom parameters, just add
+---
+
+### HOWTO Update WiFiNINA Firmware (latest version is v1.4.1 as of August 2020)
+
+#### 1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin
+
+- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of August 2020, the latest WiFiNINA FW is v1.4.1, use [WiFi101-FirmwareUpdater-Plugin version v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12).
+- Unzip the downloaded file into WiFi101 folder (WiFi101/tool/firmwares folder and WiFi101/tool/WiFi101.jar file)
+- Copy the whole WiFi101 folder to ./arduino-1.8.yy/tools to overwrite the old WiFi101 folder.
+- Restart the Arduino IDE if running.
+
+#### 2) Upload the WiFiNINA_Generic library's FirmwareUpdater sketch
+
+**Upload the WiFiNINA_Generic library's [FirmwareUpdater sketch](examples/Tools/FirmwareUpdater) to your board (Nano-33-IoT, nRF52, etc.) according to these following steps:**
+
+- Select FirmwareUpdater sketch  from File > Examples > WiFiNINA_Generic > tools > FirmwareUpdater
+- Upload the sketch, then close the terminal, if opened.
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/FirmwareUpdaterSketch.png">
+</p>
+
+#### 3) Update WiFiNINA Firmware
+
+- Select Tools > WiFi101 / WiFiNINA Firmware Updater.
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/FirmwareUpdater.png">
+</p>
+
+- Select the port of your board from the list under "1. Select port of the WiFi module".
+
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.1)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
+
+- Click "Update Firmware"
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/FirmwareUpdating.png">
+</p>
+
+- When done successfully, a window with message "The firmware has been updated"
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/FirmwareUpdated.png">
+</p>
+
+#### 4) Verify by uploading the WiFiNINA_Generic library's CheckFirmwareVersion sketch
+
+**Verify by uploading the WiFiNINA_Generic library's [CheckFirmwareVersion sketch](examples/Tools/CheckFirmwareVersion) to your board (Nano 33 IoT, nRF52, etc.) according to these following steps:**
+
+- Select CheckFirmwareVersion sketch  from File > Examples > WiFiNINA_Generic > tools > CheckFirmwareVersion
+- Upload the sketch.
+- If OK, terminal will show PASSED as follows:
 
 ```
-#define USE_DYNAMIC_PARAMETERS      true
+WiFiNINA firmware check.
 
-/////////////// Start dynamic Credentials ///////////////
+Firmware version installed: 1.4.1
+Latest firmware version available : 1.4.1
 
-//Defined in <WiFiManager_NINA_Lite_Teensy.h>
-/**************************************
-  #define MAX_ID_LEN                5
-  #define MAX_DISPLAY_NAME_LEN      16
-
-  typedef struct
-  {
-  char id             [MAX_ID_LEN + 1];
-  char displayName    [MAX_DISPLAY_NAME_LEN + 1];
-  char *pdata;
-  uint8_t maxlen;
-  } MenuItem;
-**************************************/
-
-#if USE_DYNAMIC_PARAMETERS
-
-#define MAX_BLYNK_SERVER_LEN      34
-#define MAX_BLYNK_TOKEN_LEN       34
-
-char Blynk_Server1 [MAX_BLYNK_SERVER_LEN + 1]  = "";
-char Blynk_Token1  [MAX_BLYNK_TOKEN_LEN + 1]   = "";
-
-char Blynk_Server2 [MAX_BLYNK_SERVER_LEN + 1]  = "";
-char Blynk_Token2  [MAX_BLYNK_TOKEN_LEN + 1]   = "";
-
-#define MAX_BLYNK_PORT_LEN        6
-char Blynk_Port   [MAX_BLYNK_PORT_LEN + 1]  = "";
-
-#define MAX_MQTT_SERVER_LEN      34
-char MQTT_Server  [MAX_MQTT_SERVER_LEN + 1]   = "";
-
-MenuItem myMenuItems [] =
-{
-  { "sv1", "Blynk Server1", Blynk_Server1,  MAX_BLYNK_SERVER_LEN },
-  { "tk1", "Token1",        Blynk_Token1,   MAX_BLYNK_TOKEN_LEN },
-  { "sv2", "Blynk Server2", Blynk_Server2,  MAX_BLYNK_SERVER_LEN },
-  { "tk2", "Token2",        Blynk_Token2,   MAX_BLYNK_TOKEN_LEN },
-  { "pt", "Port",           Blynk_Port,     MAX_BLYNK_PORT_LEN },
-  { "mq", "MQTT Server",    MQTT_Server,    MAX_MQTT_SERVER_LEN },
-};
-
-uint16_t NUM_MENU_ITEMS = sizeof(myMenuItems) / sizeof(MenuItem);  //MenuItemSize;
-
-#else
-
-MenuItem myMenuItems [] = {};
-
-uint16_t NUM_MENU_ITEMS = 0;
-
-#endif    //USE_DYNAMIC_PARAMETERS
-
+Check result: PASSED
 ```
+---
 
-- If you don't need to add dynamic parameters, use the following in sketch
+### How to update SSL certificates
 
-```
-#define USE_DYNAMIC_PARAMETERS      false
-```
+Please check the [Arduino Tutorial](https://www.arduino.cc/en/Tutorial/WiFiNINAFirmwareUpdater) if more info is required.
 
-- When you want to open a config portal, just add
+`With the same procedure, you may load root certificates on the WiFi module to access securely specific websites. Your board must be running the FirmwareUpdater sketch to work .The root certificates are issued by a limited number of certification authorities, but it is difficult to know which site is using which authority. To ease your life, we allow you to specify directly the URL to which you need to connect securely, leaving to us the task to download the root certificate.`
 
-```cpp
-WiFiManager_NINA = new WiFiManager_NINA_Lite();
-WiFiManager_NINA->begin();
-```
+`The list you are building is not saved from one session to the next one. It might happen that a few websites share the same root certificate. You don't have to worry about this as we take care of it. The space available on your WiFi module to store the certificates is limited to around 10 certificates that, being issued by a limited number of authorities, should be more than enough for the average projects.`
 
-- To not use default AP WiFi Channel 10 to avoid conflict with other WiFi APs, call 
+This is the screen to demonstrate the SSL certificates have been loaded successfully onto a nRF52-based NINA_B302_ublox board running with ublox WiFiNINA W102 .
 
-```cpp
-WiFiManager_NINA->setConfigPortalChannel(newChannel);
-```
-
-- To use different static AP IP (not use default `192.168.4.1`), call
-
-```cpp
-WiFiManager_NINA->setConfigPortalIP(IPAddress(xxx,xxx,xxx,xxx));
-```
-
-- To set custom DHCP HostName, cal
- 
-```
-  // Set customized DHCP HostName
-  WiFiManager_NINA->begin("SAMD-WiFiNINA-ABCDEF");
-```
- 
-or just use the default Hostname, for example "SAMD-WiFiNINA-XXXXXX" for SAMD
-
-```
-  //Or use default Hostname "SAMD-WiFiNINA-XXXXXX"
-  //WiFiManager_NINA->begin();
-```
-
-While in AP mode, connect to it using its `SSID` (WIFININA_XXXXXX) / `Password` ("MyWIFININA_XXXXXX"), then open a browser to the Portal AP IP, default `192.168.4.1`, configure wifi then click **Save**. The Credentials / WiFi connection information will be saved in non-volatile memory. It will then autoconnect.
-
-
-Once Credentials / WiFi network information is saved in the host non-volatile memory, it will try to autoconnect to WiFi every time it is started, without requiring any function calls in the sketch.
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/SSL_certs.png">
+</p>
 
 ---
 ---
 
 ### Examples
 
- 1. [SAMD_WiFiNINA](examples/SAMD_WiFiNINA)
- 2. [SAMD_WiFiNINA_MQTT](examples/SAMD_WiFiNINA_MQTT)
- 3. [nRF52840_WiFiNINA](examples/nRF52840_WiFiNINA)
- 4. [nRF52840_WiFiNINA_MQTT](examples/nRF52840_WiFiNINA_MQTT)
- 5. [Teensy40_WiFiNINA](examples/Teensy40_WiFiNINA)
- 6. [Teensy40_WiFiNINA_MQTT](examples/Teensy40_WiFiNINA_MQTT)
- 7. [STM32_WiFiNINA](examples/STM32_WiFiNINA)
- 8. [STM32_WiFiNINA_MQTT](examples/STM32_WiFiNINA_MQTT)
- 9. [SAM_DUE_WiFiNINA](examples/SAM_DUE_WiFiNINA)
-10. [SAM_DUE_WiFiNINA_MQTT](examples/SAM_DUE_WiFiNINA_MQTT)
-11. [Mega_WiFiNINA](examples/Mega_WiFiNINA)
+ 1. [AP_SimpleWebServer](examples/AP_SimpleWebServer)
+ 2. [ConnectNoEncryption](examples/ConnectNoEncryption)
+ 3. [ConnectWithWEP](examples/ConnectWithWEP)
+ 4. [ConnectWithWPA](examples/ConnectWithWPA)
+ 5. [ConnectWithWPA2Enterprise](examples/ConnectWithWPA2Enterprise)
+ 6. [MultiServers](examples/MultiServers), credit of [**Oscar den Uijl**](https://github.com/ocrdu)
+ 7. [ScanNetworks](examples/ScanNetworks)
+ 8. [ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+ 9. [SimpleWebServerWiFi](examples/SimpleWebServerWiFi)
+10. [WiFiChatServer](examples/WiFiChatServer)
+11. [WiFiPing](examples/WiFiPing)
+12. [WiFiSSLClient](examples/WiFiSSLClient)
+13. [WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
+14. [WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
+15. [WiFiWebClient](examples/WiFiWebClient)
+16. [WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+17. [WiFiWebServer](examples/WiFiWebServer)
+18. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
+19. [WiFiStorage](examples/WiFiStorage)
 
----
----
+### Tools
 
-## So, how it works?
-
-In `Configuration Portal Mode`, it starts an AP called `WIFININA_XXXXXX`. Connect to it using the `configurable password` you can define in the code. For example, `MyWIFININA_XXXXXX` (see examples):
-
-After you connected, please, go to http://192.168.4.1 or newly configured AP IP, you'll see this `Main` page:
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/WiFiManager_NINA_Lite/blob/master/pics/Main.png">
-</p>
-
-Enter your credentials, 
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/WiFiManager_NINA_Lite/blob/master/pics/Input.png">
-</p>
-
-then click `Save`. 
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/WiFiManager_NINA_Lite/blob/master/pics/Save.png">
-</p>
-
-The WiFi Credentials will be saved and the board connect to the selected WiFi AP.
-
-If you're already connected to a listed WiFi AP and don't want to change anything, just select `Exit` from the `Main` page to reboot the board and connect to the previously-stored AP. The WiFi Credentials are still intact.
+20. [CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
+21. [FirmwareUpdater](examples/Tools/FirmwareUpdater)
+22. [SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
 
 ---
 
-### Important Notes
+## Example [WiFiWebServer](examples/WiFiWebServer)
 
-1. Now you can use special chars such as **~, !, @, #, $, %, ^, &, _, -, space,etc.** thanks to [brondolin](https://github.com/brondolin) to provide the amazing fix in [**Blynk_WM**](https://github.com/khoih-prog/Blynk_WM) to permit input special chars such as **%** and **#** into data fields. See [Issue 3](https://github.com/khoih-prog/Blynk_WM/issues/3).
-2. The SSIDs, Passwords must be input (or to make them different from **blank**). Otherwise, the Config Portal will re-open until those fields have been changed. If you don't need any field, just input anything or use duplicated data from similar field.
-3. WiFi password max length now is 63 chars according to WPA2 standard.
-
----
-
-### How to use default Credentials and have them pre-loaded onto Config Portal
-
-See this example and modify as necessary
-
-#### 1. To always load [Default Credentials](examples//Credentials.h) and override Config Portal data
-
-```
-// Used mostly for development and debugging. FORCES default values to be loaded each run.
-// Config Portal data input will be ignored and overridden by DEFAULT_CONFIG_DATA
-bool LOAD_DEFAULT_CONFIG_DATA = true;
-```
-
-#### 2. To load [Default Credentials](examples//Credentials.h) when there is no valid Credentials. Config Portal data input will be override DEFAULT_CONFIG_DATA
-
-```
-// Used mostly once debugged. Assumes good data already saved in device.
-// Config Portal data input will be override DEFAULT_CONFIG_DATA
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-```
-
-#### 3. Example of [Default Credentials](examples/SAMD_WiFiNINA/Credentials.h)
-
-```cpp
-/// Start Default Config Data //////////////////
-
-/*
-#define SSID_MAX_LEN      32
-//From v1.0.3, WPA2 passwords can be up to 63 characters long.
-#define PASS_MAX_LEN      64
-
-typedef struct
-{
-  char wifi_ssid[SSID_MAX_LEN];
-  char wifi_pw  [PASS_MAX_LEN];
-}  WiFi_Credentials;
-
-#define NUM_WIFI_CREDENTIALS      2
-
-// Configurable items besides fixed Header, just add board_name 
-#define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ) + 1 )
-////////////////
-
-typedef struct Configuration
-{
-  char header         [16];
-  WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  char board_name     [24];
-  int  checkSum;
-} WiFiNINA_Configuration;
-*/
-
-#define TO_LOAD_DEFAULT_CONFIG_DATA      true
-
-#if TO_LOAD_DEFAULT_CONFIG_DATA
-
-// This feature is primarily used in development to force a known set of values as Config Data
-// It will NOT force the Config Portal to activate. Use DRD or erase Config Data with Blynk.clearConfigData()
-
-// Used mostly for development and debugging. FORCES default values to be loaded each run.
-// Config Portal data input will be ignored and overridden by DEFAULT_CONFIG_DATA
-//bool LOAD_DEFAULT_CONFIG_DATA = true;
-
-// Used mostly once debugged. Assumes good data already saved in device.
-// Config Portal data input will be override DEFAULT_CONFIG_DATA
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-
-WiFiNINA_Configuration defaultConfig =
-{
-  //char header[16], dummy, not used
-  "WIFININA",
-  // WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  // WiFi_Credentials.wifi_ssid and WiFi_Credentials.wifi_pw
-  "SSID1",  "password1",
-  "SSID2",  "password2",
-  //char board_name     [24];
-  "Air-Control",
-  // terminate the list
-  //int  checkSum, dummy, not used
-  0
-  /////////// End Default Config Data /////////////
-};
-
-#else
-
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-
-WiFiNINA_Configuration defaultConfig;
-
-#endif    // TO_LOAD_DEFAULT_CONFIG_DATA
-
-/////////// End Default Config Data /////////////
-```
-
-### How to add dynamic parameters from sketch
-
-Example of [Default dynamicParams](examples/SAMD_WiFiNINA/dynamicParams.h)
-
-- To add custom parameters, just modify the example below
-
-```
-#define USE_DYNAMIC_PARAMETERS      true
-
-/////////////// Start dynamic Credentials ///////////////
-
-//Defined in <WiFiManager_NINA_Lite_SAMD.h>
-/**************************************
-  #define MAX_ID_LEN                5
-  #define MAX_DISPLAY_NAME_LEN      16
-
-  typedef struct
-  {
-  char id             [MAX_ID_LEN + 1];
-  char displayName    [MAX_DISPLAY_NAME_LEN + 1];
-  char *pdata;
-  uint8_t maxlen;
-  } MenuItem;
-**************************************/
-
-#if USE_DYNAMIC_PARAMETERS
-
-#define MAX_BLYNK_SERVER_LEN      34
-#define MAX_BLYNK_TOKEN_LEN       34
-
-char Blynk_Server1 [MAX_BLYNK_SERVER_LEN + 1]  = "account.duckdns.org";
-char Blynk_Token1  [MAX_BLYNK_TOKEN_LEN + 1]   = "token1";
-
-char Blynk_Server2 [MAX_BLYNK_SERVER_LEN + 1]  = "account.ddns.net";
-char Blynk_Token2  [MAX_BLYNK_TOKEN_LEN + 1]   = "token2";
-
-#define MAX_BLYNK_PORT_LEN        6
-char Blynk_Port   [MAX_BLYNK_PORT_LEN + 1]  = "8080";
-
-#define MAX_MQTT_SERVER_LEN      34
-char MQTT_Server  [MAX_MQTT_SERVER_LEN + 1]   = "mqtt.duckdns.org";
-
-MenuItem myMenuItems [] =
-{
-  { "sv1", "Blynk Server1", Blynk_Server1,  MAX_BLYNK_SERVER_LEN },
-  { "tk1", "Token1",        Blynk_Token1,   MAX_BLYNK_TOKEN_LEN },
-  { "sv2", "Blynk Server2", Blynk_Server2,  MAX_BLYNK_SERVER_LEN },
-  { "tk2", "Token2",        Blynk_Token2,   MAX_BLYNK_TOKEN_LEN },
-  { "pt", "Port",           Blynk_Port,     MAX_BLYNK_PORT_LEN },
-  { "mq", "MQTT Server",    MQTT_Server,    MAX_MQTT_SERVER_LEN },
-};
-
-uint16_t NUM_MENU_ITEMS = sizeof(myMenuItems) / sizeof(MenuItem);  //MenuItemSize;
-
-#else
-
-MenuItem myMenuItems [] = {};
-
-uint16_t NUM_MENU_ITEMS = 0;
-
-#endif    //USE_DYNAMIC_PARAMETERS
-
-```
-- If you don't need to add dynamic parameters, use the following in sketch
-
-```
-#define USE_DYNAMIC_PARAMETERS     false
-```
-
-or
-
-```
-/////////////// Start dynamic Credentials ///////////////
-
-MenuItem myMenuItems [] = {};
-
-uint16_t NUM_MENU_ITEMS = 0;
-/////// // End dynamic Credentials ///////////
-
-```
----
-
-### Important Notes for using Dynamic Parameters' ids
-
-1. These ids (such as "mqtt" in example) must be **unique**.
-
-Please be noted that the following **reserved names are already used in library**:
-
-```
-"id"    for WiFi SSID
-"pw"    for WiFi PW
-"id1"   for WiFi1 SSID
-"pw1"   for WiFi1 PW
-"nm"    for Board Name
-```
----
----
-
-### Example [SAMD_WiFiNINA](examples/SAMD_WiFiNINA)
-
-Please take a look at other examples, as well.
-
-#### 1. File [SAMD_WiFiNINA.ino](examples/SAMD_WiFiNINA/SAMD_WiFiNINA.ino)
+### 1. File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
 
 ```cpp
 #include "defines.h"
-#include "Credentials.h"
-#include "dynamicParams.h"
+#include "arduino_secrets.h"
 
-void heartBeatPrint(void)
-{
-  static int num = 1;
+#include <SPI.h>
+#include <WiFiNINA_Generic.h>
 
-  if (WiFi.status() == WL_CONNECTED)
-    Serial.print("H");        // H means connected to WiFi
-  else
-    Serial.print("F");        // F means not connected to WiFi
+///////please enter your sensitive data in the Secret tab/arduino_secrets.h
+char ssid[] = SECRET_SSID;        // your network SSID (name)
+char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
 
-  if (num == 80)
-  {
-    Serial.println();
-    num = 1;
-  }
-  else if (num++ % 10 == 0)
-  {
-    Serial.print(" ");
-  }
-}
+int keyIndex = 0;                 // your network key Index number (needed only for WEP)
 
-void check_status()
-{
-  static unsigned long checkstatus_timeout = 0;
+int status = WL_IDLE_STATUS;
 
-  //KH
-#define HEARTBEAT_INTERVAL    20000L
-  // Print hearbeat every HEARTBEAT_INTERVAL (20) seconds.
-  if ((millis() > checkstatus_timeout) || (checkstatus_timeout == 0))
-  {
-    heartBeatPrint();
-    checkstatus_timeout = millis() + HEARTBEAT_INTERVAL;
-  }
-}
-
-WiFiManager_NINA_Lite* WiFiManager_NINA;
+WiFiServer server(80);
 
 void setup()
 {
-  // Debug console
+  //Initialize serial and wait for port to open:
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart SAMD_WiFiNINA on " + String(BOARD_TYPE));
+  Serial.println("\nStart WiFiWebServer on " + String(BOARD_NAME));
+  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
 
-
-  WiFiManager_NINA = new WiFiManager_NINA_Lite();
-
-  // Optional to change default AP IP(192.168.4.1) and channel(10)
-  //WiFiManager_NINA->setConfigPortalIP(IPAddress(192, 168, 120, 1));
-  //WiFiManager_NINA->setConfigPortalChannel(1);
-
-  // Set customized DHCP HostName
-  WiFiManager_NINA->begin(HOST_NAME);
-  //Or use default Hostname "SAMD-WiFiNINA-XXXXXX"
-  //WiFiManager_NINA->begin();
-  
-}
-
-#if USE_DYNAMIC_PARAMETERS
-void displayCredentials(void)
-{
-  Serial.println("\nYour stored Credentials :");
-
-  for (int i = 0; i < NUM_MENU_ITEMS; i++)
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println(String(myMenuItems[i].displayName) + " = " + myMenuItems[i].pdata);
+    Serial.println("Communication with WiFi module failed!");
+    // don't continue
+    while (true);
   }
+
+  String fv = WiFi.firmwareVersion();
+
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION)
+  {
+    Serial.print("Your current firmware NINA FW v");
+    Serial.println(fv);
+    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
+  }
+
+  // attempt to connect to Wifi network:
+  while (status != WL_CONNECTED)
+  {
+    Serial.print("Attempting to connect to SSID: ");
+    Serial.println(ssid);
+    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    status = WiFi.begin(ssid, pass);
+
+    // wait 10 seconds for connection:
+    //delay(10000);
+  }
+
+  server.begin();
+  // you're connected now, so print out the status:
+  printWifiStatus();
 }
-#endif
 
 void loop()
 {
-  WiFiManager_NINA->run();
-  check_status();
-
-#if USE_DYNAMIC_PARAMETERS
-  static bool displayedCredentials = false;
-
-  if (!displayedCredentials)
+  // listen for incoming clients
+  WiFiClient client = server.available();
+  if (client)
   {
-    for (int i = 0; i < NUM_MENU_ITEMS; i++)
+    Serial.println("new client");
+    // an http request ends with a blank line
+    boolean currentLineIsBlank = true;
+    while (client.connected()) 
     {
-      if (!strlen(myMenuItems[i].pdata))
+      if (client.available()) 
       {
-        break;
-      }
-
-      if ( i == (NUM_MENU_ITEMS - 1) )
-      {
-        displayedCredentials = true;
-        displayCredentials();
+        char c = client.read();
+        Serial.write(c);
+        // if you've gotten to the end of the line (received a newline
+        // character) and the line is blank, the http request has ended,
+        // so you can send a reply
+        if (c == '\n' && currentLineIsBlank) 
+        {
+          // send a standard http response header
+          client.println("HTTP/1.1 200 OK");
+          client.println("Content-Type: text/html");
+          client.println("Connection: close");  // the connection will be closed after completion of the response
+          client.println("Refresh: 5");  // refresh the page automatically every 5 sec
+          client.println();
+          client.println("<!DOCTYPE HTML>");
+          client.println("<html>");
+          
+          // output the value of each analog input pin
+          for (int analogChannel = 0; analogChannel < 6; analogChannel++) 
+          {
+            int sensorReading = analogRead(analogChannel);
+            client.print("analog input ");
+            client.print(analogChannel);
+            client.print(" is ");
+            client.print(sensorReading);
+            client.println("<br />");
+          }
+          client.println("</html>");
+          break;
+        }
+        
+        if (c == '\n') 
+        {
+          // you're starting a new line
+          currentLineIsBlank = true;
+        } 
+        else if (c != '\r') 
+        {
+          // you've gotten a character on the current line
+          currentLineIsBlank = false;
+        }
       }
     }
+    // give the web browser time to receive the data
+    delay(1);
+
+    // close the connection:
+    client.stop();
+    Serial.println("client disconnected");
   }
-#endif
+}
+
+
+void printWifiStatus() 
+{
+  // print the SSID of the network you're attached to:
+  Serial.print("SSID: ");
+  Serial.println(WiFi.SSID());
+
+  // print your board's IP address:
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+
+  // print the received signal strength:
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
 }
 ```
----
 
-#### 2. File [defines.h](examples/SAMD_WiFiNINA/defines.h)
+### 2. File [defines.h](examples/WiFiWebServer/defines.h)
 
 ```cpp
 #ifndef defines_h
 #define defines_h
 
-/* Comment this out to disable prints and save space */
-#define DEBUG_WIFI_WEBSERVER_PORT Serial
-#define WIFININA_DEBUG_OUTPUT     Serial
-
-#define WIFININA_DEBUG            true
-
-#define DRD_GENERIC_DEBUG         true
-
 #if    ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
       || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
       || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) \
       || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
-      || defined(__SAMD51G19A__) || defined(__SAMD21G18A__) )
-#if defined(WIFININA_USE_SAMD)
-#undef WIFININA_USE_SAMD
-#undef WIFI_USE_SAMD
-#endif
-#define WIFININA_USE_SAMD      true
-#define WIFI_USE_SAMD          true
-#else
-#error This code is intended to run only on the SAMD boards ! Please check your Tools->Board setting.
+      || defined(__SAMD51G19A__) || defined(__SAMD51P19A__) || defined(__SAMD21G18A__) )
+  #if defined(WIFININA_USE_SAMD)
+    #undef WIFININA_USE_SAMD
+  #endif
+  #define WIFININA_USE_SAMD      true
 #endif
 
 #if defined(WIFININA_USE_SAMD)
 
-#if defined(ARDUINO_SAMD_ZERO)
-#define BOARD_TYPE      "SAMD Zero"
-#elif defined(ARDUINO_SAMD_MKR1000)
-#define BOARD_TYPE      "SAMD MKR1000"
-#elif defined(ARDUINO_SAMD_MKRWIFI1010)
-#define BOARD_TYPE      "SAMD MKRWIFI1010"
-#elif defined(ARDUINO_SAMD_NANO_33_IOT)
-#define BOARD_TYPE      "SAMD NANO_33_IOT"
-#elif defined(ARDUINO_SAMD_MKRFox1200)
-#define BOARD_TYPE      "SAMD MKRFox1200"
-#elif ( defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) )
-#define BOARD_TYPE      "SAMD MKRWAN13X0"
-#elif defined(ARDUINO_SAMD_MKRGSM1400)
-#define BOARD_TYPE      "SAMD MKRGSM1400"
-#elif defined(ARDUINO_SAMD_MKRNB1500)
-#define BOARD_TYPE      "SAMD MKRNB1500"
-#elif defined(ARDUINO_SAMD_MKRVIDOR4000)
-#define BOARD_TYPE      "SAMD MKRVIDOR4000"
-#elif defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS)
-#define BOARD_TYPE      "SAMD ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS"
-#elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-#define BOARD_TYPE      "SAMD ADAFRUIT_ITSYBITSY_M4_EXPRESS"
-#elif defined(__SAMD21E18A__)
-#define BOARD_TYPE      "SAMD21E18A"
-#elif defined(__SAMD21G18A__)
-#define BOARD_TYPE      "SAMD21G18A"
-#elif defined(__SAMD51G19A__)
-#define BOARD_TYPE      "SAMD51G19A"
-#elif defined(__SAMD51J19A__)
-#define BOARD_TYPE      "SAMD51J19A"
-#elif defined(__SAMD51J20A__)
-#define BOARD_TYPE      "SAMD51J20A"
-#elif defined(__SAM3X8E__)
-#define BOARD_TYPE      "SAM3X8E"
-#elif defined(__CPU_ARC__)
-#define BOARD_TYPE      "CPU_ARC"
-#elif defined(__SAMD51__)
-#define BOARD_TYPE      "SAMD51"
-#else
-#define BOARD_TYPE      "SAMD Unknown"
-#endif
+  #if defined(ARDUINO_SAMD_ZERO)
+  #define BOARD_TYPE      "SAMD Zero"
+  #elif defined(ARDUINO_SAMD_MKR1000)
+  #define BOARD_TYPE      "SAMD MKR1000"
+  #elif defined(ARDUINO_SAMD_MKRWIFI1010)
+  #define BOARD_TYPE      "SAMD MKRWIFI1010"
+  #elif defined(ARDUINO_SAMD_NANO_33_IOT)
+  #define BOARD_TYPE      "SAMD NANO_33_IOT"
+  #elif defined(ARDUINO_SAMD_MKRFox1200)
+  #define BOARD_TYPE      "SAMD MKRFox1200"
+  #elif ( defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) )
+  #define BOARD_TYPE      "SAMD MKRWAN13X0"
+  #elif defined(ARDUINO_SAMD_MKRGSM1400)
+  #define BOARD_TYPE      "SAMD MKRGSM1400"
+  #elif defined(ARDUINO_SAMD_MKRNB1500)
+  #define BOARD_TYPE      "SAMD MKRNB1500"
+  #elif defined(ARDUINO_SAMD_MKRVIDOR4000)
+  #define BOARD_TYPE      "SAMD MKRVIDOR4000"
+  #elif defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS)
+  #define BOARD_TYPE      "SAMD ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS"
+  #elif defined(ADAFRUIT_FEATHER_M0_EXPRESS)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_FEATHER_M0_EXPRESS"
+  #elif defined(ADAFRUIT_METRO_M0_EXPRESS)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_METRO_M0_EXPRESS"
+  #elif defined(ADAFRUIT_CIRCUITPLAYGROUND_M0)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_CIRCUITPLAYGROUND_M0"
+  #elif defined(ADAFRUIT_GEMMA_M0)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_GEMMA_M0"
+  #elif defined(ADAFRUIT_TRINKET_M0)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_TRINKET_M0"
+  #elif defined(ADAFRUIT_ITSYBITSY_M0)
+  #define BOARD_TYPE      "SAMD21 ADAFRUIT_ITSYBITSY_M0"
+  #elif defined(ARDUINO_SAMD_HALLOWING_M0)
+  #define BOARD_TYPE      "SAMD21 ARDUINO_SAMD_HALLOWING_M0"
+  #elif defined(ADAFRUIT_METRO_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_EXPRESS"
+  #elif defined(ADAFRUIT_GRAND_CENTRAL_M4)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_GRAND_CENTRAL_M4"
+  #elif defined(ADAFRUIT_FEATHER_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_FEATHER_M4_EXPRESS"
+  #elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_ITSYBITSY_M4_EXPRESS"
+  #elif defined(ADAFRUIT_TRELLIS_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_TRELLIS_M4_EXPRESS"
+  #elif defined(ADAFRUIT_PYPORTAL)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL"
+  #elif defined(ADAFRUIT_PYPORTAL_M4_TITANO)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL_M4_TITANO"
+  #elif defined(ADAFRUIT_PYBADGE_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_M4_EXPRESS"
+  #elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_AIRLIFT_LITE"
+  #elif defined(ADAFRUIT_PYGAMER_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_M4_EXPRESS"
+  #elif defined(ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS"
+  #elif defined(ADAFRUIT_PYBADGE_AIRLIFT_M4)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_AIRLIFT_M4"
+  #elif defined(ADAFRUIT_MONSTER_M4SK_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_MONSTER_M4SK_EXPRESS"
+  #elif defined(ADAFRUIT_HALLOWING_M4_EXPRESS)
+  #define BOARD_TYPE      "SAMD51 ADAFRUIT_HALLOWING_M4_EXPRESS"
+  #elif defined(SEEED_WIO_TERMINAL)
+  #define BOARD_TYPE      "SAMD SEEED_WIO_TERMINAL"
+  #elif defined(SEEED_FEMTO_M0)
+  #define BOARD_TYPE      "SAMD SEEED_FEMTO_M0"
+  #elif defined(SEEED_XIAO_M0)
+  #define BOARD_TYPE      "SAMD SEEED_XIAO_M0"
+  #elif defined(Wio_Lite_MG126)
+  #define BOARD_TYPE      "SAMD SEEED Wio_Lite_MG126"
+  #elif defined(WIO_GPS_BOARD)
+  #define BOARD_TYPE      "SAMD SEEED WIO_GPS_BOARD"
+  #elif defined(SEEEDUINO_ZERO)
+  #define BOARD_TYPE      "SAMD SEEEDUINO_ZERO"
+  #elif defined(SEEEDUINO_LORAWAN)
+  #define BOARD_TYPE      "SAMD SEEEDUINO_LORAWAN"
+  #elif defined(SEEED_GROVE_UI_WIRELESS)
+  #define BOARD_TYPE      "SAMD SEEED_GROVE_UI_WIRELESS"
+  #elif defined(__SAMD21E18A__)
+  #define BOARD_TYPE      "SAMD21E18A"
+  #elif defined(__SAMD21G18A__)
+  #define BOARD_TYPE      "SAMD21G18A"
+  #elif defined(__SAMD51G19A__)
+  #define BOARD_TYPE      "SAMD51G19A"
+  #elif defined(__SAMD51J19A__)
+  #define BOARD_TYPE      "SAMD51J19A"
+  #elif defined(__SAMD51P19A__)
+  #define BOARD_TYPE      "__SAMD51P19A__"
+  #elif defined(__SAMD51J20A__)
+  #define BOARD_TYPE      "SAMD51J20A"
+  #elif defined(__SAM3X8E__)
+  #define BOARD_TYPE      "SAM3X8E"
+  #elif defined(__CPU_ARC__)
+  #define BOARD_TYPE      "CPU_ARC"
+  #elif defined(__SAMD51__)
+  #define BOARD_TYPE      "SAMD51"
+  #else
+  #define BOARD_TYPE      "SAMD Unknown"
+  #endif
 
 #endif
 
-// Start location in EEPROM to store config data. Default 0
-// Config data Size currently is 128 bytes)
-#define EEPROM_START      0
-#define EEPROM_SIZE       (2 * 1024)
+#if ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
+      defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
+      defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) || defined(NINA_B302_ublox) || defined(NINA_B112_ublox) )
+  #if defined(WIFININA_USE_NRF52)
+    #undef WIFININA_USE_NRF52
+  #endif
+  #define WIFININA_USE_NRF52     true
+#endif
 
-#include "WiFiNINA_Pinout_Generic.h"
+#if defined(WIFININA_USE_NRF52)
 
-#include <WiFiManager_NINA_Lite_SAMD.h>
+  #if defined(NRF52840_FEATHER)
+  #define BOARD_TYPE      "NRF52840_FEATHER_EXPRESS"
+  #elif defined(NRF52832_FEATHER)
+  #define BOARD_TYPE      "NRF52832_FEATHER"
+  #elif defined(NRF52840_FEATHER_SENSE)
+  #define BOARD_TYPE      "NRF52840_FEATHER_SENSE"
+  #elif defined(NRF52840_ITSYBITSY)
+  #define BOARD_TYPE      "NRF52840_ITSYBITSY_EXPRESS"
+  #elif defined(NRF52840_CIRCUITPLAY)
+  #define BOARD_TYPE      "NRF52840_CIRCUIT_PLAYGROUND"
+  #elif defined(NRF52840_CLUE)
+  #define BOARD_TYPE      "NRF52840_CLUE"
+  #elif defined(NRF52840_METRO)
+  #define BOARD_TYPE      "NRF52840_METRO_EXPRESS"
+  #elif defined(NRF52840_PCA10056)
+  #define BOARD_TYPE      "NORDIC_NRF52840DK"
+  #elif defined(NINA_B302_ublox)
+  #define BOARD_TYPE      "NINA_B302_ublox"
+  #elif defined(NINA_B112_ublox)
+  #define BOARD_TYPE      "NINA_B112_ublox"
+  #elif defined(PARTICLE_XENON)
+  #define BOARD_TYPE      "PARTICLE_XENON"
+  #elif defined(MDBT50Q_RX)
+  #define BOARD_TYPE      "RAYTAC_MDBT50Q_RX"
+  #elif defined(ARDUINO_NRF52_ADAFRUIT)
+  #define BOARD_TYPE      "ARDUINO_NRF52_ADAFRUIT"
+  #else
+  #define BOARD_TYPE      "nRF52 Unknown"
+  #endif
 
-#define HOST_NAME   "SAMD-Master-Controller"
+#endif
+
+#if ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
+  #if defined(WIFININA_USE_SAMDUE)
+    #undef WIFININA_USE_SAMDUE
+  #endif
+  #define WIFININA_USE_SAMDUE      true
+#endif
+
+#if defined(WIFININA_USE_SAMDUE)
+
+  // For SAM DUE
+  #if defined(ARDUINO_SAM_DUE)
+  #define BOARD_TYPE      "SAM DUE"
+  #elif defined(__SAM3X8E__)
+  #define BOARD_TYPE      "SAM SAM3X8E"
+  #else
+  #define BOARD_TYPE      "SAM Unknown"
+  #endif
+
+#endif
+
+#if ( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
+       defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
+       defined(STM32WB) || defined(STM32MP1) )
+#if defined(WIFININA_USE_STM32)
+#undef WIFININA_USE_STM32
+#endif
+#define WIFININA_USE_STM32      true
+#endif
+
+#if defined(WIFININA_USE_STM32)
+  #if defined(STM32F0)
+  #warning STM32F0 board selected
+  #define BOARD_TYPE  "STM32F0"
+  #elif defined(STM32F1)
+  #warning STM32F1 board selected
+  #define BOARD_TYPE  "STM32F1"
+  #elif defined(STM32F2)
+  #warning STM32F2 board selected
+  #define BOARD_TYPE  "STM32F2"
+  #elif defined(STM32F3)
+  #warning STM32F3 board selected
+  #define BOARD_TYPE  "STM32F3"
+  #elif defined(STM32F4)
+  #warning STM32F4 board selected
+  #define BOARD_TYPE  "STM32F4"
+  #elif defined(STM32F7)
+  #warning STM32F7 board selected
+  #define BOARD_TYPE  "STM32F7"
+  #elif defined(STM32L0)
+  #warning STM32L0 board selected
+  #define BOARD_TYPE  "STM32L0"
+  #elif defined(STM32L1)
+  #warning STM32L1 board selected
+  #define BOARD_TYPE  "STM32L1"
+  #elif defined(STM32L4)
+  #warning STM32L4 board selected
+  #define BOARD_TYPE  "STM32L4"
+  #elif defined(STM32H7)
+  #warning STM32H7 board selected
+  #define BOARD_TYPE  "STM32H7"
+  #elif defined(STM32G0)
+  #warning STM32G0 board selected
+  #define BOARD_TYPE  "STM32G0"
+  #elif defined(STM32G4)
+  #warning STM32G4 board selected
+  #define BOARD_TYPE  "STM32G4"
+  #elif defined(STM32WB)
+  #warning STM32WB board selected
+  #define BOARD_TYPE  "STM32WB"
+  #elif defined(STM32MP1)
+  #warning STM32MP1 board selected
+  #define BOARD_TYPE  "STM32MP1"
+  #else
+  #warning STM32 unknown board selected
+  #define BOARD_TYPE  "STM32 Unknown"
+  #endif
+
+#endif
+
+#ifdef CORE_TEENSY
+
+  #if defined(WIFININA_USE_TEENSY)
+    #undef WIFININA_USE_TEENSY
+  #endif
+  #define WIFININA_USE_TEENSY      true
+  
+  #if defined(__IMXRT1062__)
+  // For Teensy 4.1/4.0
+  #define BOARD_TYPE      "TEENSY 4.1/4.0"
+  #elif defined(__MK66FX1M0__)
+  #define BOARD_TYPE "Teensy 3.6"
+  #elif defined(__MK64FX512__)
+  #define BOARD_TYPE "Teensy 3.5"
+  #elif defined(__MKL26Z64__)
+  #define BOARD_TYPE "Teensy LC"
+  #elif defined(__MK20DX256__)
+  #define BOARD_TYPE "Teensy 3.2" // and Teensy 3.1 (obsolete)
+  #elif defined(__MK20DX128__)
+  #define BOARD_TYPE "Teensy 3.0"
+  #elif defined(__AVR_AT90USB1286__)
+  #error Teensy 2.0++ not supported yet
+  #elif defined(__AVR_ATmega32U4__)
+  #error Teensy 2.0 not supported yet
+  #else
+  // For Other Boards
+  #define BOARD_TYPE      "Unknown Teensy Board"
+  #endif
+
+#endif
+
+#ifndef BOARD_NAME
+  #define BOARD_NAME    BOARD_TYPE
+#endif
+
+#define DEBUG_WIFININA_PORT     Serial
+// Debug Level from 0 to 4
+#define _WIFININA_LOGLEVEL_     1
 
 #endif      //defines_h
+
 ```
+
+---
 ---
 
-#### 3. File [Credentials.h](examples/SAMD_WiFiNINA/Credentials.h)
+### Debug Terminal Output Samples
+
+The following are screen shot and debug terminal output when running example [AdvancedWebServer](https://github.com/khoih-prog/WiFiWebServer/tree/master/examples/AdvancedWebServer) on Arduino SAMD21 Nano-33-IoT board using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic)
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/pics/AdvancedWebServer.png">
+</p>
+
+
+```
+Starting AdvancedServer on SAMD_NANO_33_IOT
+Version 1.8.0
+[NN] ===============================
+[NN] 
+Used/default SPI pinout: 
+[NN] MOSI:  11
+[NN] MISO:  12
+[NN] SCK:  13
+[NN] SS:  10
+[NN] ===============================
+[NN] 
+Used/default NINA pinout: 
+[NN] NINA_GPIO0:  26
+[NN] NINA_RESETN/SPIWIFI_RESET:  27
+[NN] NINA_ACK:  28
+[NN] SS:  10
+[NN] ===============================
+[NN] 
+Actual final pinout to used: 
+[NN] SPIWIFI_SS:  24
+[NN] SLAVESELECT/SPIWIFI_SS:  24
+[NN] SLAVEREADY/SPIWIFI_ACK/NINA_ACK:  28
+[NN] SLAVERESET/SPIWIFI_RESET/NINA_RESETN:  27
+[NN] ===============================
+
+Connecting to WPA SSID: HueNet1
+HTTP server started @ 192.168.2.118
+WiFiWebServer::handleClient: New Client
+method:  GET
+url:  /
+search:
+headerName: Host
+headerValue: 192.168.2.118
+headerName: Connection
+headerValue: keep-alive
+headerName: Cache-Control
+headerValue: max-age=0
+headerName: DNT
+headerValue: 1
+headerName: Upgrade-Insecure-Requests
+headerValue: 1
+headerName: User-Agent
+headerValue: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36
+headerName: Accept
+headerValue: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+headerName: Accept-Encoding
+headerValue: gzip, deflate
+headerName: Accept-Language
+headerValue: en-GB,en-US;q=0.9,en;q=0.8
+headerName: Cookie
+headerValue: NINASESSIONID=0
+args:
+args count:  0
+args:
+args count:  0
+Request: /
+Arguments: 
+Final list of key/value pairs:
+WiFiWebServer::_handleRequest handle
+WiFiWebServer::send1: len =  330
+content =  <html><head><meta http-equiv='refresh' content='5'/><title>WiFiNINA SAMD_NANO_33_IOT</title><style>body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style></head><body><h1>Hello from WiFiNINA</h1><h2>on SAMD_NANO_33_IOT</h2><p>Uptime: 00:00:20</p><img src="/test.svg" /></body></html>
+WiFiWebServer::_prepareHeader sendHeader Conn close
+WiFiWebServer::send1: write header =  HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 330
+Connection: close
+
+
+WiFiWebServer::sendContent: Client.write content:  <html><head><meta http-equiv='refresh' content='5'/><title>WiFiNINA SAMD_NANO_33_IOT</title><style>body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style></head><body><h1>Hello from WiFiNINA</h1><h2>on SAMD_NANO_33_IOT</h2><p>Uptime: 00:00:20</p><img src="/test.svg" /></body></html>
+WiFiWebServer::_handleRequest OK
+WiFiWebServer::handleClient: Client disconnected
+WiFiWebServer::handleClient: Don't keepCurrentClient
+WiFiWebServer::handleClient: Client disconnected
+WiFiWebServer::handleClient: New Client
+method:  GET
+url:  /test.svg
+search:
+headerName: Host
+headerValue: 192.168.2.118
+headerName: Connection
+headerValue: keep-alive
+headerName: User-Agent
+headerValue: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36
+headerName: DNT
+headerValue: 1
+headerName: Accept
+headerValue: image/webp,image/apng,image/*,*/*;q=0.8
+headerName: Referer
+headerValue: http://192.168.2.118/
+headerName: Accept-Encoding
+headerValue: gzip, deflate
+headerName: Accept-Language
+headerValue: en-GB,en-US;q=0.9,en;q=0.8
+headerName: Cookie
+headerValue: NINASESSIONID=0
+args:
+args count:  0
+args:
+args count:  0
+Request: /test.svg
+Arguments: 
+Final list of key/value pairs:
+WiFiWebServer::_handleRequest handle
+WiFiWebServer::send1: len =  1946
+content =  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="310" height="150">
+<rect width="310" height="150" fill="rgb(250, 230, 210)" stroke-width="1" stroke="rgb(0, 0, 0)" />
+<g stroke="black">
+<line x1="10" y1="77" x2="20" y2="67" stroke-width="1" />
+<line x1="20" y1="67" x2="30" y2="98" stroke-width="1" />
+<line x1="30" y1="98" x2="40" y2="111" stroke-width="1" />
+<line x1="40" y1="111" x2="50" y2="90" stroke-width="1" />
+<line x1="50" y1="90" x2="60" y2="22" stroke-width="1" />
+<line x1="60" y1="22" x2="70" y2="98" stroke-width="1" />
+<line x1="70" y1="98" x2="80" y2="64" stroke-width="1" />
+<line x1="80" y1="64" x2="90" y2="104" stroke-width="1" />
+<line x1="90" y1="104" x2="100" y2="31" stroke-width="1" />
+<line x1="100" y1="31" x2="110" y2="59" stroke-width="1" />
+<line x1="110" y1="59" x2="120" y2="139" stroke-width="1" />
+<line x1="120" y1="139" x2="130" y2="117" stroke-width="1" />
+<line x1="130" y1="117" x2="140" y2="75" stroke-width="1" />
+<line x1="140" y1="75" x2="150" y2="72" stroke-width="1" />
+<line x1="150" y1="72" x2="160" y2="137" stroke-width="1" />
+<line x1="160" y1="137" x2="170" y2="20" stroke-width="1" />
+<line x1="170" y1="20" x2="180" y2="94" stroke-width="1" />
+<line x1="180" y1="94" x2="190" y2="81" stroke-width="1" />
+<line x1="190" y1="81" x2="200" y2="38" stroke-width="1" />
+<line x1="200" y1="38" x2="210" y2="33" stroke-width="1" />
+<line x1="210" y1="33" x2="220" y2="53" stroke-width="1" />
+<line x1="220" y1="53" x2="230" y2="88" stroke-width="1" />
+<line x1="230" y1="88" x2="240" y2="32" stroke-width="1" />
+<line x1="240" y1="32" x2="250" y2="110" stroke-width="1" />
+<line x1="250" y1="110" x2="260" y2="87" stroke-width="1" />
+<line x1="260" y1="87" x2="270" y2="11" stroke-width="1" />
+<line x1="270" y1="11" x2="280" y2="98" stroke-width="1" />
+<line x1="280" y1="98" x2="290" y2="76" stroke-width="1" />
+<line x1="290" y1="76" x2="300" y2="121" stroke-width="1" />
+</g>
+</svg>
+
+WiFiWebServer::_prepareHeader sendHeader Conn close
+WiFiWebServer::send1: write header =  HTTP/1.1 200 OK
+Content-Type: image/svg+xml
+Content-Length: 1946
+Connection: close
+```
+
+---
+
+### Debug
+
+Debug is enabled by default on Serial. Debug Level from 0 to 4. To disable, change the _WEBSOCKETS_LOGLEVEL_ to 0
 
 ```cpp
-#ifndef Credentials_h
-#define Credentials_h
-
-#include "defines.h"
-
-/// Start Default Config Data //////////////////
-
-/*
-#define SSID_MAX_LEN      32
-//From v1.0.3, WPA2 passwords can be up to 63 characters long.
-#define PASS_MAX_LEN      64
-
-typedef struct
-{
-  char wifi_ssid[SSID_MAX_LEN];
-  char wifi_pw  [PASS_MAX_LEN];
-}  WiFi_Credentials;
-
-#define NUM_WIFI_CREDENTIALS      2
-
-// Configurable items besides fixed Header, just add board_name 
-#define NUM_CONFIGURABLE_ITEMS    ( ( 2 * NUM_WIFI_CREDENTIALS ) + 1 )
-////////////////
-
-typedef struct Configuration
-{
-  char header         [16];
-  WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  char board_name     [24];
-  int  checkSum;
-} WiFiNINA_Configuration;
-*/
-
-#define TO_LOAD_DEFAULT_CONFIG_DATA      true
-
-#if TO_LOAD_DEFAULT_CONFIG_DATA
-
-// This feature is primarily used in development to force a known set of values as Config Data
-// It will NOT force the Config Portal to activate. Use DRD or erase Config Data with Blynk.clearConfigData()
-
-// Used mostly for development and debugging. FORCES default values to be loaded each run.
-// Config Portal data input will be ignored and overridden by DEFAULT_CONFIG_DATA
-//bool LOAD_DEFAULT_CONFIG_DATA = true;
-
-// Used mostly once debugged. Assumes good data already saved in device.
-// Config Portal data input will be override DEFAULT_CONFIG_DATA
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-
-WiFiNINA_Configuration defaultConfig =
-{
-  //char header[16], dummy, not used
-  "WIFININA",
-  // WiFi_Credentials  WiFi_Creds  [NUM_WIFI_CREDENTIALS];
-  // WiFi_Credentials.wifi_ssid and WiFi_Credentials.wifi_pw
-  "SSID1",  "password1",
-  "SSID2",  "password2",
-  //char board_name     [24];
-  "SAMD-Control",
-  // terminate the list
-  //int  checkSum, dummy, not used
-  0
-  /////////// End Default Config Data /////////////
-};
-
-#else
-
-bool LOAD_DEFAULT_CONFIG_DATA = false;
-
-WiFiNINA_Configuration defaultConfig;
-
-#endif    // TO_LOAD_DEFAULT_CONFIG_DATA
-
-/////////// End Default Config Data /////////////
-
-
-#endif    //Credentials_h
+// Use this to output debug msgs to Serial
+#define DEBUG_WIFININA_PORT       Serial
+// Use this to disable all output debug msgs
+// Debug Level from 0 to 4
+#define _WIFININA_LOGLEVEL_       0
 ```
+
 ---
-
-#### 4. File [dynamicParams.h](examples/SAMD_WiFiNINA/dynamicParams.h)
-
-```cpp
-#ifndef dynamicParams_h
-#define dynamicParams_h
-
-#include "defines.h"
-
-#define USE_DYNAMIC_PARAMETERS      true
-
-/////////////// Start dynamic Credentials ///////////////
-
-//Defined in <WiFiManager_NINA_Lite_SAMD.h>
-/**************************************
-  #define MAX_ID_LEN                5
-  #define MAX_DISPLAY_NAME_LEN      16
-
-  typedef struct
-  {
-  char id             [MAX_ID_LEN + 1];
-  char displayName    [MAX_DISPLAY_NAME_LEN + 1];
-  char *pdata;
-  uint8_t maxlen;
-  } MenuItem;
-**************************************/
-
-#if USE_DYNAMIC_PARAMETERS
-
-#define MAX_BLYNK_SERVER_LEN      34
-#define MAX_BLYNK_TOKEN_LEN       34
-
-char Blynk_Server1 [MAX_BLYNK_SERVER_LEN + 1]  = "account.duckdns.org";
-char Blynk_Token1  [MAX_BLYNK_TOKEN_LEN + 1]   = "token1";
-
-char Blynk_Server2 [MAX_BLYNK_SERVER_LEN + 1]  = "account.ddns.net";
-char Blynk_Token2  [MAX_BLYNK_TOKEN_LEN + 1]   = "token2";
-
-#define MAX_BLYNK_PORT_LEN        6
-char Blynk_Port   [MAX_BLYNK_PORT_LEN + 1]  = "8080";
-
-#define MAX_MQTT_SERVER_LEN      34
-char MQTT_Server  [MAX_MQTT_SERVER_LEN + 1]   = "mqtt.duckdns.org";
-
-MenuItem myMenuItems [] =
-{
-  { "sv1", "Blynk Server1", Blynk_Server1,  MAX_BLYNK_SERVER_LEN },
-  { "tk1", "Token1",        Blynk_Token1,   MAX_BLYNK_TOKEN_LEN },
-  { "sv2", "Blynk Server2", Blynk_Server2,  MAX_BLYNK_SERVER_LEN },
-  { "tk2", "Token2",        Blynk_Token2,   MAX_BLYNK_TOKEN_LEN },
-  { "pt", "Port",           Blynk_Port,     MAX_BLYNK_PORT_LEN },
-  { "mq", "MQTT Server",    MQTT_Server,    MAX_MQTT_SERVER_LEN },
-};
-
-uint16_t NUM_MENU_ITEMS = sizeof(myMenuItems) / sizeof(MenuItem);  //MenuItemSize;
-
-#else
-
-MenuItem myMenuItems [] = {};
-
-uint16_t NUM_MENU_ITEMS = 0;
-
-#endif    //USE_DYNAMIC_PARAMETERS
-
-
-#endif      //dynamicParams_h
-```
----
----
-
-
-### Debug Terminal output Samples
-
-This is the terminal output when running [**SAMD_WiFiNINA**](examples/SAMD_WiFiNINA) example on **Nano-33 IoT**:
-
-#### 1. Open Config Portal
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-Master-Controller
-Flag read = 0xffffffff
-No doubleResetDetected
-SetFlag write = 0xd0d01234
-*NN: ======= Start Default Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: ChkCrR:CrCCsum=0xaf50,CrRCsum=0xffffffff
-*NN: CCSum=0x1360,RCSum=0x0
-*NN: Invalid Stored Dynamic Data. Load default from Sketch
-*NN: SaveEEPROM,sz=1024,Datasz=0,CSum=0x109a
-*NN: CrCCSum=0x1981
-*NN: ======= Start Loaded Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: b:StayInCfgPortal:NoCfgDat
-*NN: SSID=WIFININA_51F485,PW=MyWIFININA_51F485
-*NN: IP=192.168.4.1,CH=10
-WiFi-beginAP3: return1 = 7
-WiFi-beginAP3: return2 = 7
-F
-Your stored Credentials :
-Blynk Server1 = account.duckdns.org
-Token1 = token1
-Blynk Server2 = account.ddns.net
-Token2 = token2
-Port = 8080
-MQTT Server = mqtt.duckdns.org
-Stop doubleResetDetecting
-ClearFlag write = 0xd0d04321
-FFFFFFFFF 
-```
-
-#### 2. Received data from Config Portal
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-WIFININA51F485
-*NN: CrCCSum=44880,CrRCSum=-1
-*NN: CCSum=53040,RCSum=-1
-*NN: InitEEPROM,sz=1024,Datasz=392
-*NN: pdata=blank,len=34
-*NN: pdata=blank,len=34
-*NN: pdata=blank,len=34
-*NN: pdata=blank,len=34
-*NN: pdata=blank,len=6
-*NN: pdata=blank,len=34
-*NN: CrCCSum=3120
-*NN: b:OpenPortal
-*NN: SSID=WIFININA_B18D0F,PW=MyWIFININA_B18D0F
-*NN: IP=192.168.4.1,CH=10
-WiFi-beginAP3: return1 = 7
-WiFi-beginAP3: return2 = 7
-FYour stored Credentials :
-Blynk Server1 = blank
-Token1 = blank
-Blynk Server2 = blank
-Token2 = blank
-Port = blank
-MQTT Server = blank
-FFFFFFFFF 
-*NN: h:sv1=BlynkServer1
-*NN: h:tk1=Token1
-*NN: h:sv2=BlynkServer2
-*NN: h:tk2=Token2
-*NN: h:pt=8080
-*NN: h:mq=mqtt-server
-*NN: h:UpdEEPROM
-*NN: SaveEEPROM,sz=1024,Datasz=392,CSum=3612
-*NN: pdata=BlynkServer1,len=34
-*NN: pdata=Token1,len=34
-*NN: pdata=BlynkServer2,len=34
-*NN: pdata=Token2,len=34
-*NN: pdata=8080,len=6
-*NN: pdata=mqtt-server,len=34
-*NN: CrCCSum=4880
-*NN: h:Rst
-```
-
-#### 3. Got valid Credential from Config Portal, then connected to WiFi
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-Master-Controller
-Flag read = 0xd0d04321
-No doubleResetDetected
-SetFlag write = 0xd0d01234
-*NN: ======= Start Default Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: ChkCrR:CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: CCSum=0x1246,RCSum=0x1246
-*NN: CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: Valid Stored Dynamic Data
-*NN: ======= Start Stored Config Data =======
-*NN: Hdr=WIFININA,SSID=HueNet1,PW=****
-*NN: SSID1=HueNet2,PW1=****
-*NN: BName=Air-Control
-*NN: i=0,id=sv1,data=new_account.duckdns.org
-*NN: i=1,id=tk1,data=new_token1
-*NN: i=2,id=sv2,data=new_account.ddns.net
-*NN: i=3,id=tk2,data=new_token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=new_mqtt.duckdns.org
-*NN: ConMultiWifi
-*NN: con2WF:SSID=HueNet1,PW=****
-*NN: Remaining retry_time=3
-WiFi-begin: return1 = 3
-WiFi-begin: return2 = 3
-*NN: WOK, lastConnectedIndex=0
-*NN: con2WF:OK
-*NN: SSID=HueNet1,RSSI=-21
-*NN: IP=192.168.2.105
-*NN: b:WOK
-Stop doubleResetDetecting
-ClearFlag write = 0xd0d04321
-H
-Your stored Credentials :
-Blynk Server1 = new_account.duckdns.org
-Token1 = new_token1
-Blynk Server2 = new_account.ddns.net
-Token2 = new_token2
-Port = 8080
-MQTT Server = new_mqtt.duckdns.org
-
-HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH
-HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH HHHHHHHHHH
-```
-
-#### 4. Lost a WiFi and autoconnect to another WiFi AP
-
-```
-*NN: r:Check&WLost                      <=== Lost primary WiFi
-*NN: r:WLost.ReconW
-*NN: ConMultiWifi
-*NN: Using index=1, lastConnectedIndex=0
-*NN: con2WF:SSID=HueNet2,PW=****        <=== Connect secondary WiFi
-*NN: Remaining retry_time=2
-WiFi-begin: return1 = 3
-WiFi-begin: return2 = 3
-*NN: WOK, lastConnectedIndex=1
-*NN: con2WF:OK                          <=== Success
-*NN: SSID=HueNet2,RSSI=-48
-*NN: IP=192.168.2.105
-*NN: r:WOK
-HHHHHHHHHH HHHHHHHHHH
-```
-
-#### 5. Reopen Config Portal if can't connect to any of the 2 WiFi APs
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-Master-Controller
-Flag read = 0xd0d04321
-No doubleResetDetected
-SetFlag write = 0xd0d01234
-*NN: ======= Start Default Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: ChkCrR:CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: CCSum=0x1246,RCSum=0x1246
-*NN: CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: Valid Stored Dynamic Data
-*NN: ======= Start Stored Config Data =======
-*NN: Hdr=WIFININA,SSID=HueNet1,PW=****
-*NN: SSID1=HueNet2,PW1=****
-*NN: BName=Air-Control
-*NN: i=0,id=sv1,data=new_account.duckdns.org
-*NN: i=1,id=tk1,data=new_token1
-*NN: i=2,id=sv2,data=new_account.ddns.net
-*NN: i=3,id=tk2,data=new_token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=new_mqtt.duckdns.org
-*NN: ConMultiWifi
-*NN: con2WF:SSID=SSID,PW=password
-*NN: Remaining retry_time=3
-WiFi-begin: return1 = 4
-WiFi-begin: return2 = 4
-*NN: Remaining retry_time=2
-WiFi-begin: return1 = 4
-WiFi-begin: return2 = 4
-*NN: Remaining retry_time=1
-WiFi-begin: return1 = 4
-WiFi-begin: return2 = 4
-*NN: Failed using index=0, retry_time=0
-*NN: con2WF:failed
-*NN: b:NoW
-*NN: SSID=WIFININA_51F485,PW=MyWIFININA_51F485
-*NN: IP=192.168.4.1,CH=10
-WiFi-beginAP3: return1 = 7
-WiFi-beginAP3: return2 = 7
-Stop doubleResetDetecting
-ClearFlag write = 0xd0d04321
-F
-Your stored Credentials :
-Blynk Server1 = new_account.duckdns.org
-Token1 = new_token1
-Blynk Server2 = new_account.ddns.net
-Token2 = new_token2
-Port = 8080
-MQTT Server = new_mqtt.duckdns.org
-FF
-```
-
-#### 6. DRD Not Detected:
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-Master-Controller
-Flag read = 0xd0d04321
-No doubleResetDetected
-SetFlag write = 0xd0d01234
-*NN: ======= Start Default Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: ChkCrR:CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: CCSum=0x1246,RCSum=0x1246
-*NN: CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: Valid Stored Dynamic Data
-*NN: ======= Start Stored Config Data =======
-*NN: Hdr=WIFININA,SSID=HueNet1,PW=****
-*NN: SSID1=HueNet2,PW1=****
-*NN: BName=Air-Control
-*NN: i=0,id=sv1,data=new_account.duckdns.org
-*NN: i=1,id=tk1,data=new_token1
-*NN: i=2,id=sv2,data=new_account.ddns.net
-*NN: i=3,id=tk2,data=new_token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=new_mqtt.duckdns.org
-*NN: ConMultiWifi
-*NN: con2WF:SSID=HueNet1,PW=****
-*NN: Remaining retry_time=3
-WiFi-begin: return1 = 3
-WiFi-begin: return2 = 3
-*NN: WOK, lastConnectedIndex=0
-*NN: con2WF:OK
-*NN: SSID=HueNet1,RSSI=-21
-*NN: IP=192.168.2.105
-*NN: b:WOK
-Stop doubleResetDetecting
-ClearFlag write = 0xd0d04321
-H
-Your stored Credentials :
-Blynk Server1 = new_account.duckdns.org
-Token1 = new_token1
-Blynk Server2 = new_account.ddns.net
-Token2 = new_token2
-Port = 8080
-MQTT Server = new_mqtt.duckdns.org
-HHHHHHHHH HHHHHHHHHH
-```
-
-#### 7.DRD detected and Config Portal is forcefully opened
-
-```
-Start SAMD_WiFiNINA on SAMD NANO_33_IOT
-*NN: Hostname=SAMD-Master-Controller
-Flag read = 0xd0d01234
-doubleResetDetected
-ClearFlag write = 0xd0d04321
-*NN: Double Reset Detected
-*NN: ======= Start Default Config Data =======
-*NN: Hdr=WIFININA,SSID=SSID1,PW=password1
-*NN: SSID1=SSID2,PW1=password2
-*NN: BName=SAMD-Control
-*NN: i=0,id=sv1,data=account.duckdns.org
-*NN: i=1,id=tk1,data=token1
-*NN: i=2,id=sv2,data=account.ddns.net
-*NN: i=3,id=tk2,data=token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=mqtt.duckdns.org
-*NN: ChkCrR:CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: CCSum=0x1246,RCSum=0x1246
-*NN: CrCCsum=0x21ce,CrRCsum=0x21ce
-*NN: Valid Stored Dynamic Data
-*NN: ======= Start Stored Config Data =======
-*NN: Hdr=WIFININA,SSID=HueNet1,PW=****
-*NN: SSID1=HueNet2,PW1=****
-*NN: BName=Air-Control
-*NN: i=0,id=sv1,data=new_account.duckdns.org
-*NN: i=1,id=tk1,data=new_token1
-*NN: i=2,id=sv2,data=new_account.ddns.net
-*NN: i=3,id=tk2,data=new_token2
-*NN: i=4,id=pt,data=8080
-*NN: i=5,id=mq,data=new_mqtt.duckdns.org
-*NN: b:StayInCfgPortal:DRD
-*NN: SSID=WIFININA_51F485,PW=MyWIFININA_51F485
-*NN: IP=192.168.4.1,CH=10
-WiFi-beginAP3: return1 = 7
-WiFi-beginAP3: return2 = 7
-F
-Your stored Credentials :
-Blynk Server1 = new_account.duckdns.org
-Token1 = new_token1
-Blynk Server2 = new_account.ddns.net
-Token2 = new_token2
-Port = 8080
-MQTT Server = new_mqtt.duckdns.org
-
-```
----
----
-
-#### Debug
-
-Debug is enabled by default on Serial. To disable, add at the beginning of sketch
-
-```cpp
-/* Comment this out to disable prints and save space */
-#define DEBUG_WIFI_WEBSERVER_PORT Serial
-
-#define WIFININA_DEBUG_OUTPUT     Serial
-
-#define WIFININA_DEBUG            true
-
-#define DRD_GENERIC_DEBUG         true
-```
 
 ## Troubleshooting
 
-If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield` or this library version.
+If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.1+` or this library version.
 
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
 ---
+---
+
+## Releases
+
+### New in v1.8.0
+
+1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
+3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
+
+### New in v1.7.2
+
+1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
+2. Add WIFININA_GENERIC_VERSION
+
+#### New in v1.7.1
+
+1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
+
+#### New in v1.7.0
+
+1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
+2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
+
+#### New in v1.6.2
+
+1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
+2. Add example for WiFiStorage.
+
+#### New in v1.6.1
+
+1. Add support to all **STM32F/L/H/G/WB/MP1**
+2. Add support to **Seeeduino SAMD21/SAMD51 boards **
+3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
+
+#### New in v1.6.0
+
+1. Sync'ed with latest WiFiNINA Library v1.6.0. 
+2. New features include **WiFiStorage** and update to **NINA Firmware v1.4.0** from v1.3.0
+
+
+#### New in v1.5.3
+
+1. Add function to support new WebSockets2_Generic Library
+2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
+
+#### New in v1.5.2
+
+1. Port FirmwareUpdater to permit **nRF52, Teensy, SAMD21, SAMD51, etc.** boards to update WiFiNINA W101/W102 firmware and SSL certificates using **Arduino IDE WiFi101/WiFiNINA Firmware Updater.** 
+2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
+
+Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
+
+#### New in v1.5.1
+
+1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
+2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+
+#### New in v1.5.0
+
+1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
+
+---
 
 ### TO DO
+1. Bug Searching and Killing
+2. Support more types of boards using WiFiNINA and other WiFi shields.
 
-1. Support more boards
 
 ### DONE
 
- 1. Adding dynamic custom parameters
- 2. Add MultiWiFi and Auto(Re)Connect feature
- 3. Add support to SAMD21, SAMD51, nRF52, etc.
- 4. Many more to list ( DHCP Hostname, WPA2 password length, special chars, etc.)
- 5. Add DRD
- 6. Add default Credentials
- 7. Add Dynamic parameters
- 8. Add Configurable Config Portal Title
- 9. Spilt each example into several manageable files.
- 
----
----
- 
-## Releases
- 
-### New Release v1.0.5
-
-1. Modify LOAD_DEFAULT_CONFIG_DATA logic.
-4. Enhance MultiWiFi connection logic. 
-5. Add Adafruit MQTT examples.
-
-#### Major Release v1.0.4
-
-1. Configurable **Config Portal Title** to be either HostName, BoardName or default undistinguishable names.
-2. Optional default **Credentials as well as Dynamic parameters to be optionally autoloaded into Config Portal** to use or change instead of manually input.
-3. **DoubleDetectDetector** feature to force Config Portal when double reset is detected within predetermined time, default 10s.
-4. Examples are redesigned to separate Credentials / Defines / Dynamic Params / Code so that you can change Credentials / Dynamic Params quickly for each device.
-5. Add Board Name
-
-Thanks to [Thor Johnson](https://github.com/thorathome) to test, suggest and encourage to add those new features in [Blynk_WM](https://github.com/khoih-prog/Blynk_WM), such as Default Credentials/Dynamic Params, Configurable Config Portal Title, DRD. Now those features are speading fast into libraries having similar functionalities.
-
-#### Major Release v1.0.3
-
-1. **Multiple WiFi Credentials (SSID, Password)** and system will autoconnect to the available WiFi AP. It will then autoreconnect to the remaining WiFi AP if the current connection is lost.
-2. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.**
-3. WiFi Password max length is 63, according to WPA2 standard
-4. Permit to input special chars such as **%** and **#** into data fields.
-5. Add option to have built-in, yet configurable RFC-952-conformed DHCP hostname.
-6. Fix bug
-
-#### New in v1.0.2
-
-1. Fix bug
-2. Add support to **SAM51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, etc.)**.
-
-#### New in v1.0.1
-
-1. Use new  [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Generic) to provide support to many more boards (Teensy, AVR Mega, SAM DUE, SAMD51, STM32, etc.) running WiFiNINA. The original WiFiNINA library only supports Nano-33 IoT, Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2.
-2. Use new [**FlashStorage_SAMD library**](https://github.com/khoih-prog/FlashStorage_SAMD) to provide EEPROM/FlashStorage support to SAMD51 boards (Itsy-Bitsy M4, etc).
-
-#### New in v1.0.0
-
-1. New **powerful-yet-simple-to-use feature to enable adding dynamic custom parameters** from sketch and input using the same Config Portal. Config Portal will be auto-adjusted to match the number of dynamic parameters.
-2. Dynamic custom parameters to be saved **automatically in EEPROM, SAMD EEPROM-emulated FlashStorage or SAM DUE DueFlashStorage**.
-3. This is a Light-Weight Credentials / WiFi Connection Manager with fallback web configuration portal. Completely new to support **Teensy, SAM DUE, SAMD, STM32, etc. boards running WiFiNINA modules/shields.** with small memory (64+K bytes)
-4. Config Portal AP SSID and Password will use 4 bytes of hardware unique macAddress, only for Teensy.
+ 1. Add support to **Adafruit SAMD21 (Itsy-Bitsy M0, Metro M0, Feather M0 Express, etc.)**.
+ 2. Add support to **Adafruit SAMD51 (Itsy-Bitsy M4, Metro M4, Grand Central M4, Feather M4 Express, METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4, etc.)**.
+ 3. Add support to **Adafruit nRF52 ( Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.)**.
+ 4. Add support to SAM DUE.
+ 5. Add support to Teensy.
+ 6. Add support to all **STM32F/L/H/G/WB/MP1 having 64K+** Flash program memory.
+ 7. Add support to **Seeeduino SAMD21/SAMD51 boards (SEEED_WIO_TERMINAL, SEEED_FEMTO_M0, SEEED_XIAO_M0, Wio_Lite_MG126, WIO_GPS_BOARD, SEEEDUINO_ZERO, SEEEDUINO_LORAWAN, SEEED_GROVE_UI_WIRELESS, etc.)**
+ 8. Add function to support new WebSockets2_Generic Library
+ 9. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
 
 ---
 
 ### Issues ###
 
-Submit issues to: [WiFiManager_NINA_Lite issues](https://github.com/khoih-prog/WiFiManager_NINA_Lite/issues)
+Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNINA_Generic/issues)
 
 ---
 ---
 
-### Contributions and thanks
+### Contributions and Thanks
 
-1. Thanks to [Darvesh7](https://github.com/Darvesh7) to report [When Saved Network is unavailable or credential changed bug](https://github.com/khoih-prog/WiFiManager_NINA_Lite/issues/1) leading to the major release v1.0.3
-2. Thanks to [Thor Johnson](https://github.com/thorathome) to test, suggest and encourage to add those new features in [Blynk_WM](https://github.com/khoih-prog/Blynk_WM), such as Default Credentials/Dynamic Params, Configurable Config Portal Title, DRD. Now those features are speading fast into libraries having similar functionalities.
-3. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **U-Blox B302, B112 running as nRF52840/nRF52832**, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
+2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **NINA_B302_ublox running as nRF52840 and NINA_B112_ublox running as nRF52832**, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
+4. Thanks to [Oscar den Uijl](https://github.com/ocrdu) for : 
+  - the fix, reported in [Version 1.4.0 can break code that uses more than one WiFiServer and socket](https://github.com/arduino-libraries/WiFiNINA/issues/87) and has been included.
+  - the newly-added example [MultiServers](examples/MultiServers)
+5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/thorathome"><img src="https://github.com/thorathome.png" width="100px;" alt="thorathome"/><br /><sub><b>⭐️ Thor Johnson</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/tcpipchip"><img src="https://github.com/tcpipchip.png" width="100px;" alt="tcpipchip"/><br /><sub><b>⭐️ Miguel Wisintainer</b></sub></a><br /></td>
-    <td align="center"><a href="https://github.com/Darvesh7"><img src="https://github.com/Darvesh7.png" width="100px;" alt="Darvesh7"/><br /><sub><b>Darvesh7</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/AppsByDavideV"><img src="https://github.com/AppsByDavideV.png" width="100px;" alt="AppsByDavideV"/><br /><sub><b>AppsByDavideV</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/ocrdu"><img src="https://github.com/ocrdu.png" width="100px;" alt="ocrdu"/><br /><sub><b>Oscar den Uijl</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/gmstuff"><img src="https://github.com/gmstuff.png" width="100px;" alt="gmstuff"/><br /><sub><b>Gerard Moorcroft</b></sub></a><br /></td>
   </tr> 
 </table>
 
@@ -1521,7 +1206,6 @@ Submit issues to: [WiFiManager_NINA_Lite issues](https://github.com/khoih-prog/W
 ### Contributing
 
 If you want to contribute to this project:
-
 - Report bugs and errors
 - Ask for enhancements
 - Create issues and pull requests
@@ -1529,14 +1213,10 @@ If you want to contribute to this project:
 
 ---
 
-### License
-
-- The library is licensed under [MIT](https://github.com/khoih-prog/WiFiManager_NINA_Lite/blob/master/LICENSE)
-
----
-
 ### Copyright
 
-Copyright 2020- Khoi Hoang
+1. Copyright (c) 2018 Arduino SA. All rights reserved.
+2. Copyright (c) 2011-2014 Arduino LLC. All right reserved.
+3. Copyright 2020- Khoi Hoang
 
 
