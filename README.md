@@ -234,11 +234,11 @@ This file must be copied into the directory:
  
  ***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.10](Packages_Patches/arduino/hardware/samd/1.8.10) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.10).
  
-#### For core version v1.8.10+
+#### For core version v1.8.11+
 
-Supposing the Arduino SAMD version is 1.8.10. Now only one file must be copied into the directory:
+Supposing the Arduino SAMD version is 1.8.11. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/samd/1.8.10/platform.txt`
+- `~/.arduino15/packages/arduino/hardware/samd/1.8.11/platform.txt`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -310,8 +310,6 @@ theses files must be copied into the corresponding directory:
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_F767ZI/variant.h`
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_L053R8/variant.h`
 
-
-
 ---
 ---
 
@@ -366,11 +364,11 @@ For example
 
 ---
 
-### HOWTO Update WiFiNINA Firmware (latest version is v1.4.1 as of August 2020)
+### HOWTO Update WiFiNINA Firmware (latest version is v1.4.3 as of Jan 2021)
 
 #### 1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin
 
-- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of August 2020, the latest WiFiNINA FW is v1.4.1, use [WiFi101-FirmwareUpdater-Plugin version v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12).
+- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of January 2021, the latest WiFiNINA FW is v1.4.3, use [WiFi101-FirmwareUpdater-Plugin version v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13).
 - Unzip the downloaded file into WiFi101 folder (WiFi101/tool/firmwares folder and WiFi101/tool/WiFi101.jar file)
 - Copy the whole WiFi101 folder to ./arduino-1.8.yy/tools to overwrite the old WiFi101 folder.
 - Restart the Arduino IDE if running.
@@ -396,7 +394,7 @@ For example
 
 - Select the port of your board from the list under "1. Select port of the WiFi module".
 
-- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.1)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.3)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
 
 - Click "Update Firmware"
 
@@ -419,12 +417,13 @@ For example
 - If OK, terminal will show PASSED as follows:
 
 ```
-WiFiNINA firmware check.
-
-Firmware version installed: 1.4.1
-Latest firmware version available : 1.4.1
+Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
+Version 1.8.0
+Firmware version installed: 1.4.3
+Latest firmware version available : 1.4.3
 
 Check result: PASSED
+
 ```
 ---
 
