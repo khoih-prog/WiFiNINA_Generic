@@ -46,7 +46,7 @@
 
 #pragma once
 
-#define WIFI_FIRMWARE_LATEST_VERSION  "1.4.2"
+#define WIFI_FIRMWARE_LATEST_VERSION  "1.4.3"
 
 #define WIFININA_GENERIC_VERSION      "1.8.0"
 
