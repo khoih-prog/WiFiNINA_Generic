@@ -41,24 +41,23 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart WiFiStorage on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart WiFiStorage on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
@@ -69,7 +68,7 @@ void setup()
     file.erase();
   }
   else
-    Serial.println("WiFiStorage error");
+    Serial.println(F("WiFiStorage error"));
 
   String test = "WiFiStorage on " + String(BOARD_NAME) + " is OK if you see this long line.";
     

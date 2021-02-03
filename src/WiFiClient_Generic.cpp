@@ -1,5 +1,5 @@
-/****************************************************************************************************************************
-  WiFiClient_Generic.cpp - Library for Arduino WifiNINA module/shield.
+/**********************************************************************************************************************************
+  WiFiClient_Generic.cpp - Library for Arduino WiFiNINA module/shield.
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.0
+  Version: 1.8.2
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -42,7 +42,8 @@
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
- *****************************************************************************************************************************/
+  1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
+ ***********************************************************************************************************************************/
 
 #define _WIFININA_LOGLEVEL_         1
 
@@ -64,11 +65,11 @@ extern "C"
 
 uint16_t WiFiClient::_srcport = 1024;
 
-WiFiClient::WiFiClient() : _sock(NO_SOCKET_AVAIL)
+WiFiClient::WiFiClient() : _sock(NO_SOCKET_AVAIL), _retrySend(true)
 {
 }
 
-WiFiClient::WiFiClient(uint8_t sock) : _sock(sock)
+WiFiClient::WiFiClient(uint8_t sock) : _sock(sock), _retrySend(true)
 {
 }
 
@@ -280,9 +281,16 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
   }
 
   size_t written = ServerDrv::sendData(_sock, buf, size);
-
+  
+  if (!written && _retrySend) 
+  {
+    written = retry(buf, size, true);
+  }
+  
   if (!written)
   {
+    // close socket
+    ServerDrv::stopClient(_sock);
     setWriteError();
     return 0;
   }
@@ -294,6 +302,32 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
   }
 
   return written;
+}
+
+size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write) 
+{
+  size_t rec_bytes = 0;
+
+  if (write) 
+  {
+    //RETRY WRITE
+    for (int i = 0; i < 5; i++) 
+    {
+      rec_bytes = ServerDrv::sendData(_sock, buf, size);
+      
+      if (rec_bytes) 
+      {
+        break;
+      }
+    }
+    
+    return rec_bytes;
+  }
+  else 
+  {
+    //RETRY READ
+    // To be implemented, if needed
+  }
 }
 
 int WiFiClient::available()
@@ -320,7 +354,6 @@ int WiFiClient::read()
   return b;
 }
 
-
 int WiFiClient::read(uint8_t* buf, size_t size)
 {
   return  WiFiSocketBuffer.read(_sock, buf, size);
@@ -331,6 +364,11 @@ int WiFiClient::peek()
   return WiFiSocketBuffer.peek(_sock);
 }
 
+void WiFiClient::setRetry(bool retry) 
+{
+  _retrySend = retry;
+}
+
 void WiFiClient::flush()
 {
   // TODO: a real check to ensure transmission has been completed
@@ -338,7 +376,6 @@ void WiFiClient::flush()
 
 void WiFiClient::stop()
 {
-
   if (_sock == 255)
     return;
 

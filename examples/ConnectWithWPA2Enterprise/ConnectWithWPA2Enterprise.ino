@@ -49,31 +49,30 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart ConnectWithWPA2Enterprise on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart ConnectWithWPA2Enterprise on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
-  // attempt to connect to Wifi network:
+  // attempt to connect to WiFi network:
   while (status != WL_CONNECTED)
   {
-    Serial.print("Attempting to connect to WPA SSID: ");
+    Serial.print(F("Attempting to connect to open SSID: "));
     Serial.println(ssid);
     // Connect to WPA2 enterprise network:
     // - You can optionally provide additional identity and CA cert (string) parameters:
@@ -86,7 +85,7 @@ void setup()
   }
 
   // you're connected now, so print out the data:
-  Serial.print("You're connected to the network");
+  Serial.print(F("You're connected to the network"));
   printCurrentNet();
   printWifiData();
 
@@ -103,54 +102,53 @@ void printWifiData()
 {
   // print your board's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
+  Serial.println(ip);
   Serial.println(ip);
 
   // print your MAC address:
   byte mac[6];
   WiFi.macAddress(mac);
-  Serial.print("MAC address: ");
+  Serial.print(F("MAC address: "));
   printMacAddress(mac);
 }
 
-void printCurrentNet() 
+void printCurrentNet()
 {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
+  Serial.print(F("SSID: "));
   Serial.println(WiFi.SSID());
 
   // print the MAC address of the router you're attached to:
   byte bssid[6];
   WiFi.BSSID(bssid);
-  Serial.print("BSSID: ");
+  Serial.print(F("BSSID: "));
   printMacAddress(bssid);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
+  Serial.print(F("signal strength (RSSI):"));
   Serial.println(rssi);
 
   // print the encryption type:
   byte encryption = WiFi.encryptionType();
-  Serial.print("Encryption Type:");
+  Serial.print(F("Encryption Type:"));
   Serial.println(encryption, HEX);
-  Serial.println();
 }
 
-void printMacAddress(byte mac[]) 
+void printMacAddress(byte mac[])
 {
-  for (int i = 5; i >= 0; i--) 
+  for (int i = 5; i >= 0; i--)
   {
-    if (mac[i] < 16) 
+    if (mac[i] < 16)
     {
-      Serial.print("0");
+      Serial.print(F("0"));
     }
-    
     Serial.print(mac[i], HEX);
-    
-    if (i > 0) 
+
+    if (i > 0)
     {
-      Serial.print(":");
+      Serial.print(F(":"));
     }
   }
   

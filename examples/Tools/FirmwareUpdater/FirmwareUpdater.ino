@@ -76,11 +76,11 @@ void setup()
 
   if (!ESP32BootROM.begin(921600)) 
   {
-    Serial.println("Unable to communicate with ESP32 boot ROM!");
+    Serial.println(F("Unable to communicate with ESP32 boot ROM!"));
     while (1);
   }
 
-  Serial.println("Communicate OK with ESP32 boot ROM!");
+  Serial.println(F("Communicate OK with ESP32 boot ROM!"));
 }
 
 void receivePacket(UartPacket *pkt, uint8_t *payload)
@@ -131,7 +131,7 @@ void loop()
   if (pkt.command == CMD_HELLO)
   {
     if (pkt.address == 0x11223344 && pkt.arg1 == 0x55667788)
-      Serial.print("v10000");
+      Serial.print(F("v10000"));
   }
 
   if (pkt.command == CMD_MAX_PAYLOAD_SIZE)
@@ -143,7 +143,7 @@ void loop()
   if (pkt.command == CMD_READ_FLASH)
   {
     // not supported!
-    Serial.println("ER");
+    Serial.println(F("ER"));
   }
 
   if (pkt.command == CMD_WRITE_FLASH)
@@ -152,11 +152,11 @@ void loop()
     
     if (!ESP32BootROM.dataFlash(payload, len))
     {
-      Serial.print("ER");
+      Serial.print(F("ER"));
     }
     else
     {
-      Serial.print("OK");
+      Serial.print(F("OK"));
     }
   }
 
@@ -167,11 +167,11 @@ void loop()
     
     if (!ESP32BootROM.beginFlash(address, len, MAX_PAYLOAD_SIZE))
     {
-      Serial.print("ER");
+      Serial.print(F("ER"));
     }
     else
     {
-      Serial.print("OK");
+      Serial.print(F("OK"));
     }
   }
 
@@ -182,7 +182,7 @@ void loop()
 
     if (!ESP32BootROM.endFlash(1))
     {
-      Serial.print("ER");
+      Serial.print(F("ER"));
     }
     else
     {
@@ -192,15 +192,15 @@ void loop()
 
       if (!ESP32BootROM.begin(921600))
       {
-        Serial.print("ER");
+        Serial.print(F("ER"));
       }
       else if (!ESP32BootROM.md5Flash(address, len, md5))
       {
-        Serial.print("ER");
+        Serial.print(F("ER"));
       }
       else
       {
-        Serial.print("OK");
+        Serial.print(F("OK"));
         Serial.write(md5, sizeof(md5));
       }
     }

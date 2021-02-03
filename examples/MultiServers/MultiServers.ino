@@ -59,20 +59,20 @@ char webpage_base64[] = "H4sICEGBKl8CAFdlYnBhZ2VTZXJ2ZWRCeUFyZHVpbm8uaHRtbADsWel
 
 void printWifiStatus() 
 {
-  Sprint("SSID: "); Sprintln(WiFi.SSID());
-  Sprint("Signal strength (RSSI): "); Sprint(WiFi.RSSI()); Sprintln(" dBm");
-  Sprint("IP address: "); Sprintln(WiFi.localIP());
-  Sprint("Gateway: "); Sprintln(WiFi.gatewayIP());
-  Sprint("Netmask: "); Sprintln(WiFi.subnetMask());
-  Sprint("Webpage is at http://"); Sprint(WiFi.localIP()); Sprintln("/");
-  Sprint("Websocket is at http://"); Sprint(WiFi.localIP()); Sprintln(":" + (String)socketPort + "/");
+  Sprint(F("SSID: ")); Sprintln(WiFi.SSID());
+  Sprint(F("Signal strength (RSSI): ")); Sprint(WiFi.RSSI()); Sprintln(F(" dBm"));
+  Sprint(F("IP address: ")); Sprintln(WiFi.localIP());
+  Sprint(F("Gateway: ")); Sprintln(WiFi.gatewayIP());
+  Sprint(F("Netmask: ")); Sprintln(WiFi.subnetMask());
+  Sprint(F("Webpage is at http://")); Sprint(WiFi.localIP()); Sprintln(F("/"));
+  Sprint(F("Websocket is at http://")); Sprint(WiFi.localIP()); Sprintln(":" + (String)socketPort + "/");
 }
 
 void WiFiConnect() 
 {
   while (WiFi.status() != WL_CONNECTED) 
   {
-    Sprintln("Connecting to " + (String)ssid + " ...");
+    Sprint(F("Connecting to ")); Sprintln(ssid);
     WiFi.begin(ssid, pass);
     delay(5000);
   }
@@ -81,7 +81,8 @@ void WiFiConnect()
   IP[3] = IPLastByte;
   
   WiFi.config(IP, WiFi.gatewayIP(), WiFi.gatewayIP(), WiFi.subnetMask());
-  Sprintln("Connected to " + (String)ssid);
+  Sprint(F("Connected to ")); Sprintln(ssid);
+  
   
   webServer.begin();
   socketServer.begin();
@@ -96,16 +97,23 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart MultiServers on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart MultiServers on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
+
+  // check for the WiFi module:
+  if (WiFi.status() == WL_NO_MODULE)
+  {
+    Serial.println(F("Communication with WiFi module failed!"));
+    // don't continue
+    while (true);
+  }
 
   String fv = WiFi.firmwareVersion();
-
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
   
@@ -118,7 +126,7 @@ void loop()
   if (WiFi.status() != WL_CONNECTED)
   {
     digitalWrite(LED_BUILTIN, LOW);
-    Sprintln("\n--Lost WiFi connection");
+    Sprintln(F("\n--Lost WiFi connection"));
     WiFi.end();
     WiFiConnect();
   }
@@ -128,7 +136,7 @@ void loop()
 
   if (webClient.connected())
   {
-    Sprint("\n--New client: "); Sprint(webClient.remoteIP()); Sprint(":"); Sprintln(webClient.remotePort());
+    Sprint(F("\n--New client: ")); Sprint(webClient.remoteIP()); Sprint(F(":")); Sprintln(webClient.remotePort());
     String header = "";
 
     while (webClient.available())
@@ -166,16 +174,16 @@ void loop()
             done = done + packetsize;
           }
           
-          Sprintln("--Interface webpage sent");
+          Sprintln(F("--Interface webpage sent"));
         } 
         else 
         {
           webClient.println("HTTP/1.1 404 Not Found\nContent-Type: text/plain; charset=utf-8\n\n404 Not Found\n");
-          Sprintln("--Page not found");
+          Sprintln(F("--Page not found"));
         }
         
         webClient.stop();
-        Sprintln("--Client disconnected");
+        Sprintln(F("--Client disconnected"));
       }
     }
   }
@@ -187,7 +195,7 @@ void loop()
     
     if (socketClient.connected() && webSocketServer.handshake(socketClient)) 
     {
-      Sprint("\n--Websocket connected to: "); Sprint(socketClient.remoteIP()); Sprint(":"); Sprintln(socketClient.remotePort());
+      Sprint(F("\n--Websocket connected to: ")); Sprint(socketClient.remoteIP()); Sprint(F(":")); Sprintln(socketClient.remotePort());
       
       if (on) 
       {
@@ -198,11 +206,11 @@ void loop()
         webSocketServer.sendData("sw:false");
       }
       
-      Sprintln("\n--Settings sent");
+      Sprintln(F("\n--Settings sent"));
     } 
     else 
     {
-      //Sprintln("\n--Couldn't connect websocket");
+      //Sprintln(F("\n--Couldn't connect websocket"));
       socketClient.stop();
       delay(100);
     }

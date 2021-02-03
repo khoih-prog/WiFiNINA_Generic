@@ -7,7 +7,7 @@
   A simple web server that lets you blink an LED via the web.
   This sketch will create a new access point (with no password).
   It will then launch a new server and print out the IP address
-  to the Serial monitor. From there, you can open that address in a web browser
+  to the Serial Monitor. From there, you can open that address in a web browser
   to turn on and off the LED on pin 13.
 
   If the IP address of your board is yourAddress:
@@ -52,7 +52,7 @@
 char ssid[] = SECRET_SSID;        // your network SSID (name)
 char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
 
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
+int keyIndex = 0;                 // your network key index number (needed only for WEP)
 
 int status = WL_IDLE_STATUS;
 
@@ -66,15 +66,15 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart AP_SimpleWebServer on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart AP_SimpleWebServer on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   pinMode(led, OUTPUT);      // set the LED pin mode
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
@@ -83,25 +83,25 @@ void setup()
   
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
-  // by default the local IP address of will be 192.168.4.1
+  // by default the local IP address will be 192.168.4.1
   // you can override it with the following:
   // WiFi.config(IPAddress(10, 0, 0, 1));
 
   // print the network name (SSID);
-  Serial.print("Creating access point named: ");
+  Serial.print(F("Creating access point named: "));
   Serial.println(ssid);
 
   // Create open network. Change this line if you want to create an WEP network:
   status = WiFi.beginAP(ssid, pass);
   if (status != WL_AP_LISTENING)
   {
-    Serial.println("Creating access point failed");
+    Serial.println(F("Creating access point failed"));
     // don't continue
     while (true);
   }
@@ -127,12 +127,12 @@ void loop()
     if (status == WL_AP_CONNECTED)
     {
       // a device has connected to the AP
-      Serial.println("Device connected to AP");
+      Serial.println(F("Device connected to AP"));
     }
     else
     {
       // a device has disconnected from the AP, and we are back in listening mode
-      Serial.println("Device disconnected from AP");
+      Serial.println(F("Device disconnected from AP"));
     }
   }
 
@@ -141,7 +141,7 @@ void loop()
   if (client) 
   {                             
     // if you get a client,
-    Serial.println("new client");           // print a message out the serial port
+    Serial.println(F("new client"));           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
     
     while (client.connected()) 
@@ -201,22 +201,22 @@ void loop()
     }
     // close the connection:
     client.stop();
-    Serial.println("client disconnected");
+    Serial.println(F("client disconnected"));
   }
 }
 
 void printWiFiStatus()
 {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
+  Serial.print(F("SSID: "));
   Serial.println(WiFi.SSID());
 
   // print your WiFi shield's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
   Serial.println(ip);
 
   // print where to go in a browser:
-  Serial.print("To see this page in action, open a browser to http://");
+  Serial.print(F("To see this page in action, open a browser to http://"));
   Serial.println(ip);
 }

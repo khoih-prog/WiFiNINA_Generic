@@ -63,13 +63,13 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart WiFiChatServer on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart WiFiChatServer on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
@@ -77,16 +77,16 @@ void setup()
   String fv = WiFi.firmwareVersion();
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
-  // attempt to connect to Wifi network:
+  // attempt to connect to WiFi network:
   while (status != WL_CONNECTED)
   {
-    Serial.print("Attempting to connect to SSID: ");
+    Serial.print(F("Attempting to connect to open SSID: "));
     Serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
@@ -98,9 +98,8 @@ void setup()
   // start the server:
   server.begin();
   // you're connected now, so print out the status:
-  printWifiStatus();
+  printWiFiStatus();
 }
-
 
 void loop()
 {
@@ -114,7 +113,7 @@ void loop()
     {
       // clead out the input buffer:
       client.flush();
-      Serial.println("We have a new client");
+      Serial.println(F("We have a new client"));
       client.println("Hello, client!");
       alreadyConnected = true;
     }
@@ -131,20 +130,20 @@ void loop()
   }
 }
 
-void printWifiStatus()
+void printWiFiStatus()
 {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
+  Serial.print(F("SSID: "));
   Serial.println(WiFi.SSID());
 
   // print your board's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
   Serial.println(ip);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
+  Serial.print(F("Signal strength (RSSI):"));
   Serial.print(rssi);
-  Serial.println(" dBm");
+  Serial.println(F(" dBm"));
 }

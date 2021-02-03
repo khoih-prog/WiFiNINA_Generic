@@ -12,7 +12,21 @@
 ## Table of Contents
 
 * [Why do we need this WiFiNINA_Generic library](#why-do-we-need-this-wifinina_generic-library)
+  * [Features](#features)
+  * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Releases v1.8.2](#new-in-v180)
+  * [Releases v1.8.0](#new-in-v180)
+  * [Releases v1.7.2](#new-in-v172)
+  * [Releases v1.7.1](#new-in-v171)
+  * [Releases v1.7.0](#new-in-v170)
+  * [Releases v1.6.2](#new-in-v162)
+  * [Releases v1.6.1](#new-in-v161)
+  * [Releases v1.6.0](#new-in-v160)
+  * [Releases v1.5.3](#new-in-v153)
+  * [Releases v1.5.2](#new-in-v152)
+  * [Releases v1.5.1](#new-in-v151)
+  * [Releases v1.5.0](#new-in-v150)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
   * [Use Arduino Library Manager](#use-arduino-library-manager)
@@ -23,7 +37,7 @@
   * [2. For Teensy boards](#2-for-teensy-boards)
   * [3. For Arduino SAM DUE boards](#3-for-arduino-sam-due-boards)
   * [4. For Arduino SAMD boards](#4-for-arduino-samd-boards)
-      * [For core version v1.8.10+](#for-core-version-v1810)
+      * [For core version v1.8.11+](#for-core-version-v1811)
       * [For core version v1.8.9-](#for-core-version-v189-)
   * [5. For Adafruit SAMD boards](#5-for-adafruit-samd-boards)
   * [6. For Seeeduino SAMD boards](#6-for-seeeduino-samd-boards)
@@ -35,24 +49,35 @@
   * [4) Verify by uploading the WiFiNINA_Generic library's CheckFirmwareVersion sketch](#4-verify-by-uploading-the-wifinina_generic-librarys-checkfirmwareversion-sketch) 
 * [How to update SSL certificates](#how-to-update-ssl-certificates) 
 * [Examples](#examples)
+  * [ 1. AP_SimpleWebServer](examples/AP_SimpleWebServer)
+  * [ 2. ConnectNoEncryption](examples/ConnectNoEncryption)
+  * [ 3. ConnectWithWEP](examples/ConnectWithWEP)
+  * [ 4. ConnectWithWPA](examples/ConnectWithWPA)
+  * [ 5. ConnectWithWPA2Enterprise](examples/ConnectWithWPA2Enterprise)
+  * [ 6. MultiServers](examples/MultiServers)
+  * [ 7. ScanNetworks](examples/ScanNetworks)
+  * [ 8. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+  * [ 9. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+  * [10. WiFiChatServer](examples/WiFiChatServer)
+  * [11. WiFiPing](examples/WiFiPing)
+  * [12. WiFiSSLClient](examples/WiFiSSLClient)
+  * [13. WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
+  * [14. WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
+  * [15. WiFiWebClient](examples/WiFiWebClient)
+  * [16. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+  * [17. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+  * [18. WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
+  * [19. WiFiStorage](examples/WiFiStorage)
+* [Tools](#tools)
+  * [20. CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
+  * [21. FirmwareUpdater](examples/Tools/FirmwareUpdater)
+  * [22. SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
 * [Example WiFiWebServer](#example-wifiwebserver)
   * [1. File WiFiWebServer.ino](#1-file-wifiwebserverino)
   * [2. File defines.h](#2-file-definesh)
 * [Debug Terminal Output Samples](#debug-terminal-output-samples)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
-* [Releases](#releases)
-  * [New in v1.8.0](#new-in-v180-1)
-  * [New in v1.7.2](#new-in-v172-1)
-  * [New in v1.7.1](#new-in-v171-1)
-  * [New in v1.7.0](#new-in-v170-1)
-  * [New in v1.6.2](#new-in-v162-1)
-  * [New in v1.6.1](#new-in-v161-1)
-  * [New in v1.6.0](#new-in-v160-1)
-  * [New in v1.5.3](#new-in-v153-1)
-  * [New in v1.5.2](#new-in-v152-1)
-  * [New in v1.5.1](#new-in-v151-1)
-  * [New in v1.5.0](#new-in-v150-1)
 * [TO DO](#to-do)
 * [DONE](#done)
 * [Issues](#issues)
@@ -66,70 +91,96 @@
 
 ### Why do we need this [WiFiNINA_Generic library](https://github.com/khoih-prog/WiFiNINA_Generic)
 
+#### Features
+
 The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
 
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
+
+#### Currently Supported Boards
+
+This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Generic) currently supports these following boards:
+
+
+ 1. **nRF52 boards**, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.**
+ 2. **SAM DUE**
+ 3. **SAMD21**
+  - Arduino SAMD21: ZERO, MKRs, NANO_33_IOT, etc.
+  - Adafruit SAMD21 (M0): ItsyBitsy M0, Feather M0, Feather M0 Express, Metro M0 Express, Circuit Playground Express, Trinket M0, PIRkey, Hallowing M0, Crickit M0, etc.
+  - Seeeduino:  LoRaWAN, Zero, Femto M0, XIAO M0, Wio GPS Board, etc.
+  
+ 4. **SAMD51**
+  - Adafruit SAMD51 (M4): Metro M4, Grand Central M4, ItsyBitsy M4, Feather M4 Express, Trellis M4, Metro M4 AirLift Lite, MONSTER M4SK Express, Hallowing M4, etc.
+  - Seeeduino: Wio Terminal, Grove UI Wireless
+  
+ 5. **Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC)**
+ 6. **All STM32F/L/H/G/WB/MP1 with more than 32KB flash memory.**
+ 7. **AVR Mega1280, 2560, ADK.**
 
 ---
 ---
 
 ## Changelog
 
-### New in v1.8.0
+### Releases v1.8.2
+
+1. Sync with [Arduino WiFiNINA Library v1.8.2](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.2). Using the latest WiFiNINA FW v1.4.3 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Add possibility to resend data if lwip_send fails.
+
+### Releases v1.8.0
 
 1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
 2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
 3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
 
-### New in v1.7.2
+### Releases v1.7.2
 
 1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
 2. Add WIFININA_GENERIC_VERSION
 
-#### New in v1.7.1
+#### Releases v1.7.1
 
 1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
 
-#### New in v1.7.0
+#### Releases v1.7.0
 
 1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
 2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
 
-#### New in v1.6.2
+#### Releases v1.6.2
 
 1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
 2. Add example for WiFiStorage.
 
-#### New in v1.6.1
+#### Releases v1.6.1
 
 1. Add support to all **STM32F/L/H/G/WB/MP1**
 2. Add support to **Seeeduino SAMD21/SAMD51 boards **
 3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
 
-#### New in v1.6.0
+#### Releases v1.6.0
 
 1. Sync'ed with latest WiFiNINA Library v1.6.0. 
 2. New features include **WiFiStorage** and update to **NINA Firmware v1.4.0** from v1.3.0
 
-
-#### New in v1.5.3
+#### Releases v1.5.3
 
 1. Add function to support new WebSockets2_Generic Library
 2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
 
-#### New in v1.5.2
+#### Releases v1.5.2
 
 1. Port FirmwareUpdater to permit **nRF52, Teensy, SAMD21, SAMD51, etc.** boards to update WiFiNINA W101/W102 firmware and SSL certificates using **Arduino IDE WiFi101/WiFiNINA Firmware Updater.** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
 
-#### New in v1.5.1
+#### Releases v1.5.1
 
 1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
 2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
-#### New in v1.5.0
+#### Releases v1.5.0
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
 
@@ -142,8 +193,8 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
  2. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install.
  3. [`Teensy core v1.53+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0) boards.
  4. [`Arduino SAM DUE core v1.6.12+`](https://www.arduino.cc/en/Guide/ArduinoDue) for SAM DUE ARM Cortex-M3 boards.
- 5. [`Arduino SAMD core 1.8.10+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
- 6. [`Adafruit SAMD core 1.6.4+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
+ 5. [`Arduino SAMD core 1.8.11+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards  (Nano 33 IoT, etc.).
+ 6. [`Adafruit SAMD core 1.6.5+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Itsy-Bitsy M4, etc.)
  7. [`Seeeduino SAMD core 1.8.1+`](https://www.seeedstudio.com/) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.) 
  8. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com/) for nRF52 boards such as AdaFruit Feather nRF52840 Express, NINA_B302_ublox, NINA_B112_ublox, etc.
  9. [`Arduino Core for STM32 v1.9.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards 
@@ -206,16 +257,22 @@ These files must be copied into the directory:
 
 #### 2. For Teensy boards
  
- **To be able to compile and run on Teensy boards**, you have to copy the file [Teensy boards.txt](Packages_Patches/hardware/teensy/avr/boards.txt) into Teensy hardware directory (./arduino-1.8.12/hardware/teensy/avr/boards.txt). 
+ **To be able to compile and run on Teensy boards**, you have to copy the files in [**Packages_Patches for Teensy directory**](Packages_Patches/hardware/teensy/avr) into Teensy hardware directory (./arduino-1.8.13/hardware/teensy/avr/boards.txt). 
 
-Supposing the Arduino version is 1.8.12. This file must be copied into the directory:
+Supposing the Arduino version is 1.8.13. These files must be copied into the directory:
 
-- `./arduino-1.8.12/hardware/teensy/avr/boards.txt`
+- `./arduino-1.8.13/hardware/teensy/avr/boards.txt`
+- `./arduino-1.8.13/hardware/teensy/avr/cores/teensy/Stream.h`
+- `./arduino-1.8.13/hardware/teensy/avr/cores/teensy3/Stream.h`
+- `./arduino-1.8.13/hardware/teensy/avr/cores/teensy4/Stream.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
-This file must be copied into the directory:
+These files must be copied into the directory:
 
 - `./arduino-x.yy.zz/hardware/teensy/avr/boards.txt`
+- `./arduino-x.yy.zz/hardware/teensy/avr/cores/teensy/Stream.h`
+- `./arduino-x.yy.zz/hardware/teensy/avr/cores/teensy3/Stream.h`
+- `./arduino-x.yy.zz/hardware/teensy/avr/cores/teensy4/Stream.h`
 
 #### 3. For Arduino SAM DUE boards
  
@@ -418,7 +475,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-Version 1.8.0
+WiFiNINA_Generic v1.8.2
 Firmware version installed: 1.4.3
 Latest firmware version available : 1.4.3
 
@@ -501,31 +558,30 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart WiFiWebServer on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart WiFiWebServer on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
   // attempt to connect to Wifi network:
   while (status != WL_CONNECTED)
   {
-    Serial.print("Attempting to connect to SSID: ");
+    Serial.print(F("Attempting to connect to SSID: "));
     Serial.println(ssid);
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
@@ -536,7 +592,7 @@ void setup()
 
   server.begin();
   // you're connected now, so print out the status:
-  printWifiStatus();
+  printWiFiStatus();
 }
 
 void loop()
@@ -545,9 +601,10 @@ void loop()
   WiFiClient client = server.available();
   if (client)
   {
-    Serial.println("new client");
+    Serial.println(F("New client"));
     // an http request ends with a blank line
     boolean currentLineIsBlank = true;
+    
     while (client.connected()) 
     {
       if (client.available()) 
@@ -578,6 +635,7 @@ void loop()
             client.print(sensorReading);
             client.println("<br />");
           }
+          
           client.println("</html>");
           break;
         }
@@ -599,27 +657,26 @@ void loop()
 
     // close the connection:
     client.stop();
-    Serial.println("client disconnected");
+    Serial.println(F("Client disconnected"));
   }
 }
 
-
-void printWifiStatus() 
+void printWiFiStatus() 
 {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
+  Serial.print(F("SSID: "));
   Serial.println(WiFi.SSID());
 
   // print your board's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
   Serial.println(ip);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
+  Serial.print(F("Signal strength (RSSI):"));
   Serial.print(rssi);
-  Serial.println(" dBm");
+  Serial.println(F(" dBm"));
 }
 ```
 
@@ -923,7 +980,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-Version 1.8.0
+WiFiNINA_Generic v1.8.2
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1095,70 +1152,77 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 ## Releases
 
-### New in v1.8.0
+### Releases v1.8.2
+
+1. Sync with [Arduino WiFiNINA Library v1.8.2](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.2). Using the latest WiFiNINA FW v1.4.3 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
+2. Add possibility to resend data if lwip_send fails.
+
+### Releases v1.8.0
 
 1. Sync with [Arduino WiFiNINA Library v1.8.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.0). Using the latest WiFiNINA FW v1.4.2 in [WiFi101-FirmwareUpdater-Plugin v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13)
 2. Limit the maximum length of the download URL for the OTA binary since the receive buffer on the nina firmware can't hold more than 128 bytes.
 3. Introduce **WiFiBearSSLClient (offloaded to Nina)**
 
-### New in v1.7.2
+### Releases v1.7.2
 
 1. Add support to **Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.** Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to this new version.
 2. Add WIFININA_GENERIC_VERSION
 
-#### New in v1.7.1
+#### Releases v1.7.1
 
 1. Sync with [Arduino WiFiNINA Library v1.7.1](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.1). Using the latest WiFiNINA FW v1.4.1 in [WiFi101-FirmwareUpdater-Plugin v0.10.12](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.12)
 
-#### New in v1.7.0
+#### Releases v1.7.0
 
 1. Sync with [Arduino WiFiNINA Library v1.7.0](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.7.0). See [Add 'downloadOTA' command to download OTA file and verify length/CRC](https://github.com/arduino-libraries/WiFiNINA/pull/124)
 2. Add Arduino SAMD Packages_Patches to fix Arduino SAMD compiler error when using STL. See [Improve Arduino compatibility with the STL (min and max macro)](https://github.com/arduino/ArduinoCore-samd/pull/399)
 
-#### New in v1.6.2
+#### Releases v1.6.2
 
 1. Fix WiFiStorage bug introduced from v1.6.0 resulting compile error.
 2. Add example for WiFiStorage.
 
-#### New in v1.6.1
+#### Releases v1.6.1
 
 1. Add support to all **STM32F/L/H/G/WB/MP1**
 2. Add support to **Seeeduino SAMD21/SAMD51 boards **
 3. Fix bug introduced to v1.6.0 resulting nRF52 compile error.
 
-#### New in v1.6.0
+#### Releases v1.6.0
 
 1. Sync'ed with latest WiFiNINA Library v1.6.0. 
 2. New features include **WiFiStorage** and update to **NINA Firmware v1.4.0** from v1.3.0
 
 
-#### New in v1.5.3
+#### Releases v1.5.3
 
 1. Add function to support new WebSockets2_Generic Library
 2. Update default pin-outs for nRF52 boards, especially NINA_112_ublox.
 
-#### New in v1.5.2
+#### Releases v1.5.2
 
 1. Port FirmwareUpdater to permit **nRF52, Teensy, SAMD21, SAMD51, etc.** boards to update WiFiNINA W101/W102 firmware and SSL certificates using **Arduino IDE WiFi101/WiFiNINA Firmware Updater.** 
 2. Update default pin-outs for nRF52 boards, especially NINA_B302_ublox.
 
 Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip).
 
-#### New in v1.5.1
+#### Releases v1.5.1
 
 1. Add support to **nRF52** boards, such as **AdaFruit Feather nRF52832, nRF52840 Express, BlueFruit Sense, Itsy-Bitsy nRF52840 Express, Metro nRF52840 Express, Clue nRF52840, Nordic nRF52840DK, Particle Xenon, etc.** Raytac MDBT50Q-RX Dongle is not supported.
 2. Add support to **NINA_B302_ublox running as nRF52840**. Thanks to great work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
 
-#### New in v1.5.0
+#### Releases v1.5.0
 
 1. The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000 and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32, etc.**
 
+---
 ---
 
 ### TO DO
 1. Bug Searching and Killing
 2. Support more types of boards using WiFiNINA and other WiFi shields.
 
+---
 
 ### DONE
 

@@ -1,5 +1,5 @@
-/****************************************************************************************************************************
-  WiFi_Generic.h - Library for Arduino WifiNINA module/shield.
+/**********************************************************************************************************************************
+  WiFi_Generic.h - Library for Arduino WiFiNINA module/shield.
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.0
+  Version: 1.8.2
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -42,13 +42,14 @@
   1.7.1   K Hoang      27/08/2020 Sync with Arduino WiFiNINA Library v1.7.1 : new Firmware 1.4.1
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
- *****************************************************************************************************************************/
+  1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
+ ***********************************************************************************************************************************/
 
 #pragma once
 
-#define WIFI_FIRMWARE_LATEST_VERSION  "1.4.3"
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.3"
 
-#define WIFININA_GENERIC_VERSION      "1.8.0"
+#define WIFININA_GENERIC_VERSION            "WiFiNINA_Generic v1.8.2"
 
 #include <inttypes.h>
 
@@ -80,13 +81,13 @@ class WiFiClass
     static const char* firmwareVersion();
 
 
-    /* Start Wifi connection for OPEN networks
+    /* Start WiFi connection for OPEN networks
 
        param ssid: Pointer to the SSID string.
     */
     int begin(const char* ssid);
 
-    /* Start Wifi connection with WEP encryption.
+    /* Start WiFi connection with WEP encryption.
        Configure a key into the device. The key type (WEP-40, WEP-104)
        is determined by the size of the key (5 bytes for WEP-40, 13 bytes for WEP-104).
 
@@ -96,7 +97,7 @@ class WiFiClass
     */
     int begin(const char* ssid, uint8_t key_idx, const char* key);
 
-    /* Start Wifi connection with passphrase
+    /* Start WiFi connection with passphrase
        the most secure supported mode will be automatically selected
 
        param ssid: Pointer to the SSID string.

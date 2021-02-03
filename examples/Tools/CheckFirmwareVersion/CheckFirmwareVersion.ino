@@ -47,13 +47,13 @@ void setup()
   while (!Serial);
 
   // Print a welcome message
-  Serial.println("\nStart WiFiNINA CheckFirmwareVersion on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart WiFiNINA CheckFirmwareVersion on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
@@ -68,7 +68,7 @@ void setup()
   latestFv = WIFI_FIRMWARE_LATEST_VERSION;
 
   // Print required firmware version
-  Serial.print("Latest firmware version available : ");
+  Serial.print(F("Latest firmware version available : "));
   Serial.println(latestFv);
 
   // Check if the latest version is installed
@@ -76,14 +76,14 @@ void setup()
   
   if (fv >= latestFv)
   {
-    Serial.println("Check result: PASSED");
+    Serial.println(F("Check result: PASSED"));
   }
   else
   {
-    Serial.println("Check result: NOT PASSED");
-    Serial.println(" - The firmware version on the module do not match the");
-    Serial.println("   version required by the library, you may experience");
-    Serial.println("   issues or failures.");
+    Serial.println(F("Check result: NOT PASSED"));
+    Serial.println(F(" - The firmware version on the module do not match the"));
+    Serial.println(F("   version required by the library, you may experience"));
+    Serial.println(F("   issues or failures."));
   }
 }
 

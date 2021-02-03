@@ -51,36 +51,34 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart ScanNetworksAdvanced on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart ScanNetworksAdvanced on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-  
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
   // print your MAC address:
   byte mac[6];
   WiFi.macAddress(mac);
-  Serial.print("MAC: ");
+  Serial.print(F("MAC: "));
   printMacAddress(mac);
 
   // scan for existing networks:
-  Serial.println();
-  Serial.println("Scanning available networks...");
+  Serial.println(F("\nScanning available networks..."));
   listNetworks();
 }
 
@@ -88,42 +86,42 @@ void loop()
 {
   delay(10000);
   // scan for existing networks:
-  Serial.println("Scanning available networks...");
+  Serial.println(F("Scanning available networks..."));
   listNetworks();
 }
 
 void listNetworks()
 {
   // scan for nearby networks:
-  Serial.println("** Scan Networks **");
+  Serial.println(F("** Scan Networks **"));
   int numSsid = WiFi.scanNetworks();
 
   if (numSsid == -1)
   {
-    Serial.println("Couldn't get a WiFi connection");
+    Serial.println(F("Couldn't get a WiFi connection"));
     while (true);
   }
 
   // print the list of networks seen:
-  Serial.print("number of available networks: ");
+  Serial.print(F("Number of available networks: "));
   Serial.println(numSsid);
 
   // print the network number and name for each network found:
   for (int thisNet = 0; thisNet < numSsid; thisNet++)
   {
     Serial.print(thisNet + 1);
-    Serial.print(") ");
-    Serial.print("Signal: ");
+    Serial.print(F(") "));
+    Serial.print(F("Signal: "));
     Serial.print(WiFi.RSSI(thisNet));
-    Serial.print(" dBm");
-    Serial.print("\tChannel: ");
+    Serial.print(F(" dBm"));
+    Serial.print(F("\tChannel: "));
     Serial.print(WiFi.channel(thisNet));
     byte bssid[6];
-    Serial.print("\t\tBSSID: ");
+    Serial.print(F("\t\tBSSID: "));
     printMacAddress(WiFi.BSSID(thisNet, bssid));
-    Serial.print("\tEncryption: ");
+    Serial.print(F("\tEncryption: "));
     printEncryptionType(WiFi.encryptionType(thisNet));
-    Serial.print("\t\tSSID: ");
+    Serial.print(F("\t\tSSID: "));
     Serial.println(WiFi.SSID(thisNet));
     Serial.flush();
   }
@@ -136,23 +134,23 @@ void printEncryptionType(int thisType)
   switch (thisType)
   {
     case ENC_TYPE_WEP:
-      Serial.print("WEP");
+      Serial.print(F("WEP"));
       break;
     case ENC_TYPE_TKIP:
-      Serial.print("WPA");
+      Serial.print(F("WPA"));
       break;
     case ENC_TYPE_CCMP:
-      Serial.print("WPA2");
+      Serial.print(F("WPA2"));
       break;
     case ENC_TYPE_NONE:
-      Serial.print("None");
+      Serial.print(F("None"));
       break;
     case ENC_TYPE_AUTO:
-      Serial.print("Auto");
+      Serial.print(F("Auto"));
       break;
     case ENC_TYPE_UNKNOWN:
     default:
-      Serial.print("Unknown");
+      Serial.print(F("Unknown"));
       break;
   }
 }
@@ -161,7 +159,7 @@ void print2Digits(byte thisByte)
 {
   if (thisByte < 0xF)
   {
-    Serial.print("0");
+    Serial.print(F("0"));
   }
   Serial.print(thisByte, HEX);
 }
@@ -172,13 +170,13 @@ void printMacAddress(byte mac[])
   {
     if (mac[i] < 16)
     {
-      Serial.print("0");
+      Serial.print(F("0"));
     }
     Serial.print(mac[i], HEX);
 
     if (i > 0)
     {
-      Serial.print(":");
+      Serial.print(F(":"));
     }
   }
   

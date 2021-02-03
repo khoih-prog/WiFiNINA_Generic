@@ -50,13 +50,13 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart ScanNetworks on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart ScanNetworks on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
@@ -64,9 +64,9 @@ void setup()
   String fv = WiFi.firmwareVersion();
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
@@ -80,7 +80,7 @@ void setup()
 void loop()
 {
   // scan for existing networks:
-  Serial.println("Scanning available networks...");
+  Serial.println(F("Scanning available networks..."));
   listNetworks();
   delay(10000);
 }
@@ -88,29 +88,29 @@ void loop()
 void listNetworks()
 {
   // scan for nearby networks:
-  Serial.println("** Scan Networks **");
+  Serial.println(F("** Scan Networks **"));
   int numSsid = WiFi.scanNetworks();
 
   if (numSsid == -1)
   {
-    Serial.println("Couldn't get a wifi connection");
+    Serial.println(F("Couldn't get a WiFi connection"));
     while (true);
   }
 
   // print the list of networks seen:
-  Serial.print("number of available networks:");
+  Serial.print(F("Number of available networks: "));
   Serial.println(numSsid);
 
   // print the network number and name for each network found:
   for (int thisNet = 0; thisNet < numSsid; thisNet++)
   {
     Serial.print(thisNet);
-    Serial.print(") ");
+    Serial.print(F(") "));
     Serial.print(WiFi.SSID(thisNet));
-    Serial.print("\tSignal: ");
+    Serial.print(F("\tSignal: "));
     Serial.print(WiFi.RSSI(thisNet));
-    Serial.print(" dBm");
-    Serial.print("\tEncryption: ");
+    Serial.print(F(" dBm"));
+    Serial.print(F("\tEncryption: "));
     printEncryptionType(WiFi.encryptionType(thisNet));
   }
 }
@@ -121,23 +121,23 @@ void printEncryptionType(int thisType)
   switch (thisType)
   {
     case ENC_TYPE_WEP:
-      Serial.println("WEP");
+      Serial.print(F("WEP"));
       break;
     case ENC_TYPE_TKIP:
-      Serial.println("WPA");
+      Serial.print(F("WPA"));
       break;
     case ENC_TYPE_CCMP:
-      Serial.println("WPA2");
+      Serial.print(F("WPA2"));
       break;
     case ENC_TYPE_NONE:
-      Serial.println("None");
+      Serial.print(F("None"));
       break;
     case ENC_TYPE_AUTO:
-      Serial.println("Auto");
+      Serial.print(F("Auto"));
       break;
     case ENC_TYPE_UNKNOWN:
     default:
-      Serial.println("Unknown");
+      Serial.print(F("Unknown"));
       break;
   }
 }
@@ -148,13 +148,13 @@ void printMacAddress(byte mac[])
   {
     if (mac[i] < 16)
     {
-      Serial.print("0");
+      Serial.print(F("0"));
     }
     Serial.print(mac[i], HEX);
 
     if (i > 0)
     {
-      Serial.print(":");
+      Serial.print(F(":"));
     }
   }
   

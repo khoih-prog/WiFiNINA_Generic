@@ -68,31 +68,30 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("\nStart SimpleWebServerWiFi on " + String(BOARD_NAME));
-  Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
+  Serial.print(F("\nStart SimpleWebServerWiFi on ")); Serial.println(BOARD_NAME);
+  Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
-    Serial.println("Communication with WiFi module failed!");
+    Serial.println(F("Communication with WiFi module failed!"));
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-  
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
-    Serial.print("Your current firmware NINA FW v");
+    Serial.print(F("Your current firmware NINA FW v"));
     Serial.println(fv);
-    Serial.print("Please upgrade the firmware to NINA FW v");
+    Serial.print(F("Please upgrade the firmware to NINA FW v"));
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
-  // attempt to connect to Wifi network:
+  // attempt to connect to WiFi network:
   while (status != WL_CONNECTED)
   {
-    Serial.print("Attempting to connect to Network named: ");
+    Serial.print(F("Attempting to connect to Network named: "));
     Serial.println(ssid);                   // print the network name (SSID);
 
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
@@ -102,7 +101,7 @@ void setup()
   }
   
   server.begin();                           // start the web server on port 80
-  printWifiStatus();                        // you're connected now, so print out the status
+  printWiFiStatus();                        // you're connected now, so print out the status
 }
 
 void loop()
@@ -112,7 +111,7 @@ void loop()
   if (client) 
   {                             
     // if you get a client,
-    Serial.println("new client");           // print a message out the serial port
+    Serial.println(F("New client"));           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
     
     while (client.connected()) 
@@ -172,27 +171,27 @@ void loop()
     }
     // close the connection:
     client.stop();
-    Serial.println("client disonnected");
+    Serial.println(F("Client disonnected"));
   }
 }
 
-void printWifiStatus()
+void printWiFiStatus()
 {
   // print the SSID of the network you're attached to:
-  Serial.print("SSID: ");
+  Serial.print(F("SSID: "));
   Serial.println(WiFi.SSID());
 
   // print your board's IP address:
   IPAddress ip = WiFi.localIP();
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
   Serial.println(ip);
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
+  Serial.print(F("Signal strength (RSSI):"));
   Serial.print(rssi);
-  Serial.println(" dBm");
+  Serial.println(F(" dBm"));
   // print where to go in a browser:
-  Serial.print("To see this page in action, open a browser to http://");
+  Serial.print(F("To see this page in action, open a browser to http://"));
   Serial.println(ip);
 }
