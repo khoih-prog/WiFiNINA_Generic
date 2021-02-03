@@ -15,7 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
-  * [Releases v1.8.2](#releases-v180)
+  * [Releases v1.8.2](#releases-v182)
   * [Releases v1.8.0](#releases-v180)
   * [Releases v1.7.2](#releases-v172)
   * [Releases v1.7.1](#releases-v171)
