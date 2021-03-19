@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.2
+  Version: 1.8.5
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -43,6 +43,7 @@
   1.7.2   K Hoang      05/11/2020 Add support to Adafruit Airlift M4 boards: METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
   1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
+  1.8.5   K Hoang      20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
  ***********************************************************************************************************************************/
 
 #include "Arduino.h"
@@ -93,10 +94,18 @@ static bool inverted_reset = false;
 #define DELAY_TRANSFER()
 
 #ifndef SPIWIFI
-#define SPIWIFI SPI
+  #define SPIWIFI SPI
 #endif
 
 bool SpiDrv::initialized = false;
+
+__attribute__((weak)) void wifi_nina_feed_watchdog()
+{
+    /* This function can be overwritten by a "strong" implementation
+     * in a higher level application, such as the ArduinoIoTCloud
+     * firmware stack.
+     */
+}
 
 void SpiDrv::begin()
 {
@@ -304,9 +313,20 @@ void SpiDrv::waitForSlaveSign()
   while (!waitSlaveSign());
 }
 
-void SpiDrv::waitForSlaveReady()
+void SpiDrv::waitForSlaveReady(bool const feed_watchdog)
 {
-  while (!waitSlaveReady());
+  unsigned long const start = millis();
+  
+  while (!waitSlaveReady())
+  {
+    if (feed_watchdog) 
+    {
+      if ((millis() - start) < 10000) 
+      {
+        wifi_nina_feed_watchdog();
+      }
+    }
+  }
 }
 
 void SpiDrv::getParam(uint8_t* param)

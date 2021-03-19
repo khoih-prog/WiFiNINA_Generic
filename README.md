@@ -15,6 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Releases v1.8.5](#releases-v185)
   * [Releases v1.8.2](#releases-v182)
   * [Releases v1.8.0](#releases-v180)
   * [Releases v1.7.2](#releases-v172)
@@ -93,7 +94,7 @@
 
 #### Features
 
-The original [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
+The original [Arduino WiFiNINA library](https://github.com/arduino-libraries/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
 
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
@@ -121,6 +122,11 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
 ---
 
 ## Changelog
+
+### Releases v1.8.5
+
+1. Sync with [Arduino WiFiNINA Library v1.8.5](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.5). Bugfix: Feed watchdog within busy-wait-loop within connectBearSSL to prevent a premature reset.
+2. Update `Packages' Patches`
 
 ### Releases v1.8.2
 
@@ -328,11 +334,11 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.4) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.4). 
+ ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.6) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.6). 
 
-Supposing the Adafruit SAMD core version is 1.6.4. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.6.6. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.6.4/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.6.6/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -475,7 +481,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.2
+WiFiNINA_Generic v1.8.5
 Firmware version installed: 1.4.3
 Latest firmware version available : 1.4.3
 
@@ -980,7 +986,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.2
+WiFiNINA_Generic v1.8.5
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1151,6 +1157,11 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 ---
 
 ## Releases
+
+### Releases v1.8.5
+
+1. Sync with [Arduino WiFiNINA Library v1.8.5](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.5). Bugfix: Feed watchdog within busy-wait-loop within connectBearSSL to prevent a premature reset.
+2. Update `Packages' Patches`
 
 ### Releases v1.8.2
 
