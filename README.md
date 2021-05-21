@@ -1287,6 +1287,12 @@ If you want to contribute to this project:
 
 ---
 
+### License
+
+- The library is licensed under [GPLv3](https://github.com/khoih-prog/WiFiNINA_Generic/blob/master/LICENSE)
+
+---
+
 ### Copyright
 
 1. Copyright (c) 2018 Arduino SA. All rights reserved.
