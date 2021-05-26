@@ -133,7 +133,7 @@ void httpRequest()
   if (client.connect(server, 80))
   {
     Serial.println(F("Connecting..."));
-    // send the HTTP PUT request:
+    // send the HTTP GET request:
     client.println("GET / HTTP/1.1");
     client.println("Host: example.org");
     client.println("User-Agent: ArduinoWiFi/1.1");

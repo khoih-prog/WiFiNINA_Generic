@@ -145,7 +145,11 @@ void loop()
     String currentLine = "";                // make a String to hold incoming data from the client
     
     while (client.connected()) 
-    {            
+    {
+      // This is required for the Arduino Nano RP2040 Connect
+      // otherwise it will loop so fast that SPI will never be served.
+      delayMicroseconds(10);
+      
       // loop while the client's connected
       if (client.available()) 
       {             

@@ -116,7 +116,7 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
    || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) \
    || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) || defined(__SAMD51G19A__) )
 
-   // For SAMD21 and SAMD51 boards.  To change accordingly
+  // For SAMD21 and SAMD51 boards.  To change accordingly
   _serial->begin(115200);
 
   pinMode(_gpio0Pin, OUTPUT);
@@ -128,7 +128,7 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
   delay(10);
   digitalWrite(_resetnPin, LOW);
   delay(100);
-#if defined(ARDUINO_SAMD_NANO_33_IOT)
+#if ( defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_NANO_RP2040_CONNECT) )
   digitalWrite(_resetnPin, HIGH);
   delay(100);
 #endif
@@ -136,7 +136,7 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
 #elif ( defined(CORE_TEENSY) || defined(__IMXRT1062__) || defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__)\
      || defined(__MK20DX128__) )
 
-  // For Tensy boards.  To change accordingly
+  // For Teensy boards.  To change accordingly
   _serial->begin(115200);
 
   pinMode(_gpio0Pin, OUTPUT);
@@ -153,6 +153,24 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
   digitalWrite(_resetnPin, HIGH);
   delay(100);
 
+#elif defined(ARDUINO_NANO_RP2040_CONNECT) || ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) )
+
+  // For RP2040-based boards.  To change accordingly
+  _serial->begin(115200);
+
+  pinMode(_gpio0Pin, OUTPUT);
+  pinMode(_resetnPin, OUTPUT);
+
+  digitalWrite(_gpio0Pin, LOW);
+
+  digitalWrite(_resetnPin, HIGH);
+  delay(10);
+  digitalWrite(_resetnPin, LOW);
+  delay(100);
+#if defined(ARDUINO_NANO_RP2040_CONNECT)
+  digitalWrite(_resetnPin, HIGH);
+  delay(100);
+#endif
 #else
 
   // For remaining boards.  To change accordingly
@@ -185,7 +203,7 @@ int ESP32BootROMClass::begin(unsigned long baudrate)
     return 0;
   }
 
-#if defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_AVR_UNO_WIFI_REV2)
+#if defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_NANO_RP2040_CONNECT)
   (void)baudrate;
 #else
   if (baudrate != 115200) 
@@ -476,28 +494,28 @@ void ESP32BootROMClass::writeEscapedBytes(const uint8_t* data, uint16_t length)
    || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) \
    || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) || defined(__SAMD51G19A__) )
 
-// For SAMD21 and SAMD51  boards. To be changed and added as necessary
-#warning To change the pin defintions to match actual assignment for your board
-
-#ifndef SerialNina
-  // Just need to do something such as
-  #define SerialNina  Serial1   //Serial2, etc.
-#endif
-
-#ifndef NINA_GPIO0
-  // Just need assign some pin, such as
-  #define NINA_GPIO0  (26u)                         // 
-#endif
-
-#ifndef NINA_RESETN
-  // Just need assign some pin, such as
-  #define NINA_RESETN (27u)                          //  
-#endif
-
-#ifndef NINA_ACK
-  // Just need assign some pin, such as
-  #define NINA_ACK    (28u)                         // 
-#endif
+  // For SAMD21 and SAMD51  boards. To be changed and added as necessary
+  #warning To change the pin defintions to match actual assignment for your board
+  
+  #ifndef SerialNina
+    // Just need to do something such as
+    #define SerialNina  Serial1   //Serial2, etc.
+  #endif
+  
+  #ifndef NINA_GPIO0
+    // Just need assign some pin, such as
+    #define NINA_GPIO0  (26u)                         // 
+  #endif
+  
+  #ifndef NINA_RESETN
+    // Just need assign some pin, such as
+    #define NINA_RESETN (27u)                          //  
+  #endif
+  
+  #ifndef NINA_ACK
+    // Just need assign some pin, such as
+    #define NINA_ACK    (28u)                         // 
+  #endif
  
 #elif defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
 
@@ -604,53 +622,53 @@ void ESP32BootROMClass::writeEscapedBytes(const uint8_t* data, uint16_t length)
 #elif ( defined(CORE_TEENSY) || defined(__IMXRT1062__) || defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__)\
      || defined(__MK20DX128__) )
 
-// For Teensy boards. To be changed and added as necessary
-#warning To change the pin defintions to match actual assignment for your board
-
-#ifndef SerialNina
-  // Just need to do something such as
-  #define SerialNina  Serial1   //Serial2, etc.
-#endif
-
-#ifndef NINA_GPIO0
-  // Just need assign some pin, such as
-  #define NINA_GPIO0  (6u)                         // 
-#endif
-
-#ifndef NINA_RESETN
-  // Just need assign some pin, such as
-  #define NINA_RESETN (2u)                          //  
-#endif
-
-#ifndef NINA_ACK
-  // Just need assign some pin, such as
-  #define NINA_ACK    (5u)                         // 
-#endif
+  // For Teensy boards. To be changed and added as necessary
+  #warning To change the pin defintions to match actual assignment for your board
+  
+  #ifndef SerialNina
+    // Just need to do something such as
+    #define SerialNina  Serial1   //Serial2, etc.
+  #endif
+  
+  #ifndef NINA_GPIO0
+    // Just need assign some pin, such as
+    #define NINA_GPIO0  (6u)                         // 
+  #endif
+  
+  #ifndef NINA_RESETN
+    // Just need assign some pin, such as
+    #define NINA_RESETN (2u)                          //  
+  #endif
+  
+  #ifndef NINA_ACK
+    // Just need assign some pin, such as
+    #define NINA_ACK    (5u)                         // 
+  #endif
      
 #else
 
-// For other boards. To be changed and added as necessary
-#warning To change the pin defintions to match actual assignment for your board
+  // For other boards. To be changed and added as necessary
+  #warning To change the pin defintions to match actual assignment for your board
 
-#ifndef SerialNina
-  // Just need to do something such as
-  #define SerialNina  Serial1   //Serial2, etc.
-#endif
-
-#ifndef NINA_GPIO0
-  // Just need assign some pin, such as
-  #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
-#endif
-
-#ifndef NINA_RESETN
-  // Just need assign some pin, such as
-  #define NINA_RESETN (2u)                          //  2, IO21, P0.12
-#endif
-
-#ifndef NINA_ACK
-  // Just need assign some pin, such as
-  #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
-#endif
+  #ifndef SerialNina
+    // Just need to do something such as
+    #define SerialNina  Serial1   //Serial2, etc.
+  #endif
+  
+  #ifndef NINA_GPIO0
+    // Just need assign some pin, such as
+    #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
+  #endif
+  
+  #ifndef NINA_RESETN
+    // Just need assign some pin, such as
+    #define NINA_RESETN (2u)                          //  2, IO21, P0.12
+  #endif
+  
+  #ifndef NINA_ACK
+    // Just need assign some pin, such as
+    #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
+  #endif
 
 #endif    //#if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
 
