@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.5
+  Version: 1.8.10
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -44,6 +44,7 @@
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
   1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
   1.8.5   K Hoang      20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
+  1.8.10  K Hoang      25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
  ***********************************************************************************************************************************/
 
 #include <stdio.h>
@@ -1207,6 +1208,38 @@ void WiFiDrv::pinMode(uint8_t pin, uint8_t mode)
   SpiDrv::spiSlaveDeselect();
 }
 
+PinStatus WiFiDrv::digitalRead(uint8_t pin)
+{
+    WAIT_FOR_SLAVE_SELECT();
+    // Send Command
+    SpiDrv::sendCmd(GET_DIGITAL_READ, PARAM_NUMS_1);
+    SpiDrv::sendParam((uint8_t*)&pin, 1, LAST_PARAM);
+
+    // pad to multiple of 4
+    SpiDrv::readChar();
+    SpiDrv::readChar();
+
+    SpiDrv::spiSlaveDeselect();
+    //Wait the reply elaboration
+    SpiDrv::waitForSlaveReady();
+    SpiDrv::spiSlaveSelect();
+
+    // Wait for reply
+    uint8_t _data = 0;
+    uint8_t _dataLen = 0;
+    if (!SpiDrv::waitResponseCmd(GET_DIGITAL_READ, PARAM_NUMS_1, &_data, &_dataLen))
+    {
+        WARN("error waitResponse");
+        _data = WL_FAILURE;
+    }
+    SpiDrv::spiSlaveDeselect();
+
+    if (_data == 1)
+        return HIGH;
+    else
+        return LOW;
+}
+
 void WiFiDrv::digitalWrite(uint8_t pin, uint8_t value)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1234,6 +1267,34 @@ void WiFiDrv::digitalWrite(uint8_t pin, uint8_t value)
   }
   
   SpiDrv::spiSlaveDeselect();
+}
+
+uint16_t WiFiDrv::analogRead(uint8_t adc_channel)
+{
+    WAIT_FOR_SLAVE_SELECT();
+    // Send Command
+    SpiDrv::sendCmd(GET_ANALOG_READ, PARAM_NUMS_1);
+    SpiDrv::sendParam((uint8_t*)&adc_channel, 1, LAST_PARAM);
+
+    // pad to multiple of 4
+    SpiDrv::readChar();
+    SpiDrv::readChar();
+
+    SpiDrv::spiSlaveDeselect();
+    //Wait the reply elaboration
+    SpiDrv::waitForSlaveReady();
+    SpiDrv::spiSlaveSelect();
+
+    // Wait for reply
+    uint16_t adc_raw = 0;
+    uint8_t adc_raw_len = 0;
+    if (!SpiDrv::waitResponseCmd(GET_ANALOG_READ, PARAM_NUMS_1, (uint8_t*)&adc_raw, &adc_raw_len))
+    {
+        WARN("error waitResponse");
+    }
+    SpiDrv::spiSlaveDeselect();
+
+    return adc_raw;
 }
 
 void WiFiDrv::analogWrite(uint8_t pin, uint8_t value)

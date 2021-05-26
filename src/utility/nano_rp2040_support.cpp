@@ -1,15 +1,15 @@
 /**********************************************************************************************************************************
-  WiFiServer_Generic.h - Library for Arduino WiFiNINA module/shield.
-
+  nano_rp2040_support.cpp - Library for Arduino WiFiNINA module/shield.
+  
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
   
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
-  Copyright (c) 2018 Arduino SA. All rights reserved.
-  Copyright (c) 2011-2014 Arduino LLC.  All right reserved.
-
+  This file is part of the WiFiNINA library.
+  Copyright (c) 2021 Arduino SA. All rights reserved.
+  
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -22,7 +22,7 @@
 
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   
   Version: 1.8.10
 
@@ -47,50 +47,59 @@
   1.8.10  K Hoang      25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
  ***********************************************************************************************************************************/
 
-#pragma once
+#ifdef ARDUINO_NANO_RP2040_CONNECT
 
-// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
-// (https://github.com/arduino-libraries/WiFiNINA/issues/87
-#define USING_MULTI_SERVER_ISSUE_FIX      true
+/******************************************************************************
+ * INCLUDE
+ ******************************************************************************/
 
-extern "C" 
+#include "nina_pins.h" /* variants/NANO_RP2040_CONNECT/ninaPins.h */
+#include "wifi_drv.h"
+
+/******************************************************************************
+ * FUNCTION DEFINITION
+ ******************************************************************************/
+
+uint8_t toAnalogPin(NinaPin pin)
 {
-  #include "utility/wl_definitions.h"
-  // KH, from v1.6.0
-  #include "utility/debug.h"
+  if      (pin == A4) return 6; /* ADC1 - CH6 */
+  else if (pin == A5) return 3; /* ADC1 - CH3 */
+  else if (pin == A6) return 0; /* ADC1 - CH0 */
+  else if (pin == A7) return 7; /* ADC1 - CH7 */
+  else                return 0xFF;
 }
 
-#include "Server.h"
-
-class WiFiClient;
-
-class WiFiServer : public Server 
+void pinMode(NinaPin pin, PinMode mode)
 {
-  private:
-    uint8_t _sock;
-    
-#if !USING_MULTI_SERVER_ISSUE_FIX
-    uint8_t _lastSock;
-#endif
-    
-    uint16_t _port;
-    void*     pcb;
-    
-  public:
-    WiFiServer(uint16_t);
-    // KH New
-    //bool hasClient(void);
+  WiFiDrv::pinMode(static_cast<uint8_t>(pin), static_cast<uint8_t>(mode));
+}
 
-    WiFiClient available(uint8_t* status = NULL);
-    void begin();
+PinStatus digitalRead(NinaPin pin)
+{
+  return WiFiDrv::digitalRead(static_cast<uint8_t>(pin));
+}
 
-    // KH, New 1.5.3
-    void begin(uint16_t port);
+void digitalWrite(NinaPin pin, PinStatus value)
+{
+  if (value == LOW)
+    WiFiDrv::digitalWrite(static_cast<uint8_t>(pin), 1);
+  else
+    WiFiDrv::digitalWrite(static_cast<uint8_t>(pin), 0);
+}
 
-    virtual size_t write(uint8_t);
-    virtual size_t write(const uint8_t *buf, size_t size);
-    uint8_t status();
+int analogRead(NinaPin pin)
+{
+  uint8_t const adc_channel = toAnalogPin(pin);
 
-    using Print::write;
-};
+  if (adc_channel == 0xFF)
+    return 0;
+  else
+    return WiFiDrv::analogRead(adc_channel);
+}
 
+void analogWrite(NinaPin pin, int value)
+{
+  WiFiDrv::analogWrite(static_cast<uint8_t>(pin), static_cast<uint8_t>(value));
+}
+
+#endif /* ARDUINO_NANO_RP2040_CONNECT */

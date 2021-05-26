@@ -15,6 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Releases v1.8.10](#releases-v1810)
   * [Releases v1.8.5](#releases-v185)
   * [Releases v1.8.2](#releases-v182)
   * [Releases v1.8.0](#releases-v180)
@@ -38,12 +39,18 @@
   * [2. For Teensy boards](#2-for-teensy-boards)
   * [3. For Arduino SAM DUE boards](#3-for-arduino-sam-due-boards)
   * [4. For Arduino SAMD boards](#4-for-arduino-samd-boards)
-      * [For core version v1.8.11+](#for-core-version-v1811)
+      * [For core version v1.8.10+](#for-core-version-v1810)
       * [For core version v1.8.9-](#for-core-version-v189-)
   * [5. For Adafruit SAMD boards](#5-for-adafruit-samd-boards)
   * [6. For Seeeduino SAMD boards](#6-for-seeeduino-samd-boards)
   * [7. For STM32 boards](#7-for-stm32-boards) 
+    * [7.1. For STM32 boards to use LAN8720](#71-for-stm32-boards-to-use-lan8720)
+    * [7.2. For STM32 boards to use Serial1](#72-for-stm32-boards-to-use-serial1)
+  * [8. For RP2040-based boards using Earle Philhower arduino-pico core](#8-for-rp2040-based-boards-using-earle-philhower-arduino-pico-core)
+    * [8.1. To use BOARD_NAME](#81-to-use-board_name)
+    * [8.2. To avoid compile error relating to microsecondsToClockCycles](#82-to-avoid-compile-error-relating-to-microsecondstoclockcycles)
 * [HOWTO Change pin definitions for WiFiNINA](#howto-change-pin-definitions-for-wifinina) 
+* [HOWTO Update WiFiNINA Firmware (latest version is v1.4.5 as of May 2021)](#howto-update-wifinina-firmware-latest-version-is-v145-as-of-may-2021)
   * [1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin](#1-update-the-wifi101--wifinina-firmwareupdater-plugin) 
   * [2) Upload the WiFiNINA_Generic library's FirmwareUpdater sketch](#2-upload-the-wifinina_generic-librarys-firmwareupdater-sketch) 
   * [3) Update WiFiNINA Firmware](#3-update-wifinina-firmware) 
@@ -94,7 +101,7 @@
 
 #### Features
 
-The original [Arduino WiFiNINA library](https://github.com/arduino-libraries/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, etc.**
+The original [Arduino WiFiNINA library](https://github.com/arduino-libraries/WiFiNINA) only supports very limited boards, such as: the Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Nano-33-IoT and Arduino UNO WiFi Rev.2. This library is based on and modified from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA) to provide support for many more boards, such as **nRF52, SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, RP2040-based, etc.**
 
 With this library you can instantiate Servers, Clients and send/receive UDP packets through WiFiNINA. The board can connect either to open or encrypted networks (WEP, WPA). The IP address can be assigned statically or through a DHCP. The library can also manage DNS.
 
@@ -117,11 +124,25 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
  5. **Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC)**
  6. **All STM32F/L/H/G/WB/MP1 with more than 32KB flash memory.**
  7. **AVR Mega1280, 2560, ADK.**
+ 
+ 8. RP2040-based boards, such as **Nano RP2040 Connect**, using [**Arduino mbed OS for Nano boards**](https://github.com/arduino/ArduinoCore-mbed).
 
+ 9. RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** v2.1.0+ core](https://github.com/arduino/ArduinoCore-mbed) or [**Earle Philhower's arduino-pico** core v1.5.1+](https://github.com/earlephilhower/arduino-pico).
+ 
 ---
 ---
 
 ## Changelog
+
+### Releases v1.8.10
+
+1. Sync with [Arduino WiFiNINA Library v1.8.10](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.10). 
+  - Add support to **Arduino Nano RP2040 Connect** using [**Arduino mbed OS for Nano boards**](https://github.com/arduino/ArduinoCore-mbed).
+  - Update latest available nina-fw to v1.4.5
+  - Bug fixes.
+2. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Earle Philhower's arduino-pico** v1.5.1+ core](https://github.com/earlephilhower/arduino-pico).
+3. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** v2.1.0+ core](https://github.com/arduino/ArduinoCore-mbed).
+4. Update `Packages' Patches`
 
 ### Releases v1.8.5
 
@@ -200,11 +221,14 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
  3. [`Teensy core 1.51`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards
  5. [`Arduino SAMD core 1.8.11+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 6. [`Adafruit SAMD core 1.6.5+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 6. [`Adafruit SAMD core 1.7.1+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
  7. [`Seeeduino SAMD core 1.8.1+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
- 8. [`Adafruit nRF52 v0.21.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
- 9. [`Arduino Core for STM32 v1.9.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
- 
+ 8. [`Adafruit nRF52 v0.22.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
+ 9. [`Arduino Core for STM32 v2.0.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+10. [`Arduino mbed_rp2040 core 2.1.0+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+11. [`Earle Philhower's arduino-pico core v1.5.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+
+
 ---
 ---
 
@@ -239,16 +263,16 @@ To install:
 
 #### 1. For Adafruit nRF52840 and nRF52832 boards
 
-**To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards**, you have to copy the whole [nRF52 0.21.0](Packages_Patches/adafruit/hardware/nrf52/0.21.0) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0). 
+**To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards**, you have to copy the whole [nRF52 0.22.0](Packages_Patches/adafruit/hardware/nrf52/0.22.0) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0). 
 
-Supposing the Adafruit nRF52 version is 0.21.0. These files must be copied into the directory:
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/boards.txt`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/variants/NINA_B302_ublox/variant.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/variants/NINA_B302_ublox/variant.cpp`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/variants/NINA_B112_ublox/variant.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/variants/NINA_B112_ublox/variant.cpp`
-- **`~/.arduino15/packages/adafruit/hardware/nrf52/0.21.0/cores/nRF5/Udp.h`**
+Supposing the Adafruit nRF52 version is 0.22.0. These files must be copied into the directory:
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/boards.txt`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/variants/NINA_B302_ublox/variant.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/variants/NINA_B302_ublox/variant.cpp`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/variants/NINA_B112_ublox/variant.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/variants/NINA_B112_ublox/variant.cpp`
+- **`~/.arduino15/packages/adafruit/hardware/nrf52/0.22.0/cores/nRF5/Udp.h`**
 
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
@@ -295,9 +319,9 @@ This file must be copied into the directory:
 
 #### 4. For Arduino SAMD boards
  
- ***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.10](Packages_Patches/arduino/hardware/samd/1.8.10) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.10).
+ ***To be able to compile without error and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD cores 1.8.11](Packages_Patches/arduino/hardware/samd/1.8.11) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.11).
  
-#### For core version v1.8.11+
+#### For core version v1.8.10+
 
 Supposing the Arduino SAMD version is 1.8.11. Now only one file must be copied into the directory:
 
@@ -334,11 +358,11 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.6.6) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.6.6). 
+ ***To be able to automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the file [Adafruit SAMD platform.txt](Packages_Patches/adafruit/hardware/samd/1.7.1) into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.1). 
 
-Supposing the Adafruit SAMD core version is 1.6.6. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.1. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.6.6/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.1/platform.txt`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -360,6 +384,30 @@ This file must be copied into the directory:
 
 #### 7. For STM32 boards
 
+#### 7.1 For STM32 boards to use LAN8720
+
+To use LAN8720 on some STM32 boards 
+
+- **Nucleo-144 (F429ZI, NUCLEO_F746NG, NUCLEO_F746ZG, NUCLEO_F756ZG)**
+- **Discovery (DISCO_F746NG)**
+- **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
+
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/1.9.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/1.9.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system) to overwrite the old files.
+
+Supposing the STM32 stm32 core version is 1.9.0. These files must be copied into the directory:
+
+- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/1.9.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
+theses files must be copied into the corresponding directory:
+
+- `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/system/STM32F4xx/stm32f4xx_hal_conf_default.h`
+- `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/system/STM32F7xx/stm32f7xx_hal_conf_default.h
+
+
+#### 7.2 For STM32 boards to use Serial1
+
 **To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/1.9.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/1.9.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
 Supposing the STM32 stm32 core version is 1.9.0. These files must be copied into the directory:
@@ -372,6 +420,39 @@ theses files must be copied into the corresponding directory:
 
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_F767ZI/variant.h`
 - `~/.arduino15/packages/STM32/hardware/stm32/x.yy.zz/variants/NUCLEO_L053R8/variant.h`
+
+#### 8. For RP2040-based boards using [Earle Philhower arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+
+#### 8.1 To use BOARD_NAME
+
+ **To be able to automatically detect and display BOARD_NAME on RP2040-based boards (RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, GENERIC_RP2040, etc) boards**, you have to copy the file [RP2040 platform.txt](Packages_Patches/rp2040/hardware/rp2040/1.4.0) into rp2040 directory (~/.arduino15/packages/rp2040/hardware/rp2040/1.4.0). 
+
+Supposing the rp2040 core version is 1.4.0. This file must be copied into the directory:
+
+- `~/.arduino15/packages/rp2040/hardware/rp2040/1.4.0/platform.txt`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/rp2040/hardware/rp2040/x.yy.zz/platform.txt`
+
+With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add -DBOARD_NAME="{build.board}" #136](https://github.com/earlephilhower/arduino-pico/pull/136).
+
+#### 8.2 To avoid compile error relating to microsecondsToClockCycles
+
+Some libraries, such as [Adafruit DHT-sensor-library](https://github.com/adafruit/DHT-sensor-library), require the definition of microsecondsToClockCycles(). **To be able to compile and run on RP2040-based boards**, you have to copy the files in [**RP2040 Arduino.h**](Packages_Patches/rp2040/hardware/rp2040/1.4.0/cores/rp2040/Arduino.h) into rp2040 directory (~/.arduino15/packages/rp2040/hardware/rp2040/1.4.0).
+
+Supposing the rp2040 core version is 1.4.0. This file must be copied to replace:
+
+- `~/.arduino15/packages/rp2040/hardware/rp2040/1.4.0/cores/rp2040/Arduino.h`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied to replace:
+
+- `~/.arduino15/packages/rp2040/hardware/rp2040/x.yy.zz/cores/rp2040/Arduino.h`
+
+With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add defs for compatibility #142](https://github.com/earlephilhower/arduino-pico/pull/142).
+
 
 ---
 ---
@@ -427,11 +508,11 @@ For example
 
 ---
 
-### HOWTO Update WiFiNINA Firmware (latest version is v1.4.3 as of Jan 2021)
+### HOWTO Update WiFiNINA Firmware (latest version is v1.4.5 as of May 2021)
 
 #### 1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin
 
-- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of January 2021, the latest WiFiNINA FW is v1.4.3, use [WiFi101-FirmwareUpdater-Plugin version v0.10.13](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.10.13).
+- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of May 2021, the latest WiFiNINA FW is v1.4.5, use [WiFi101-FirmwareUpdater-Plugin version v0.11.0](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases/tag/v0.11.0).
 - Unzip the downloaded file into WiFi101 folder (WiFi101/tool/firmwares folder and WiFi101/tool/WiFi101.jar file)
 - Copy the whole WiFi101 folder to ./arduino-1.8.yy/tools to overwrite the old WiFi101 folder.
 - Restart the Arduino IDE if running.
@@ -457,7 +538,7 @@ For example
 
 - Select the port of your board from the list under "1. Select port of the WiFi module".
 
-- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.3)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.5)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
 
 - Click "Update Firmware"
 
@@ -481,9 +562,9 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.5
-Firmware version installed: 1.4.3
-Latest firmware version available : 1.4.3
+WiFiNINA_Generic v1.8.10
+Firmware version installed: 1.4.5
+Latest firmware version available : 1.4.5
 
 Check result: PASSED
 
@@ -986,7 +1067,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.5
+WiFiNINA_Generic v1.8.10
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1149,7 +1230,7 @@ Debug is enabled by default on Serial. Debug Level from 0 to 4. To disable, chan
 
 ## Troubleshooting
 
-If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.1+` or this library version.
+If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.5+` or this library version.
 
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
@@ -1157,6 +1238,16 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 ---
 
 ## Releases
+
+### Releases v1.8.10
+
+1. Sync with [Arduino WiFiNINA Library v1.8.10](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.10). 
+  - Add support to **Arduino Nano RP2040 Connect** using [**Arduino mbed OS for Nano boards**](https://github.com/arduino/ArduinoCore-mbed).
+  - Update latest available nina-fw to v1.4.5
+  - Bug fixes.
+2. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Earle Philhower's arduino-pico** v1.5.1+ core](https://github.com/earlephilhower/arduino-pico).
+3. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** v2.1.0+ core](https://github.com/arduino/ArduinoCore-mbed).
+4. Update `Packages' Patches`
 
 ### Releases v1.8.5
 

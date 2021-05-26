@@ -1,8 +1,8 @@
 {
   "name": "WiFiNINA_Generic",
-  "version": "1.8.5",
-  "keywords": "wifi, wi-fi, WiFiNINA, NINA-B302-ublox, W101, W102, shield, Teensy, SAM DUE, SAMD, STM32, nRF52, Credentials, Manager",
-  "description": "Enables network connection (local and Internet) and WiFiStorage for SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, nRF52, NINA_B302_ublox, NINA_B112_ublox, etc. in addition to Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Arduino UNO WiFi Rev.2, Nano 33 IoT",
+  "version": "1.8.10",
+  "keywords": "wifi, wi-fi, WiFiNINA, NINA-B302-ublox, W101, W102, shield, Teensy, SAM DUE, SAMD, STM32, nRF52, rpi-pico, rp2040, Credentials, Manager, nano-rp2040-connect, raspberry-pi-pico",
+  "description": "Enables network connection (local and Internet) and WiFiStorage for SAM DUE, SAMD21, SAMD51, Teensy, AVR Mega, STM32F/L/H/G/WB/MP1, nRF52, NINA_B302_ublox, NINA_B112_ublox, RP2040-based boards, etc. in addition to Arduino MKR WiFi 1010, Arduino MKR VIDOR 4000, Arduino UNO WiFi Rev.2, Nano 33 IoT, Nano RP2040 Connect",
   "authors": [
     {
       "name":  "Arduino",

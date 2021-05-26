@@ -216,7 +216,9 @@ wifiSetEnterprise KEYWORD2
 ping  KEYWORD2
 debug KEYWORD2
 getTemperature  KEYWORD2
+digitalRead  KEYWORD2
 digitalWrite  KEYWORD2
+analogRead KEYWORD2
 analogWrite KEYWORD2
 downloadFile  KEYWORD2
 renameFile  KEYWORD2

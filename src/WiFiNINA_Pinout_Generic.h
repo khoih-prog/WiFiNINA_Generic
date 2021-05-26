@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.5
+  Version: 1.8.10
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -44,6 +44,7 @@
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
   1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
   1.8.5   K Hoang      20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
+  1.8.10  K Hoang      25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -95,12 +96,19 @@
 ////////////WARNING////////////////
 // To modify according to actual connection
 
+/*
+#if ( defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRWIFI1010) || \
+      defined(ARDUINO_SAMD_MKRVIDOR4000) )
+
+  #warning Using default WiFiNINA settings
+*/
+
 #if    ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
       || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
       || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) \
       || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
       || defined(__SAMD51G19A__) || defined(__SAMD51P19A__) || defined(__SAMD21G18A__) )
-
+ 
   #if !( defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRWIFI1010) || defined(ARDUINO_SAMD_MKRVIDOR4000) \
       || defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
       
@@ -419,6 +427,20 @@
     #define SPIWIFI_ACK      28   //NINA_ACK               //28 
     #define SPIWIFI_RESET    27   //NINA_RESETN            //27
   #endif
+
+#elif ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || \
+        defined(ARDUINO_GENERIC_RP2040) )
+
+    #warning You have to modify pin usage according to actual connection for RP2040
+       
+    //NINA
+    #define NINA_GPIO0  (20u)
+    #define NINA_RESETN (24u)
+    #define NINA_ACK    (27u)
+
+    #define SPIWIFI_SS       (26u)
+    #define SPIWIFI_ACK      (27u)
+    #define SPIWIFI_RESET    (NINA_RESETN)
 
 #else  
   #warning You have to modify pin usage according to actual connection for your unknown board

@@ -15,7 +15,7 @@ If you don't find anything, please [open a new issue](https://github.com/khoih-p
 Please ensure to specify the following:
 
 * Arduino IDE version (e.g. 1.8.13) or Platform.io version
-* `Arduino, Adafruit or Seeeduino` SAMD Core Version (e.g. Arduino SAMD core v1.8.11 or Adafruit SAMD core v1.6.5)
+* `SAMD` Core Version (e.g. Arduino SAMD core v1.8.11, Adafruit SAMD core v1.7.1, Seeed Studio SAMD v1.8.1)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
 * Anything that might be relevant in your opinion, such as:
@@ -27,12 +27,12 @@ Please ensure to specify the following:
 
 ```
 Arduino IDE version: 1.8.13
-Arduino SAMD core v1.8.11
+Arduino SAMD Core Version 1.8.11
 OS: Ubuntu 20.04 LTS
-Linux Inspiron 5.4.0-65-generic #73-Ubuntu SMP Mon Jan 18 17:25:17 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.4.0-73-generic #82-Ubuntu SMP Wed Apr 14 17:39:42 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
-The board couldn't autoreconnect to Local Blynk Server after router power recycling.
+I encountered an endless loop while trying to connect to Local WiFi.
 
 Steps to reproduce:
 1. ...
@@ -40,6 +40,7 @@ Steps to reproduce:
 3. ...
 4. ...
 ```
+
 
 ### Sending Feature Requests
 

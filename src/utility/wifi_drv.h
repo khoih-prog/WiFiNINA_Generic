@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.5
+  Version: 1.8.10
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -44,6 +44,7 @@
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
   1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
   1.8.5   K Hoang      20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
+  1.8.10  K Hoang      25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -320,7 +321,9 @@ class WiFiDrv
     static void debug(uint8_t on);
     static float getTemperature();
     static void pinMode(uint8_t pin, uint8_t mode);
+    static PinStatus digitalRead(uint8_t pin);
     static void digitalWrite(uint8_t pin, uint8_t value);
+    static uint16_t analogRead(uint8_t adc_channel);
     static void analogWrite(uint8_t pin, uint8_t value);
 
     // New from v1.6.0

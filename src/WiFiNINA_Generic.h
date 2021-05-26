@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.5
+  Version: 1.8.10
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -44,9 +44,15 @@
   1.8.0   K Hoang      19/11/2020 Sync with Arduino WiFiNINA Library v1.8.0 : new Firmware 1.4.2. Add WiFiBearSSLClient.
   1.8.2   K Hoang      02/02/2021 Sync with WiFiNINA v1.8.2 : new Firmware 1.4.3. Add possibility to resend data if lwip_send fails
   1.8.5   K Hoang      20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
+  1.8.10  K Hoang      25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
  ***********************************************************************************************************************************/
 
 #pragma once
 
-#include "WiFi_Generic.h"
+#if ( ( defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) ) && USING_WIFI101 )
+    #include <WiFi101.h>
+    #warning Using WiFi101 Library for MKR1000 and MKRWIFI1010 in WiFiNINA_Pinout_Generic.h
+#else
+  #include "WiFi_Generic.h"
+#endif  
 
