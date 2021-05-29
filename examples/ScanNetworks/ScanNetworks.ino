@@ -140,6 +140,8 @@ void printEncryptionType(int thisType)
       Serial.print(F("Unknown"));
       break;
   }
+
+  Serial.println();
 }
 
 void printMacAddress(byte mac[])
