@@ -52,7 +52,7 @@
     * [8.1. To use BOARD_NAME](#81-to-use-board_name)
     * [8.2. To avoid compile error relating to microsecondsToClockCycles](#82-to-avoid-compile-error-relating-to-microsecondstoclockcycles)
 * [HOWTO Change pin definitions for WiFiNINA](#howto-change-pin-definitions-for-wifinina) 
-* [HOWTO Update WiFiNINA Firmware (latest version is v1.4.5 as of May 2021)](#howto-update-wifinina-firmware-latest-version-is-v145-as-of-may-2021)
+* [HOWTO Update WiFiNINA Firmware (latest version is v1.4.6 as of June 2021)](#howto-update-wifinina-firmware-latest-version-is-v146-as-of-june-2021)
   * [1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin](#1-update-the-wifi101--wifinina-firmwareupdater-plugin) 
   * [2) Upload the WiFiNINA_Generic library's FirmwareUpdater sketch](#2-upload-the-wifinina_generic-librarys-firmwareupdater-sketch) 
   * [3) Update WiFiNINA Firmware](#3-update-wifinina-firmware) 
@@ -553,7 +553,7 @@ For example
 
 - Select the port of your board from the list under "1. Select port of the WiFi module".
 
-- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.6)(Arduino MKR WiFi1010, Arduino NANO 33 IoT) under "2. Update firmware".
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.6)(Arduino MKR WiFi1010, Arduino NANO 33 IoT, Arduino NANO RP2040 Connect) under "2. Update firmware".
 
 - Click "Update Firmware"
 
