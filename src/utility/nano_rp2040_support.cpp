@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.10-1
+  Version: 1.8.11
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -46,6 +46,7 @@
   1.8.5      K Hoang    20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
+  1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
  ***********************************************************************************************************************************/
 
 #ifdef ARDUINO_NANO_RP2040_CONNECT
@@ -61,6 +62,12 @@
  * FUNCTION DEFINITION
  ******************************************************************************/
 
+#ifdef NINA_PINS_AS_CLASS
+  #define VAL(x)      x.get()
+#else
+  #define VAL(x)      static_cast<uint8_t>(x)
+#endif
+
 uint8_t toAnalogPin(NinaPin pin)
 {
   if      (pin == A4) return 6; /* ADC1 - CH6 */
@@ -72,20 +79,24 @@ uint8_t toAnalogPin(NinaPin pin)
 
 void pinMode(NinaPin pin, PinMode mode)
 {
-  WiFiDrv::pinMode(static_cast<uint8_t>(pin), static_cast<uint8_t>(mode));
+  WiFiDrv::pinMode(VAL(pin), static_cast<uint8_t>(mode));
 }
 
 PinStatus digitalRead(NinaPin pin)
 {
-  return WiFiDrv::digitalRead(static_cast<uint8_t>(pin));
+  return WiFiDrv::digitalRead(VAL(pin));
 }
 
 void digitalWrite(NinaPin pin, PinStatus value)
 {
   if (value == LOW)
-    WiFiDrv::digitalWrite(static_cast<uint8_t>(pin), 1);
+  {
+    WiFiDrv::digitalWrite(VAL(pin), 1);
+  }  
   else
-    WiFiDrv::digitalWrite(static_cast<uint8_t>(pin), 0);
+  {
+    WiFiDrv::digitalWrite(VAL(pin), 0);
+  }  
 }
 
 int analogRead(NinaPin pin)
@@ -95,12 +106,16 @@ int analogRead(NinaPin pin)
   if (adc_channel == 0xFF)
     return 0;
   else
+#ifdef NINA_PINS_AS_CLASS
+    return WiFiDrv::analogRead(adc_channel) >> (12 - pin.analogReadResolution());
+#else
     return WiFiDrv::analogRead(adc_channel);
+#endif
 }
 
 void analogWrite(NinaPin pin, int value)
 {
-  WiFiDrv::analogWrite(static_cast<uint8_t>(pin), static_cast<uint8_t>(value));
+  WiFiDrv::analogWrite(VAL(pin), static_cast<uint8_t>(value));
 }
 
 #endif /* ARDUINO_NANO_RP2040_CONNECT */

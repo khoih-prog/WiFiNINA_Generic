@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.10-1
+  Version: 1.8.11
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -46,12 +46,14 @@
   1.8.5      K Hoang    20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
+  1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
  ***********************************************************************************************************************************/
 
 #include "Arduino.h"
 #include <SPI.h>
 #include "spi_drv.h"
 #include "pins_arduino.h"
+#include "WiFi_Generic.h"
 
 //KH
 #include "WiFiNINA_Pinout_Generic.h"
@@ -105,13 +107,7 @@ static bool inverted_reset = false;
 
 bool SpiDrv::initialized = false;
 
-__attribute__((weak)) void wifi_nina_feed_watchdog()
-{
-    /* This function can be overwritten by a "strong" implementation
-     * in a higher level application, such as the ArduinoIoTCloud
-     * firmware stack.
-     */
-}
+extern WiFiClass WiFi;
 
 void SpiDrv::begin()
 {
@@ -331,7 +327,7 @@ void SpiDrv::waitForSlaveReady(bool const feed_watchdog)
     {
       if ((millis() - start) < 10000) 
       {
-        wifi_nina_feed_watchdog();
+        WiFi.feedWatchdog();
       }
     }
   }

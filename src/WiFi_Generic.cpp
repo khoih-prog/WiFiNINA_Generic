@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.10-1
+  Version: 1.8.11
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -46,6 +46,7 @@
   1.8.5      K Hoang    20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
+  1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
  ***********************************************************************************************************************************/
 
 #include "utility/wifi_drv.h"
@@ -58,7 +59,7 @@ extern "C"
   #include "utility/debug.h"
 }
 
-WiFiClass::WiFiClass() : _timeout(50000)
+WiFiClass::WiFiClass() : _timeout(50000), _feed_watchdog_func(0)
 {
 }
 
@@ -80,6 +81,7 @@ int WiFiClass::begin(const char* ssid)
   {
     for (unsigned long start = millis(); (millis() - start) < _timeout;)
     {
+      feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
       
@@ -105,6 +107,7 @@ int WiFiClass::begin(const char* ssid, uint8_t key_idx, const char *key)
   {
     for (unsigned long start = millis(); (millis() - start) < _timeout;)
     {
+      feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
       
@@ -131,6 +134,7 @@ int WiFiClass::begin(const char* ssid, const char *passphrase)
   {
     for (unsigned long start = millis(); (millis() - start) < _timeout;)
     {
+      feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
       
@@ -459,6 +463,17 @@ int WiFiClass::ping(IPAddress host, uint8_t ttl)
 void WiFiClass::setTimeout(unsigned long timeout)
 {
   _timeout = timeout;
+}
+
+void WiFiClass::setFeedWatchdogFunc(FeedHostProcessorWatchdogFuncPointer func)
+{
+  _feed_watchdog_func = func;
+}
+
+void WiFiClass::feedWatchdog()
+{
+  if (_feed_watchdog_func)
+    _feed_watchdog_func();
 }
 
 WiFiClass WiFi;

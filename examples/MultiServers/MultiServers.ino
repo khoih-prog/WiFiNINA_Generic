@@ -29,6 +29,10 @@
  *****************************************************************************************************************************/
 #define _WIFININA_LOGLEVEL_       1
 
+// To eliminate FW warning when using not latest nina-fw version
+// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+
 #include <WiFiNINA_Generic.h>
 
 // https://github.com/ocrdu/NINA-Websocket

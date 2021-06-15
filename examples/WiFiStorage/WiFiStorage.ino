@@ -30,6 +30,10 @@
   APIs are modeled on SerialFlash library (not on SD) to speedup operations and avoid buffers.
 */
 
+// To eliminate FW warning when using not latest nina-fw version
+// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+
 #include <WiFiNINA_Generic.h>
 
 #ifndef BOARD_NAME

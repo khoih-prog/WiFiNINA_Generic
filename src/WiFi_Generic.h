@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.10-1
+  Version: 1.8.11
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -46,13 +46,20 @@
   1.8.5      K Hoang    20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
+  1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
  ***********************************************************************************************************************************/
 
 #pragma once
 
-#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+// To eliminate FW warning when using not latest nina-fw version
+// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
+#if !defined(WIFI_FIRMWARE_LATEST_VERSION)
+  #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.6"
+#endif
 
-#define WIFININA_GENERIC_VERSION            "WiFiNINA_Generic v1.8.10-1"
+#define WIFI_HAS_FEED_WATCHDOG_FUNC
+
+#define WIFININA_GENERIC_VERSION            "WiFiNINA_Generic v1.8.11"
 
 #include <inttypes.h>
 
@@ -69,12 +76,16 @@ extern "C"
 #include "WiFiServer_Generic.h"
 #include "WiFiStorage_Generic.h"
 
+typedef void(*FeedHostProcessorWatchdogFuncPointer)();
+
 class WiFiClass
 {
   private:
 
-    static void init();
-    unsigned long _timeout;
+    static void     init();
+    unsigned long   _timeout;
+    FeedHostProcessorWatchdogFuncPointer _feed_watchdog_func;
+    
   public:
     WiFiClass();
 
@@ -307,6 +318,9 @@ class WiFiClass
     int ping(IPAddress host, uint8_t ttl = 128);
 
     void setTimeout(unsigned long timeout);
+    
+    void setFeedWatchdogFunc(FeedHostProcessorWatchdogFuncPointer func);
+    void feedWatchdog();
 };
 
 extern WiFiClass WiFi;

@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.10-1
+  Version: 1.8.11
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -46,6 +46,7 @@
   1.8.5      K Hoang    20/03/2021 Sync with WiFiNINA v1.8.5 : Feed watchdog within busy-wait-loop within connectBearSSL
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
+  1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -71,32 +72,52 @@
   #define _WIFININA_LOGLEVEL_       0
 #endif
 
+///////////////////////////////////////
+
+const char NN_MARK[]  = "[NN] ";
+const char NN_SP[]    = " ";
+
+#define NN_PRINT          DBG_PORT_NN.print
+#define NN_PRINTLN        DBG_PORT_NN.println
+#define NN_FLUSH          DBG_PORT_NN.flush
+
+#define NN_PRINT_MARK     NN_PRINT(NN_MARK)
+#define NN_PRINT_SP       NN_PRINT(NN_SP)
+
+///////////////////////////////////////
+
 // Error waitResponse message
 #define ERROR_RESPONSE  ":Error waitResponse"
 
-#define NN_LOGERROR0(x)     if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print(x); }
-#define NN_LOGERROR(x)      if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGERROR1(x,y)   if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
-#define NN_LOGERROR2(x,y,z) if(_WIFININA_LOGLEVEL_>0) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
+#define NN_LOGERROR0(x)     if(_WIFININA_LOGLEVEL_>0) { NN_PRINT(x); }
+#define NN_LOGERROR(x)      if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINTLN(x); }
+#define NN_LOGERROR1(x,y)   if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINTLN(y); }
+#define NN_LOGERROR2(x,y,z) if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); }
 
-#define NN_LOGWARN0(x)     if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print(x); }
-#define NN_LOGWARN(x)      if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGWARN1(x,y)   if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
-#define NN_LOGWARN2(x,y,z) if(_WIFININA_LOGLEVEL_>1) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
+///////////////////////////////////////
 
-#define NN_LOGINFO0(x)     if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print(x); }
-#define NN_LOGINFO(x)      if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGINFO1(x,y)   if(_WIFININA_LOGLEVEL_>2) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
-#define NN_LOGINFO2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
-#define NN_LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(w); }
+#define NN_LOGWARN0(x)     if(_WIFININA_LOGLEVEL_>1) { NN_PRINT(x); }
+#define NN_LOGWARN(x)      if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINTLN(x); }
+#define NN_LOGWARN1(x,y)   if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINTLN(y); }
+#define NN_LOGWARN2(x,y,z) if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); }
 
-#define NN_LOGDEBUG0(x)     if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print(x); }
-#define NN_LOGDEBUG(x)      if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.println(x); }
-#define NN_LOGDEBUG1(x,y)   if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(y); }
-#define NN_LOGDEBUG2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); }
-#define NN_LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { DBG_PORT_NN.print("[NN] "); DBG_PORT_NN.print(x); DBG_PORT_NN.print(" "); DBG_PORT_NN.print(y); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(z); DBG_PORT_NN.print(" "); DBG_PORT_NN.println(w); }
+///////////////////////////////////////
 
-//////
+#define NN_LOGINFO0(x)     if(_WIFININA_LOGLEVEL_>2) { NN_PRINT(x); }
+#define NN_LOGINFO(x)      if(_WIFININA_LOGLEVEL_>2) { NN_PRINT_MARK; NN_PRINTLN(x); }
+#define NN_LOGINFO1(x,y)   if(_WIFININA_LOGLEVEL_>2) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINTLN(y); }
+#define NN_LOGINFO2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); }
+#define NN_LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); NN_PRINT(" "); NN_PRINTLN(w); }
+
+///////////////////////////////////////
+
+#define NN_LOGDEBUG0(x)     if(_WIFININA_LOGLEVEL_>3) { NN_PRINT(x); }
+#define NN_LOGDEBUG(x)      if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINTLN(x); }
+#define NN_LOGDEBUG1(x,y)   if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINTLN(y); }
+#define NN_LOGDEBUG2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); }
+#define NN_LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT(" "); NN_PRINT(y); NN_PRINT(" "); NN_PRINTLN(z); NN_PRINT(" "); NN_PRINTLN(w); }
+
+///////////////////////////////////////
 
 
 #define PRINT_FILE_LINE() do { 						\
@@ -109,35 +130,28 @@
 
 #ifdef _DEBUG_
 
-#define INFO(format, args...) do { \
-	char buf[250];	\
-	sprintf(buf, format, args); \
-	Serial.println(buf); \
-} while(0);
+  #define INFO(format, args...) do { \
+	  char buf[250];	\
+	  sprintf(buf, format, args); \
+	  Serial.println(buf); \
+  } while(0);
 
-#define INFO1(x) do { PRINT_FILE_LINE() Serial.print("-I-");\
-		Serial.println(x);    			\
-} while (0);
-
-#define INFO2(x,y) do { PRINT_FILE_LINE() Serial.print("-I-");\
-		Serial.print(x,16);Serial.print(",");Serial.println(y,16); \
-} while (0);
-
-
-#else
-#define INFO1(x) do {} while(0);
-#define INFO2(x,y) do {} while(0);
-#define INFO(format, args...) do {} while(0);
-#endif
-
-#if 0
-  #define WARN(args) do { PRINT_FILE_LINE()			\
-		  Serial.print("-W-"); Serial.println(args);	\
+  #define INFO1(x) do { PRINT_FILE_LINE() Serial.print("-I-");\
+		  Serial.println(x);    			\
   } while (0);
+
+  #define INFO2(x,y) do { PRINT_FILE_LINE() Serial.print("-I-");\
+		  Serial.print(x,16);Serial.print(",");Serial.println(y,16); \
+  } while (0);
+
+
 #else
-  #define WARN(args) do {} while (0);
+  #define INFO1(x) do {} while(0);
+  #define INFO2(x,y) do {} while(0);
+  #define INFO(format, args...) do {} while(0);
 #endif
 
+#define WARN(args) do {} while (0);
 
 //KH
 #define _DEBUG_SPI_     false
@@ -165,4 +179,6 @@
   #define INIT_TRIGGER()
   #define TOGGLE_TRIGGER()
 #endif
+  
+
 
