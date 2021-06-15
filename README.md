@@ -231,7 +231,7 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.13+`](https://www.arduino.cc/en/Main/Software)
+ 1. [`Arduino IDE 1.8.15+`](https://www.arduino.cc/en/Main/Software)
  2. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
  3. [`Teensy core 1.51`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards
