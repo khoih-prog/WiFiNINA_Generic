@@ -443,7 +443,21 @@
     #define SPIWIFI_SS       (26u)
     #define SPIWIFI_ACK      (27u)
     #define SPIWIFI_RESET    (NINA_RESETN)
+#elif defined(ARDUINO_AVR_UNO)
+  // To define pin out for WiFiNINA here
+  //#define PIN_SPI_SS    (4)
+  //#define PIN_SPI_MOSI  (11)
+  //#define PIN_SPI_MISO  (12)
+  //#define PIN_SPI_SCK   (13)
 
+  #define PINS_COUNT           (60u)
+  //NINA
+  #define NINA_GPIO0  (2u)                            
+  #define NINA_RESETN (7u)
+  #define NINA_ACK    (8u)
+  #define SPIWIFI_SS       4   
+  #define SPIWIFI_ACK      8    
+  #define SPIWIFI_RESET    7    
 #else  
   #warning You have to modify pin usage according to actual connection for your unknown board
   #define PINS_COUNT           (60u)
