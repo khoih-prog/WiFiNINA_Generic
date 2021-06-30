@@ -339,7 +339,7 @@
   #define SPIWIFI_SS       53   //PIN_SPI_SS             //53
   #define SPIWIFI_ACK      28   //NINA_ACK               //28 
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
-
+  
 #elif ( defined(ARDUINO_AVR_UNO_WIFI_REV2) )
 
   #warning Use WiFiNINA for UNO WiFi Rev2
@@ -445,7 +445,7 @@
     #define SPIWIFI_ACK      (27u)
     #define SPIWIFI_RESET    (NINA_RESETN)
     
-#elif defined(__AVR_ATmega2560__)    || defined(__AVR_ATmega2561__)   || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__)    || \
+#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__)    || \
       defined(__AVR_ATmega640__)   || defined(__AVR_ATmega641__)    || defined(__AVR_ATmega644__)  || defined(__AVR_ATmega644A__)      || \
       defined(__AVR_ATmega644P__)  || defined(__AVR_ATmega644PA__)  || defined(ARDUINO_AVR_UNO)    || defined(ARDUINO_AVR_NANO)        || \
       defined(ARDUINO_AVR_MINI)    || defined(ARDUINO_AVR_ETHERNET) || defined(ARDUINO_AVR_FIO)    || defined(ARDUINO_AVR_BT)          || \
@@ -477,7 +477,7 @@
   #define SPIWIFI_ACK      8    
   #define SPIWIFI_RESET    7
   
-  #warning You have to modify pin usage according to actual connection for AVR boards
+  #warning You have to modify pin usage according to actual connection for AVR (328P, 32U4, 16U4, etc.) boards
     
 #else
 
