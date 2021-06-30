@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.11
+  Version: 1.8.12
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -47,6 +47,7 @@
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
   1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
+  1.8.12     K Hoang    30/06/2021 Sync with WiFiNINA v1.8.12 : new FW v1.4.7. Add support to most AVR boards.
  ***********************************************************************************************************************************/
 
 #include "Arduino.h"
@@ -136,8 +137,7 @@ void SpiDrv::begin()
   }
 #endif
 
-#ifdef _DEBUG_
-#if (KH_WIFININA_SPI_DEBUG > 2)
+#if (KH_WIFININA_SPI_DEBUG >1)
   Serial.println("===============================");
   Serial.println("\nUsed/default SPI pinout: ");
   Serial.print("MOSI: ");
@@ -154,8 +154,12 @@ void SpiDrv::begin()
   Serial.println(NINA_GPIO0);
   Serial.print("NINA_RESETN/SPIWIFI_RESET: ");
   Serial.println(NINA_RESETN);
+
+#if defined(ARDUINO_SAMD_NANO_33_IOT)
   Serial.print("NINA_ACK: ");
   Serial.println(NINA_ACK);
+#endif
+  
   Serial.println("===============================");
   Serial.println("\nActual final pinout to used: ");
   Serial.print("SPIWIFI_SS: ");
@@ -167,7 +171,6 @@ void SpiDrv::begin()
   Serial.print("SLAVERESET/SPIWIFI_RESET/NINA_RESETN: ");
   Serial.println(SLAVERESET);
   Serial.println("===============================\n");
-#endif
 #endif
 
   //SPIWIFI.begin();
@@ -268,26 +271,6 @@ char SpiDrv::readChar()
 #define WAIT_START_CMD(x) waitSpiChar(START_CMD)
 
 
-#if 0
-
-#define IF_CHECK_START_CMD(x)             \
-  if (!WAIT_START_CMD(_data))             \
-  {                                       \
-    TOGGLE_TRIGGER()                      \
-    return 0;                             \
-  } else                                  \
-
-#define CHECK_DATA(check, x)              \
-  if (!readAndCheckChar(check, &x))       \
-  {                                       \
-    TOGGLE_TRIGGER()                      \
-    INFO2(check, (uint8_t)x);             \
-    return 0;                             \
-  }else                                   \
-
-
-#else
-
 #define IF_CHECK_START_CMD(x)             \
   if (!WAIT_START_CMD(_data))             \
   {                                       \
@@ -305,7 +288,6 @@ char SpiDrv::readChar()
     return 0;                             \
   }else                                   \
 
-#endif
 
 #define waitSlaveReady() (digitalRead(SLAVEREADY) == LOW)
 #define waitSlaveSign() (digitalRead(SLAVEREADY) == HIGH)
@@ -360,7 +342,7 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
         getParam(&param[ii]);
 
         //KH
-#if (KH_WIFININA_SPI_DEBUG > 2)
+#if (KH_WIFININA_SPI_DEBUG > 3)
         Serial.print("spi_drv-waitResponseCmd: *param_len = ");
         Serial.println(*param_len);
         Serial.print("spi_drv-waitResponseCmd: *param[ ");

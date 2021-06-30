@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.11
+  Version: 1.8.12
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -47,6 +47,7 @@
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
   1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
+  1.8.12     K Hoang    30/06/2021 Sync with WiFiNINA v1.8.12 : new FW v1.4.7. Add support to most AVR boards.
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -443,7 +444,24 @@
     #define SPIWIFI_SS       (26u)
     #define SPIWIFI_ACK      (27u)
     #define SPIWIFI_RESET    (NINA_RESETN)
-#elif defined(ARDUINO_AVR_UNO)
+    
+#elif defined(__AVR_ATmega2560__)    || defined(__AVR_ATmega2561__)   || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__)    || \
+      defined(__AVR_ATmega640__)   || defined(__AVR_ATmega641__)    || defined(__AVR_ATmega644__)  || defined(__AVR_ATmega644A__)      || \
+      defined(__AVR_ATmega644P__)  || defined(__AVR_ATmega644PA__)  || defined(ARDUINO_AVR_UNO)    || defined(ARDUINO_AVR_NANO)        || \
+      defined(ARDUINO_AVR_MINI)    || defined(ARDUINO_AVR_ETHERNET) || defined(ARDUINO_AVR_FIO)    || defined(ARDUINO_AVR_BT)          || \
+      defined(ARDUINO_AVR_LILYPAD) || defined(ARDUINO_AVR_PRO)      || defined(ARDUINO_AVR_NG) || defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) || \
+      defined(ARDUINO_AVR_DUEMILANOVE)  || defined(ARDUINO_AVR_FEATHER328P) || defined(ARDUINO_AVR_METRO) || defined(ARDUINO_AVR_PROTRINKET5) || \
+      defined(ARDUINO_AVR_PROTRINKET3)  || defined(ARDUINO_AVR_PROTRINKET5FTDI) || defined(ARDUINO_AVR_PROTRINKET3FTDI) || \
+      defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_LEONARDO_ETH) || defined(ARDUINO_AVR_YUN) || defined(ARDUINO_AVR_MICRO) || \
+      defined(ARDUINO_AVR_ESPLORA)  || defined(ARDUINO_AVR_LILYPAD_USB)  || defined(ARDUINO_AVR_ROBOT_CONTROL) || \
+      defined(ARDUINO_AVR_ROBOT_MOTOR) || defined(ARDUINO_AVR_CIRCUITPLAY)  || defined(ARDUINO_AVR_YUNMINI) || defined(ARDUINO_AVR_INDUSTRIAL101) || \
+      defined(ARDUINO_AVR_LININO_ONE) || defined(ARDUINO_AVR_FLORA8 ) || defined(ARDUINO_AVR_FEATHER32U4) || defined(ARDUINO_AVR_CIRCUITPLAY) || \
+      defined(ARDUINO_AVR_ITSYBITSY32U4_5V) || defined(ARDUINO_AVR_ITSYBITSY32U4_3V) || defined(ARDUINO_AVR_BLUEFRUITMICRO) || \
+      defined(ARDUINO_AVR_ADAFRUIT32U4) || defined(__AVR_ATmega32U4__) || defined(ARDUINO_AVR_MAKEYMAKEY ) || defined(ARDUINO_AVR_PROMICRO) || \
+      defined(ARDUINO_AVR_FIOV3) || defined(ARDUINO_AVR_QDUINOMINI) || defined(ARDUINO_AVR_LILYPAD_ARDUINO_USB_PLUS_BOARD ) || \
+      defined(__AVR_ATmega328P__) || defined(ARDUINO_AVR_DIGITAL_SANDBOX ) || defined(ARDUINO_REDBOT) || defined(ARDUINO_AVR_SERIAL_7_SEGMENT) || \
+      defined(__AVR_ATmega128RFA1__) || defined(ARDUINO_ATMEGA128RFA1_DEV_BOARD)
+      
   // To define pin out for WiFiNINA here
   //#define PIN_SPI_SS    (4)
   //#define PIN_SPI_MOSI  (11)
@@ -457,8 +475,12 @@
   #define NINA_ACK    (8u)
   #define SPIWIFI_SS       4   
   #define SPIWIFI_ACK      8    
-  #define SPIWIFI_RESET    7    
-#else  
+  #define SPIWIFI_RESET    7
+  
+  #warning You have to modify pin usage according to actual connection for AVR boards
+    
+#else
+
   #warning You have to modify pin usage according to actual connection for your unknown board
   #define PINS_COUNT           (60u)
   //NINA

@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.11
+  Version: 1.8.12
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -47,9 +47,12 @@
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
   1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
+  1.8.12     K Hoang    30/06/2021 Sync with WiFiNINA v1.8.12 : new FW v1.4.7. Add support to most AVR boards.
  ***********************************************************************************************************************************/
 
-#ifdef ARDUINO_NANO_RP2040_CONNECT
+//#ifdef ARDUINO_NANO_RP2040_CONNECT
+
+#if defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
 
 /******************************************************************************
  * INCLUDE
@@ -72,8 +75,12 @@ uint8_t toAnalogPin(NinaPin pin)
 {
   if      (pin == A4) return 6; /* ADC1 - CH6 */
   else if (pin == A5) return 3; /* ADC1 - CH3 */
+  
+#if defined(ARDUINO_NANO_RP2040_CONNECT)  
   else if (pin == A6) return 0; /* ADC1 - CH0 */
   else if (pin == A7) return 7; /* ADC1 - CH7 */
+#endif
+  
   else                return 0xFF;
 }
 

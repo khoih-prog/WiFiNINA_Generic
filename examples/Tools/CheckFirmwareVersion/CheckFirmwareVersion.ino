@@ -41,6 +41,7 @@
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
 //#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
 
+#include "defines.h"
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
 

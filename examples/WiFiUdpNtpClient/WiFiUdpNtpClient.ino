@@ -150,21 +150,21 @@ void loop()
     // print the hour, minute and second:
     Serial.print(F("The UTC time is "));       // UTC is the time at Greenwich Meridian (GMT)
     Serial.print((epoch  % 86400L) / 3600); // print the hour (86400 equals secs per day)
-    Serial.print(F(':'));
+    Serial.print(':');
     
     if (((epoch % 3600) / 60) < 10) 
     {
       // In the first 10 minutes of each hour, we'll want a leading '0'
-      Serial.print(F('0'));
+      Serial.print('0');
     }
     
     Serial.print((epoch  % 3600) / 60); // print the minute (3600 equals secs per minute)
-    Serial.print(F(':'));
+    Serial.print(':');
     
     if ((epoch % 60) < 10) 
     {
       // In the first 10 seconds of each minute, we'll want a leading '0'
-      Serial.print(F('0'));
+      Serial.print('0');
     }
     
     Serial.println(epoch % 60); // print the second

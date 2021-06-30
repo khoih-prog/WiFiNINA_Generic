@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.11
+  Version: 1.8.12
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -47,6 +47,7 @@
   1.8.10     K Hoang    25/05/2021 Sync with WiFiNINA v1.8.10 : Support RP2040, new FW v1.4.5
   1.8.10-1   K Hoang    29/05/2021 Fix PinStatus compile error for some platforms
   1.8.11     K Hoang    14/06/2021 Sync with WiFiNINA v1.8.11 : Support RP2040, new FW v1.4.6
+  1.8.12     K Hoang    30/06/2021 Sync with WiFiNINA v1.8.12 : new FW v1.4.7. Add support to most AVR boards.
  ***********************************************************************************************************************************/
 
 #include <string.h>
@@ -113,7 +114,7 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
     //ServerDrv::startServer(port, sock, UDP_MULTICAST_MODE);
     //ServerDrv::startClient(ip, port, sock, UDP_MULTICAST_MODE);
     
-#if (KH_WIFININA_UDP_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.print("WiFiUDP::beginMulticast: Start Client(Server) on port ");
     Serial.println(port);   
 #endif
@@ -123,7 +124,7 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
     _parsed = 0;
     
     // KH
-#if (KH_WIFININA_UDP_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.println("WiFiUDP::beginMulticast: Start Client(Server) OK");
 #endif
     
@@ -175,7 +176,7 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
   {
     ServerDrv::startClient(uint32_t(ip), port, _sock, UDP_MODE);
     
-#if (KH_WIFININA_UDP_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.print("WiFiUDP::beginPacket: startClient, ip=");
     Serial.print(ip);
     Serial.print(", port=");
@@ -232,13 +233,15 @@ int WiFiUDP::parsePacket()
 #endif
 
   _parsed = ServerDrv::availData(_sock);
+  
+  
 
-#if (KH_WIFININA_UDP_DEBUG > 2)
-    if (_parsed > 0)
-    {
-      Serial.print("WiFiUDP::parsePacket: len=");
-      Serial.println(_parsed);
-    }
+#if (KH_WIFININA_UDP_DEBUG > 3)
+
+    Serial.print("WiFiUDP::parsePacket: len=");
+    Serial.print(_parsed);
+    Serial.print(", _sock =");
+    Serial.println(_sock);
 #endif
 
   return _parsed;
@@ -273,7 +276,7 @@ int WiFiUDP::read(unsigned char* buffer, size_t len)
     _parsed -= result;
   }
   
-#if (KH_WIFININA_UDP_DEBUG > 2)
+#if (KH_WIFININA_UDP_DEBUG > 3)
     Serial.print("WiFiUDP::read: buffer=");
     for (int i = 0; i < result; i++)
     {

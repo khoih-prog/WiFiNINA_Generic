@@ -15,6 +15,7 @@
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
 * [Changelog](#changelog)
+  * [Releases v1.8.12](#releases-v1812)
   * [Releases v1.8.11](#releases-v1811)
   * [Releases v1.8.10-1](#releases-v1810-1)
   * [Releases v1.8.10](#releases-v1810)
@@ -131,10 +132,26 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
 
  9. RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** v2.1.0+ core](https://github.com/arduino/ArduinoCore-mbed) or [**Earle Philhower's arduino-pico** core v1.5.1+](https://github.com/earlephilhower/arduino-pico).
  
+10. Add support to **Arduino ATMega-16U4, ATMega-32U4**-based boards
+11. Add support to **Adafruit ATMega-32U4**-based boards
+12. Add support to **Arduino, Adafruit ATMega-328(P)**-based boards
+13. Add support to **Generic or Sparkfun AVR ATmega_32U4** such as **AVR_MAKEYMAKEY, AVR_PROMICRO, etc.**
+14. Add support to **Generic or Sparkfun AVR ATmega_328(P)** such as **ARDUINO_REDBOT, ARDUINO_AVR_DIGITAL_SANDBOX, etc.**
+15. Add support to **Generic or Sparkfun AVR ATmega128RFA1** such as **ATMEGA128RFA1_DEV_BOARD, etc.**
+
+ 
 ---
 ---
 
 ## Changelog
+
+### Releases v1.8.12
+
+1. Sync with [Arduino WiFiNINA Library v1.8.12](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.12). 
+  - Update latest available nina-fw to v1.4.7
+
+2. Add support to many AVR (328P, 32U4, 16U4, etc.) boards. Check [Add support to Arduino UNO board #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9)
+
 
 ### Releases v1.8.11
 
@@ -236,13 +253,15 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
  3. [`Teensy core 1.51`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards
  5. [`Arduino SAMD core 1.8.11+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 6. [`Adafruit SAMD core 1.7.2+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 6. [`Adafruit SAMD core 1.7.3+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
  7. [`Seeeduino SAMD core 1.8.1+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
- 8. [`Adafruit nRF52 v0.22.1+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
+ 8. [`Adafruit nRF52 v0.24.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
  9. [`Arduino Core for STM32 v2.0.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-10. [`Arduino mbed_rp2040 core 2.1.0+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-11. [`Earle Philhower's arduino-pico core v1.8.4+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
-
+10. [`Arduino mbed_rp2040 core 2.2.0+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+11. [`Earle Philhower's arduino-pico core v1.9.1+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+12. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install. [![Latest release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest/)
+13. [`Adafruit AVR core 1.4.13+`](https://github.com/adafruit/Adafruit_Arduino_Boards) for Adafruit AVR boards. Use Arduino Board Manager to install. 
+14. [`Sparkfun AVR core 1.1.13+`](https://github.com/sparkfun/Arduino_Boards) for Sparkfun AVR boards. Use Arduino Board Manager to install. 
 
 ---
 ---
@@ -577,7 +596,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.11
+WiFiNINA_Generic v1.8.12
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -1085,7 +1104,53 @@ void printWiFiStatus()
     #endif
     
   #endif
-#endif  
+#endif
+
+#if ( defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__) || \
+      defined(__AVR_ATmega640__) || defined(__AVR_ATmega641__))
+  #define BOARD_TYPE    "Arduino AVR Mega2560/ADK"
+  #warning Using Arduino AVR Mega, Mega640(P), Mega2560/ADK.
+  
+#elif ( defined(__AVR_ATmega644__) || defined(__AVR_ATmega644A__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega644PA__)  || \
+        defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO) || defined(ARDUINO_AVR_MINI) ||    defined(ARDUINO_AVR_ETHERNET) || \
+        defined(ARDUINO_AVR_FIO) || defined(ARDUINO_AVR_BT)   || defined(ARDUINO_AVR_LILYPAD) || defined(ARDUINO_AVR_PRO)      || \
+        defined(ARDUINO_AVR_NG) || defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) || defined(ARDUINO_AVR_DUEMILANOVE) )      
+  #define BOARD_TYPE    "Arduino AVR UNO, Nano, etc." 
+  #warning Using Aduino AVR ATMega644(P), ATMega328(P) such as UNO, Nano.
+
+#elif ( defined(ARDUINO_AVR_FEATHER328P) || defined(ARDUINO_AVR_METRO) || defined(ARDUINO_AVR_PROTRINKET5) || defined(ARDUINO_AVR_PROTRINKET3) || \
+      defined(ARDUINO_AVR_PROTRINKET5FTDI) || defined(ARDUINO_AVR_PROTRINKET3FTDI) )
+  #define BOARD_TYPE    "Adafruit AVR ATMega328(P)"
+  #warning Using Adafruit ATMega328(P), such as AVR_FEATHER328P or AVR_METRO.
+        
+#elif ( defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_LEONARDO_ETH) || defined(ARDUINO_AVR_YUN) || defined(ARDUINO_AVR_MICRO) || \
+        defined(ARDUINO_AVR_ESPLORA)  || defined(ARDUINO_AVR_LILYPAD_USB)  || defined(ARDUINO_AVR_ROBOT_CONTROL) || defined(ARDUINO_AVR_ROBOT_MOTOR) || \
+        defined(ARDUINO_AVR_CIRCUITPLAY)  || defined(ARDUINO_AVR_YUNMINI) || defined(ARDUINO_AVR_INDUSTRIAL101) || defined(ARDUINO_AVR_LININO_ONE) )
+  #define BOARD_TYPE    "Arduino AVR ATMega32U4"
+  #warning Using Arduino ATMega32U4, such as Leonardo or Leonardo ETH.
+  
+#elif ( defined(ARDUINO_AVR_FLORA8 ) || defined(ARDUINO_AVR_FEATHER32U4) || defined(ARDUINO_AVR_CIRCUITPLAY) || defined(ARDUINO_AVR_ITSYBITSY32U4_5V) || \
+        defined(ARDUINO_AVR_ITSYBITSY32U4_3V)  || defined(ARDUINO_AVR_BLUEFRUITMICRO) || defined(ARDUINO_AVR_ADAFRUIT32U4) )
+  #define BOARD_TYPE    "Adafruit AVR ATMega32U4"
+  #warning Using Adafruit ATMega32U4, such as Feather_32u4, AVR_CIRCUITPLAY, etc.
+
+#elif ( defined(__AVR_ATmega32U4__) || defined(ARDUINO_AVR_MAKEYMAKEY ) || defined(ARDUINO_AVR_PROMICRO) || defined(ARDUINO_AVR_FIOV3) || \
+        defined(ARDUINO_AVR_QDUINOMINI) || defined(ARDUINO_AVR_LILYPAD_ARDUINO_USB_PLUS_BOARD ) )
+  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega32U4"
+  #warning Using Generic ATMega32U4, such as Sparkfun AVR_MAKEYMAKEY, AVR_PROMICRO, etc.
+
+#elif ( defined(__AVR_ATmega328P__) || defined(ARDUINO_AVR_DIGITAL_SANDBOX ) || defined(ARDUINO_REDBOT) || defined(ARDUINO_AVR_SERIAL_7_SEGMENT) )
+  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega328P"
+  #warning Using Generic ATMega328P, such as Sparkfun AVR_DIGITAL_SANDBOX, REDBOT, etc.
+
+#elif ( defined(__AVR_ATmega128RFA1__) || defined(ARDUINO_ATMEGA128RFA1_DEV_BOARD) )
+  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega128RFA1"
+  #warning Using Generic ATMega128RFA1, such as Sparkfun ATMEGA128RFA1_DEV_BOARD, etc.
+
+#elif ( defined(ARDUINO_AVR_GEMMA) || defined(ARDUINO_AVR_TRINKET3) || defined(ARDUINO_AVR_TRINKET5) )
+  #error These AVR boards are not supported! Please check your Tools->Board setting.
+  
+#endif
 
 #ifndef BOARD_NAME
   #define BOARD_NAME    BOARD_TYPE
@@ -1112,7 +1177,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.11
+WiFiNINA_Generic v1.8.12
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1284,6 +1349,13 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 
 ## Releases
 
+### Releases v1.8.12
+
+1. Sync with [Arduino WiFiNINA Library v1.8.12](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.12). 
+  - Update latest available nina-fw to v1.4.7
+
+2. Add support to many AVR (328P, 32U4, 16U4, etc.) boards. Check [Add support to Arduino UNO board #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9)
+
 ### Releases v1.8.11
 
 1. Sync with [Arduino WiFiNINA Library v1.8.11](https://github.com/arduino-libraries/WiFiNINA/releases/tag/1.8.11). 
@@ -1398,6 +1470,13 @@ Again with credits of [Miguel Alexandre Wisintainer](https://github.com/tcpipchi
 10. Add support to **Arduino Nano RP2040 Connect** using [**Arduino mbed OS for Nano boards**](https://github.com/arduino/ArduinoCore-mbed).
 11. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Earle Philhower's arduino-pico** core](https://github.com/earlephilhower/arduino-pico).
 12. Add support to RP2040-based boards, such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, using [**Arduino-mbed RP2040** core](https://github.com/arduino/ArduinoCore-mbed).
+13. Add support to **Arduino ATMega-16U4, ATMega-32U4**-based boards
+14. Add support to **Adafruit ATMega-32U4**-based boards
+15. Add support to **Arduino, Adafruit ATMega-328(P)**-based boards
+16. Add support to **Generic or Sparkfun AVR ATmega_32U4** such as **AVR_MAKEYMAKEY, AVR_PROMICRO, etc.**
+17. Add support to **Generic or Sparkfun AVR ATmega_328(P)** such as **ARDUINO_REDBOT, ARDUINO_AVR_DIGITAL_SANDBOX, etc.**
+18. Add support to **Generic or Sparkfun AVR ATmega128RFA1** such as **ATMEGA128RFA1_DEV_BOARD, etc.**
+
 ---
 
 ### Issues ###
@@ -1416,6 +1495,9 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
   - the fix, reported in [Version 1.4.0 can break code that uses more than one WiFiServer and socket](https://github.com/arduino-libraries/WiFiNINA/issues/87) and has been included.
   - the newly-added example [MultiServers](examples/MultiServers)
 5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
+6. Thanks to [mouradelbellili](https://github.com/mouradelbellili) to create PR [**Add support to Arduino UNO board** #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9) leading to version v1.8.12 to add support to Arduino, Adafruit, Sparkfun AVR 328P, 32u4, 16u4, etc. boards.
+
+
 
 <table>
   <tr>
@@ -1423,6 +1505,7 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
     <td align="center"><a href="https://github.com/AppsByDavideV"><img src="https://github.com/AppsByDavideV.png" width="100px;" alt="AppsByDavideV"/><br /><sub><b>AppsByDavideV</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/ocrdu"><img src="https://github.com/ocrdu.png" width="100px;" alt="ocrdu"/><br /><sub><b>Oscar den Uijl</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/gmstuff"><img src="https://github.com/gmstuff.png" width="100px;" alt="gmstuff"/><br /><sub><b>Gerard Moorcroft</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/mouradelbellili"><img src="https://github.com/mouradelbellili.png" width="100px;" alt="mouradelbellili"/><br /><sub><b>mouradelbellili</b></sub></a><br /></td>
   </tr> 
 </table>
 

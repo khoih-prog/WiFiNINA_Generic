@@ -33,6 +33,7 @@
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
 #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
 
+#include "defines.h"
 #include <WiFiNINA_Generic.h>
 
 // https://github.com/ocrdu/NINA-Websocket
@@ -101,7 +102,8 @@ void setup()
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.print(F("\nStart MultiServers on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart MultiServers on ")); Serial.println(BOARD_TYPE);
+  
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:

@@ -176,7 +176,7 @@ int dtr = -1;
      || defined(__MK20DX128__) )
 
 // For Teensy boards. To be changed and added as necessary
-#warning To change the pin defintions to match actual assignment for your board
+#warning To change the pin definitions to match actual assignment for your board
 
 #ifndef SerialNina
   // Just need to do something such as
