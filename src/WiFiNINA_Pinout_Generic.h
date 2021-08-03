@@ -239,6 +239,21 @@
     
       #warning ADAFRUIT_METRO_M4_AIRLIFT_LITE or ADAFRUIT_PYBADGE_AIRLIFT_M4 are OK to use
       
+   #elif ( defined(ADAFRUIT_MATRIXPORTAL_M4_EXPRESS)  )  
+      
+      #warning You have to modify pin usage according to actual connection for SAMD51 ADAFRUIT_MATRIXPORTAL_M4_EXPRESS
+      // To define pin out for WiFiNINA here
+
+      //#define PINS_COUNT           (60u)
+      //NINA     
+      #define NINA_GPIO0      ESP32_GPIO0
+      #define NINA_RESETN     ESP32_RESETN
+      #define NINA_ACK        SPIWIFI_ACK
+
+      #define SPIWIFI_SS      33
+      #define SPIWIFI_ACK     31
+      #define SPIWIFI_RESET   ESP32_RESETN
+      
     #else
       #warning You have to modify pin usage according to actual connection for SAMD
       // To define pin out for WiFiNINA here
