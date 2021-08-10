@@ -550,11 +550,11 @@ For example
 
 ---
 
-### HOWTO Update WiFiNINA Firmware (latest version is v1.4.6 as of June 2021)
+### HOWTO Update WiFiNINA Firmware (latest version is v1.4.8 as of August 2021)
 
 #### 1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin
 
-- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of June 2021, the latest WiFiNINA FW is v1.4.6, use [WiFi101-FirmwareUpdater-Plugin version v0.11.1+](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). [Version v0.11.0] is still not ready yet for WiFiNINA FW is v1.4.6
+- Download latest release from [WiFi101-FirmwareUpdater-Plugin](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases). As of August 2021, the latest WiFiNINA FW is v1.4.8, use [WiFi101-FirmwareUpdater-Plugin version v0.12.0+](https://github.com/arduino/WiFi101-FirmwareUpdater-Plugin/releases).
 - Unzip the downloaded file into WiFi101 folder (WiFi101/tool/firmwares folder and WiFi101/tool/WiFi101.jar file)
 - Copy the whole WiFi101 folder to ./arduino-1.8.yy/tools to overwrite the old WiFi101 folder.
 - Restart the Arduino IDE if running.
@@ -580,7 +580,7 @@ For example
 
 - Select the port of your board from the list under "1. Select port of the WiFi module".
 
-- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.6)(Arduino MKR WiFi1010, Arduino NANO 33 IoT, Arduino NANO RP2040 Connect) under "2. Update firmware".
+- Select the latest firmware,  e.g. "WiFiNINA firmware (1.4.8)(Arduino MKR WiFi1010, Arduino NANO 33 IoT, Arduino NANO RP2040 Connect) under "2. Update firmware".
 
 - Click "Update Firmware"
 
