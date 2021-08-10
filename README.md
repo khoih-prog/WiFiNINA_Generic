@@ -54,7 +54,7 @@
     * [8.1. To use BOARD_NAME](#81-to-use-board_name)
     * [8.2. To avoid compile error relating to microsecondsToClockCycles](#82-to-avoid-compile-error-relating-to-microsecondstoclockcycles)
 * [HOWTO Change pin definitions for WiFiNINA](#howto-change-pin-definitions-for-wifinina) 
-* [HOWTO Update WiFiNINA Firmware (latest version is v1.4.6 as of June 2021)](#howto-update-wifinina-firmware-latest-version-is-v146-as-of-june-2021)
+* [HOWTO Update WiFiNINA Firmware (latest version is v1.4.8 as of August 2021)](#howto-update-wifinina-firmware-latest-version-is-v148-as-of-august-2021)
   * [1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin](#1-update-the-wifi101--wifinina-firmwareupdater-plugin) 
   * [2) Upload the WiFiNINA_Generic library's FirmwareUpdater sketch](#2-upload-the-wifinina_generic-librarys-firmwareupdater-sketch) 
   * [3) Update WiFiNINA Firmware](#3-update-wifinina-firmware) 
