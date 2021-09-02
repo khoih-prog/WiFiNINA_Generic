@@ -281,7 +281,7 @@ uint16_t ServerDrv::availData(uint8_t sock)
   if  (!SpiDrv::available()) 
   {
     // KH
-#if (KH_WIFININA_SERVER_DRV_DEBUG > 0)
+#if (KH_WIFININA_SERVER_DRV_DEBUG > 2)
     Serial.println("ServerDrv::availData: SpiDrv not available");
 #endif    
     return 0;
