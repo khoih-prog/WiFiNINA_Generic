@@ -56,7 +56,7 @@
 #ifdef KH_WIFININA_UDP_DEBUG
   #undef KH_WIFININA_UDP_DEBUG
 #endif
-#define KH_WIFININA_UDP_DEBUG   1
+#define KH_WIFININA_UDP_DEBUG   0
 
 extern "C" 
 {

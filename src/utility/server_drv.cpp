@@ -53,13 +53,13 @@
 
 #define _DEBUG_
 
-#define KH_WIFININA_SERVER_DRV_DEBUG   1
+#define KH_WIFININA_SERVER_DRV_DEBUG   0
 
 #include "server_drv.h"
 
 #include "Arduino.h"
 #include "spi_drv.h"
-
+  
 // From v1.5.1, For nRF52x
 #include "wl_types.h"
 #include "debug.h"

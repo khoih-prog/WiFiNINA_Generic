@@ -448,18 +448,32 @@
   #endif
 
 #elif ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || \
-        defined(ARDUINO_GENERIC_RP2040) )
+        defined(ARDUINO_GENERIC_RP2040) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT) )
 
-    #warning You have to modify pin usage according to actual connection for RP2040
-       
-    //NINA
-    #define NINA_GPIO0  (20u)
-    #define NINA_RESETN (24u)
-    #define NINA_ACK    (27u)
+    #if defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
+      #warning Using Nano_RP2040_Connect with arduino-pico core
+         
+      //NINA
+      #define NINA_GPIO0  (20u)
+      #define NINA_RESETN (24u)
+      #define NINA_ACK    (27u)
 
-    #define SPIWIFI_SS       (26u)
-    #define SPIWIFI_ACK      (27u)
-    #define SPIWIFI_RESET    (NINA_RESETN)
+      #define SPIWIFI_SS       (26u)
+      #define SPIWIFI_ACK      (27u)
+      #define SPIWIFI_RESET    (NINA_RESETN)
+      
+    #else
+      #warning You have to modify pin usage according to actual connection for RP2040
+         
+      //NINA
+      #define NINA_GPIO0  (20u)
+      #define NINA_RESETN (24u)
+      #define NINA_ACK    (27u)
+
+      #define SPIWIFI_SS       (26u)
+      #define SPIWIFI_ACK      (27u)
+      #define SPIWIFI_RESET    (NINA_RESETN)
+    #endif
     
 #elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__)    || \
       defined(__AVR_ATmega640__)   || defined(__AVR_ATmega641__)    || defined(__AVR_ATmega644__)  || defined(__AVR_ATmega644A__)      || \
