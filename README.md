@@ -1080,6 +1080,22 @@ void printWiFiStatus()
   
 #endif
 
+#if ( defined(__AVR_ATmega4809__) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_AVR_NANO_EVERY) )
+  #if !defined(BOARD_NAME)
+    #if (ARDUINO_AVR_UNO_WIFI_REV2)
+      #define BOARD_NAME      "megaAVR UNO WiFi Rev2"
+    #elif (ARDUINO_AVR_NANO_EVERY)
+      #define BOARD_NAME      "megaAVR Nano Every"
+    #else
+      #define BOARD_NAME      "megaAVR Unknown"
+    #endif
+  #endif
+#endif
+
+#ifndef BOARD_TYPE
+  #define BOARD_TYPE    "Unknown board"
+#endif
+
 #ifndef BOARD_NAME
   #define BOARD_NAME    BOARD_TYPE
 #endif
