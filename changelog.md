@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.14-1](#releases-v1814-1)
   * [Releases v1.8.13](#releases-v1813)
   * [Releases v1.8.12](#releases-v1812)
   * [Releases v1.8.11](#releases-v1811)
@@ -35,6 +36,15 @@
 ---
 
 ## Changelog
+
+### Releases v1.8.14-1
+
+1. Fix examples to support ATmega4809 such as UNO_WIFI_REV2 and NANO_EVERY
+2. Add support to generic `__SAMD21E1xA__`, `__SAMD21G1xA__` and `__SAMD21J1xA__`
+3. Add `headers` in `library.json` for PIO
+4. Update `platform.io`
+5. Remove debug leftovers. Check [Debug text comes out of the serial port when listening for UDP connections #15](https://github.com/khoih-prog/WiFiNINA_Generic/issues/15)
+
 
 ### Releases v1.8.13
 
