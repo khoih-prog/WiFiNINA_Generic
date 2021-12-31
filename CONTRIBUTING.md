@@ -14,7 +14,7 @@ If you don't find anything, please [open a new issue](https://github.com/khoih-p
 
 Please ensure to specify the following:
 
-* Arduino IDE version (e.g. 1.8.16) or Platform.io version
+* Arduino IDE version (e.g. 1.8.19) or Platform.io version
 * Core Version (e.g. Arduino SAMD core v1.8.12, Adafruit SAMD core v1.7.5, Arduino-mbed RP2040 v2.6.1)
 * Board type (e.g. NANO_RP2040_CONNECT, RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, GENERIC_RP2040, etc.)
 * Contextual information (e.g. what you were trying to achieve)
@@ -27,7 +27,7 @@ Please ensure to specify the following:
 ### Example
 
 ```
-Arduino IDE version: 1.8.16
+Arduino IDE version: 1.8.19
 Arduino-mbed RP2040 v2.6.1
 NANO_RP2040_CONNECT Module
 OS: Ubuntu 20.04 LTS

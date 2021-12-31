@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.14-2](#releases-v1814-2)
   * [Releases v1.8.14-1](#releases-v1814-1)
   * [Releases v1.8.13](#releases-v1813)
   * [Releases v1.8.12](#releases-v1812)
@@ -36,6 +37,11 @@
 ---
 
 ## Changelog
+
+### Releases v1.8.14-2
+
+1. Add support to `Nano_RP2040_Connect` using `arduino-pico` core
+2. Update `Packages' Patches` 
 
 ### Releases v1.8.14-1
 
