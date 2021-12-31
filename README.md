@@ -74,6 +74,8 @@
   * [1. AdvancedWebServer on Nano_33_IoT](#1-advancedwebserver-on-nano_33_iot)
   * [2. WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT](#2-wifiwebclientrepeating-on-mbed-nano_rp2040_connect)
   * [3. WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT](#3-wifiwebclientrepeating-on-arduino_nano_rp2040_connect)
+  * [4. WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT](#4-WiFiUdpNtpClient-on-mbed-nano_rp2040_connect)
+  * [5. WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT](#5-WiFiUdpNtpClient-on-arduino_nano_rp2040_connect)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [TO DO](#to-do)
@@ -528,7 +530,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-2
+WiFiNINA_Generic v1.8.14-3
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -1127,7 +1129,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-2
+WiFiNINA_Generic v1.8.14-3
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1280,7 +1282,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-2
+WiFiNINA_Generic v1.8.14-3
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1373,7 +1375,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-2
+WiFiNINA_Generic v1.8.14-3
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1442,6 +1444,62 @@ Connection: close
 
 ```
 
+---
+
+#### 4. [WiFiUdpNtpClient](examples/WiFiUdpNtpClient) on ARDUINO_NANO_RP2040_CONNECT
+
+The following is debug terminal output when running example [WiFiUdpNtpClient](examples/WiFiUdpNtpClient) on NANO_RP2040_CONNECT board with [arduino-pico core](https://github.com/earlephilhower/arduino-pico), using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic)
+
+```
+Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
+WiFiNINA_Generic v1.8.14-3
+Attempting to connect to SSID: HueNet1
+Connected to WiFi
+SSID: HueNet1
+IP Address: 192.168.2.86
+Signal strength (RSSI):-16 dBm
+
+Starting connection to server...
+Packet received
+Seconds since Jan 1 1900 = 3849967470
+Unix time = 1640978670
+The UTC time is 19:24:30
+Packet received
+Seconds since Jan 1 1900 = 3849967481
+Unix time = 1640978681
+The UTC time is 19:24:41
+Packet received
+Seconds since Jan 1 1900 = 3849967492
+Unix time = 1640978692
+The UTC time is 19:24:52
+```
+
+---
+
+#### 5. [WiFiUdpNtpClient](examples/WiFiUdpNtpClient) on MBED NANO_RP2040_CONNECT
+
+The following is debug terminal output when running example [WiFiUdpNtpClient](examples/WiFiUdpNtpClient) on NANO_RP2040_CONNECT board with [ArduinoCore-mbed core](https://github.com/arduino/ArduinoCore-mbed), using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic)
+
+```
+Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
+WiFiNINA_Generic v1.8.14-3
+Attempting to connect to SSID: HueNet1
+Connected to WiFi
+SSID: HueNet1
+IP Address: 192.168.2.86
+Signal strength (RSSI):-19 dBm
+
+Starting connection to server...
+Packet received
+Seconds since Jan 1 1900 = 3849967854
+Unix time = 1640979054
+The UTC time is 19:30:54
+Packet received
+Seconds since Jan 1 1900 = 3849967865
+Unix time = 1640979065
+The UTC time is 19:31:05
+
+```
 
 ---
 ---

@@ -38,9 +38,14 @@
 
 ## Changelog
 
+### Releases v1.8.14-3
+
+1. Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core. Check [UDP not running with WiFiNINA library (Example WiFiUdpSendReceiveString) #376](https://github.com/earlephilhower/arduino-pico/issues/376)
+
+
 ### Releases v1.8.14-2
 
-1. Add support to `Nano_RP2040_Connect` using `arduino-pico` core
+1. Add support to `Nano_RP2040_Connect` using `arduino-pico` core. Check [Problem with WiFiNINA library for Arduino Nano Connect (__has_include directive) #373](https://github.com/earlephilhower/arduino-pico/issues/373) and [how i can run Example "ConnectWithWPA" #375](https://github.com/earlephilhower/arduino-pico/issues/375)
 2. Update `Packages' Patches` 
 
 ### Releases v1.8.14-1

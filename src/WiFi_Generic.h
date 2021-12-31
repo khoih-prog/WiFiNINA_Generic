@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.14-2
+  Version: 1.8.14-3
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -51,6 +51,7 @@
   1.8.13     K Hoang    03/08/2021 Sync with WiFiNINA v1.8.13 : new FW v1.4.8. Add support to ADAFRUIT_MATRIXPORTAL_M4_EXPRESS
   1.8.14-1   K Hoang    25/11/2021 Fix examples to support ATmega4809 such as UNO_WIFI_REV2 and NANO_EVERY
   1.8.14-2   K Hoang    31/12/2021 Add support to Nano_RP2040_Connect using arduino-pico core
+  1.8.14-3   K Hoang    31/12/2021 Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -63,14 +64,14 @@
 
 #define WIFI_HAS_FEED_WATCHDOG_FUNC
 
-#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.14-2"
+#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.14-3"
 
 #define WIFININA_GENERIC_VERSION_MAJOR          1
 #define WIFININA_GENERIC_VERSION_MINOR          8
 #define WIFININA_GENERIC_VERSION_PATCH          14
-#define WIFININA_GENERIC_VERSION_PATCH_MINOR    2
+#define WIFININA_GENERIC_VERSION_PATCH_MINOR    3
 
-#define WIFININA_GENERIC_VERSION_INT            1008014002
+#define WIFININA_GENERIC_VERSION_INT            1008014003
 
 #include <inttypes.h>
 
