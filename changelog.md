@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.14-3](#releases-v1814-3)
   * [Releases v1.8.14-2](#releases-v1814-2)
   * [Releases v1.8.14-1](#releases-v1814-1)
   * [Releases v1.8.13](#releases-v1813)
