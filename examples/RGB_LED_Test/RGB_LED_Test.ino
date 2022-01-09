@@ -2,7 +2,7 @@
   RGB_LED_Test.ino
 
   This example tests LEDR, LEDB and LEDG, accessed via WiFiNINA module.
-  Credit of https://github.com/jandrassy
+  Credit of https://learnembeddedsystems.co.uk/using-the-rgb-led-on-the-arduino-nano-rp2040-connect and https://github.com/jandrassy
   Check https://github.com/earlephilhower/arduino-pico/pull/404
 
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
