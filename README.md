@@ -11,6 +11,7 @@
 
 ## Table of Contents
 
+* [Important Notes](#Important-Notes)
 * [Why do we need this WiFiNINA_Generic library](#why-do-we-need-this-wifinina_generic-library)
   * [Features](#features)
   * [Currently supported Boards](#currently-supported-boards)
@@ -35,7 +36,10 @@
   * [8. For RP2040-based boards using Earle Philhower arduino-pico core](#8-for-rp2040-based-boards-using-earle-philhower-arduino-pico-core)
     * [8.1. To use BOARD_NAME](#81-to-use-board_name)
     * [8.2. To avoid compile error relating to microsecondsToClockCycles](#82-to-avoid-compile-error-relating-to-microsecondstoclockcycles)
-  * [9. For Portenta_H7 boards using Arduino IDE in Linux](#9-for-portenta_h7-boards-using-arduino-ide-in-linux) 
+  * [9. For Portenta_H7 boards using Arduino IDE in Linux](#9-for-portenta_h7-boards-using-arduino-ide-in-linux)
+  * [10. For RTL8720DN boards using AmebaD core](#10-for-rtl8720dn-boards-using-amebad-core)
+  * [11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core](#11-For-SAMD21-and-SAMD51-boards-using-ArduinoCore-fab-sam-core)
+  * [12. For Seeeduino RP2040 boards](#12-For-Seeeduino-RP2040-boards)
 * [HOWTO Change pin definitions for WiFiNINA](#howto-change-pin-definitions-for-wifinina) 
 * [HOWTO Update WiFiNINA Firmware (latest version is v1.4.8 as of August 2021)](#howto-update-wifinina-firmware-latest-version-is-v148-as-of-august-2021)
   * [1) Update the WiFi101 / WiFiNINA FirmwareUpdater-Plugin](#1-update-the-wifi101--wifinina-firmwareupdater-plugin) 
@@ -44,29 +48,36 @@
   * [4) Verify by uploading the WiFiNINA_Generic library's CheckFirmwareVersion sketch](#4-verify-by-uploading-the-wifinina_generic-librarys-checkfirmwareversion-sketch) 
 * [How to update SSL certificates](#how-to-update-ssl-certificates) 
 * [Examples](#examples)
-  * [ 1. AP_SimpleWebServer](examples/AP_SimpleWebServer)
-  * [ 2. ConnectNoEncryption](examples/ConnectNoEncryption)
-  * [ 3. ConnectWithWEP](examples/ConnectWithWEP)
-  * [ 4. ConnectWithWPA](examples/ConnectWithWPA)
-  * [ 5. ConnectWithWPA2Enterprise](examples/ConnectWithWPA2Enterprise)
-  * [ 6. MultiServers](examples/MultiServers)
-  * [ 7. ScanNetworks](examples/ScanNetworks)
-  * [ 8. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
-  * [ 9. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
-  * [10. WiFiChatServer](examples/WiFiChatServer)
-  * [11. WiFiPing](examples/WiFiPing)
-  * [12. WiFiSSLClient](examples/WiFiSSLClient)
-  * [13. WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
-  * [14. WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
-  * [15. WiFiWebClient](examples/WiFiWebClient)
-  * [16. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
-  * [17. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
-  * [18. WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
-  * [19. WiFiStorage](examples/WiFiStorage)
-* [Tools](#tools)
-  * [20. CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
-  * [21. FirmwareUpdater](examples/Tools/FirmwareUpdater)
-  * [22. SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
+  * [General](#General)
+		* [ 1. AP_SimpleWebServer](examples/AP_SimpleWebServer)
+		* [ 2. ConnectNoEncryption](examples/ConnectNoEncryption)
+		* [ 3. ConnectWithWEP](examples/ConnectWithWEP)
+		* [ 4. ConnectWithWPA](examples/ConnectWithWPA)
+		* [ 5. ConnectWithWPA2Enterprise](examples/ConnectWithWPA2Enterprise)
+		* [ 6. MultiServers](examples/MultiServers)
+		* [ 7. ScanNetworks](examples/ScanNetworks)
+		* [ 8. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+		* [ 9. ScanNetworksAdvanced](examples/ScanNetworksAdvanced)
+		* [10. WiFiChatServer](examples/WiFiChatServer)
+		* [11. WiFiPing](examples/WiFiPing)
+		* [12. WiFiSSLClient](examples/WiFiSSLClient)
+		* [13. WiFiUdpNtpClient](examples/WiFiUdpNtpClient)
+		* [14. WiFiUdpSendReceiveString](examples/WiFiUdpSendReceiveString)
+		* [15. WiFiWebClient](examples/WiFiWebClient)
+		* [16. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+		* [17. WiFiWebClientRepeating](examples/WiFiWebClientRepeating)
+		* [18. WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
+		* [19. WiFiStorage](examples/WiFiStorage)
+		* [20. WiFiAdvancedChatServer](examples/WiFiAdvancedChatServer) **New**
+	* [Tools](#tools)
+		* [ 1. CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
+		* [ 2. FirmwareUpdater](examples/Tools/FirmwareUpdater)
+		* [ 3. SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
+	* [WiFiMulti Examples](#WiFiMulti-examples) **New**
+		* [ 1. WiFiAdvancedChatServer_WiFiMulti](examples/WiFiMulti/WiFiAdvancedChatServer_WiFiMulti)
+		* [ 2. WiFiUdpNtpClient_WiFiMulti](examples/WiFiMulti/WiFiUdpNtpClient_WiFiMulti)
+		* [ 3. WiFiWebClientRepeating_WiFiMulti](examples/WiFiMulti/WiFiWebClientRepeating_WiFiMulti)
+		* [ 4. WiFiWebClient_WiFiMulti](examples/WiFiMulti/WiFiWebClient_WiFiMulti)
 * [Example WiFiWebServer](#example-wifiwebserver)
   * [1. File WiFiWebServer.ino](#1-file-wifiwebserverino)
   * [2. File defines.h](#2-file-definesh)
@@ -88,6 +99,12 @@
 ---
 ---
 
+### Important Notes
+
+Plase use the new firmware `NINA_W102.zip`, modified by [Juraj Andrássy](https://github.com/JAndrassy), from [Using WIFI-NINA with FtpServer; no accept() #31](https://forum.arduino.cc/t/using-wifi-nina-with-ftpserver-no-accept/933690/31) to use with new version [WiFiNINA_Generic v1.8.14-4+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-4) to fix some issues, such as FTPServer port 23, etc.
+
+---
+---
 
 ### Why do we need this [WiFiNINA_Generic library](https://github.com/khoih-prog/WiFiNINA_Generic)
 
@@ -136,19 +153,21 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+`](https://www.arduino.cc/en/Main/Software)
- 2. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
- 3. [`Teensy core 1.55+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
+ 2. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
+ 3. [`Teensy core 1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards
- 5. [`Arduino SAMD core 1.8.12+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
- 6. [`Adafruit SAMD core 1.7.5+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
+ 5. [`Arduino SAMD core 1.8.13+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
+ 6. [`Adafruit SAMD core 1.7.10+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
  7. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
- 8. [`Adafruit nRF52 v1.2.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
+ 8. [`Adafruit nRF52 v1.3.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
  9. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-10. [`Arduino mbed_rp2040 core 2.6.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-11. [`Earle Philhower's arduino-pico core v1.9.11+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
-12. [`Arduino AVR core 1.8.3+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install. [![Latest release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest/)
+10. [`Arduino mbed_rp2040 core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+11. [`Earle Philhower's arduino-pico core v2.0.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+12. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install. [![Latest release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest/)
 13. [`Adafruit AVR core 1.4.14+`](https://github.com/adafruit/Adafruit_Arduino_Boards) for Adafruit AVR boards. Use Arduino Board Manager to install. 
 14. [`Sparkfun AVR core 1.1.13+`](https://github.com/sparkfun/Arduino_Boards) for Sparkfun AVR boards. Use Arduino Board Manager to install. 
+15. [`WiFiMulti_Generic library v1.1.1+`](https://github.com/khoih-prog/WiFiMulti_Generic) to use WiFiMulti function in some examples. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiMulti_Generic.svg?)](https://www.ardu-badge.com/WiFiMulti_Generic). **New**
+
 
 ---
 ---
@@ -174,7 +193,7 @@ To install:
 
 1. Install [VS Code](https://code.visualstudio.com/)
 2. Install [PlatformIO](https://platformio.org/platformio-ide)
-3. Install [**WiFiNINA_Generic** library](https://platformio.org/lib/show/11284/WiFiNINA_Generic) by using [Library Manager](https://platformio.org/lib/show/11284/WiFiNINA_Generic/installation). Search for **WiFiNINA_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
+3. Install [**WiFiNINA_Generic** library](https://registry.platformio.org/libraries/khoih-prog/WiFiNINA_Generic) by using [Library Manager](https://registry.platformio.org/libraries/khoih-prog/WiFiNINA_Generic/installation). Search for **WiFiNINA_Generic** in [Platform.io Author's Libraries](https://platformio.org/lib/search?query=author:%22Khoi%20Hoang%22)
 4. Use included [platformio.ini](platformio/platformio.ini) file from examples to ensure that all dependent libraries will installed automatically. Please visit documentation for the other options and examples at [Project Configuration File](https://docs.platformio.org/page/projectconf.html)
 
 ---
@@ -184,19 +203,19 @@ To install:
 
 #### 1. For Adafruit nRF52840 and nRF52832 boards
 
-**To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards**, you have to copy the whole [nRF52 Packages_Patches](Packages_Patches/adafruit/hardware/nrf52/1.2.0) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0). 
+**To be able to compile, run and automatically detect and display BOARD_NAME on nRF52840/nRF52832 boards**, you have to copy the whole [nRF52 Packages_Patches](Packages_Patches/adafruit/hardware/nrf52/1.3.0) directory into Adafruit nRF52 directory (~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0). 
 
-Supposing the Adafruit nRF52 version is 1.2.0. These files must be copied into the directory:
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/boards.txt`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/cores/nRF5/Udp.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/cores/nRF5/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/cores/nRF5/Print.cpp`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/variants/NINA_B302_ublox/variant.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/variants/NINA_B302_ublox/variant.cpp`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/variants/NINA_B112_ublox/variant.h`
-- `~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/variants/NINA_B112_ublox/variant.cpp`
-- **`~/.arduino15/packages/adafruit/hardware/nrf52/1.2.0/cores/nRF5/Udp.h`**
+Supposing the Adafruit nRF52 version is 1.3.0. These files must be copied into the directory:
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/boards.txt`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/cores/nRF5/Udp.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/cores/nRF5/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/cores/nRF5/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/variants/NINA_B302_ublox/variant.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/variants/NINA_B302_ublox/variant.cpp`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/variants/NINA_B112_ublox/variant.h`
+- `~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/variants/NINA_B112_ublox/variant.cpp`
+- **`~/.arduino15/packages/adafruit/hardware/nrf52/1.3.0/cores/nRF5/Udp.h`**
 
 Whenever a new version is installed, remember to copy these files into the new version directory. For example, new version is x.yy.z
 These files must be copied into the directory:
@@ -246,13 +265,13 @@ This file must be copied into the directory:
 
 #### 4. For Arduino SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD Packages_Patches](Packages_Patches/arduino/hardware/samd/1.8.11) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.11).
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Arduino SAMD (Nano-33-IoT, etc) boards***, you have to copy the whole [Arduino SAMD Packages_Patches](Packages_Patches/arduino/hardware/samd/1.8.13) directory into Arduino SAMD directory (~/.arduino15/packages/arduino/hardware/samd/1.8.13).
  
 #### For core version v1.8.10+
 
-Supposing the Arduino SAMD version is 1.8.11. Now only one file must be copied into the directory:
+Supposing the Arduino SAMD version is 1.8.13. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/samd/1.8.11/platform.txt`
+- `~/.arduino15/packages/arduino/hardware/samd/1.8.13/platform.txt`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -285,13 +304,13 @@ Whenever the above-mentioned compiler error issue is fixed with the new Arduino 
 
 #### 5. For Adafruit SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.5) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.5). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Adafruit SAMD (Itsy-Bitsy M4, etc) boards***, you have to copy the whole [Adafruit SAMD Packages_Patches](Packages_Patches/adafruit/hardware/samd/1.7.10) directory into Adafruit samd directory (~/.arduino15/packages/adafruit/hardware/samd/1.7.10). 
 
-Supposing the Adafruit SAMD core version is 1.7.5. This file must be copied into the directory:
+Supposing the Adafruit SAMD core version is 1.7.10. This file must be copied into the directory:
 
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.5/platform.txt`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.5/cores/arduino/Print.h`
-- `~/.arduino15/packages/adafruit/hardware/samd/1.7.5/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/platform.txt`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.h`
+- `~/.arduino15/packages/adafruit/hardware/samd/1.7.10/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -393,12 +412,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -411,15 +430,59 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 2.6.1. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.0.0. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.6.1/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
 This file must be copied into the directory:
 
 - `~/.arduino15/packages/arduino/hardware/mbed_portenta/x.yy.zz/portenta_post_install.sh`
+
+
+#### 10. For RTL8720DN boards using AmebaD core
+ 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h). 
+
+Supposing the Realtek AmebaD core version is 3.1.2. This file must be copied into the directory:
+
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/realtek/hardware/AmebaD/x.yy.zz/cores/arduino/avr/pgmspace.h`
+
+
+#### 11. For SAMD21 and SAMD51 boards using ArduinoCore-fab-sam core
+ 
+ To avoid compile error relating to SAMD21/SAMD51, you have to copy the file [ArduinoCore-fab-sam core pgmspace.h](Packages_Patches/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt) into `ArduinoCore-fab-sam` samd directory (~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt). 
+
+Supposing the `ArduinoCore-fab-sam` samd core version is 1.6.18-alpha2. This file must be copied into the directory:
+
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/1.6.18-alpha2/boards.txt`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/Fab_SAM_Arduino/hardware/samd/x.yy.zz/boards.txt`
+
+
+#### 12. For Seeeduino RP2040 boards
+ 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino RP2040 (XIAO RP2040, Wio RP2040 Mini) boards***, you have to copy the whole [Seeeduino RP2040 Packages_Patches](Packages_Patches/Seeeduino/hardware/rp2040/2.7.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2). 
+
+Supposing the Seeeduino SAMD core version is 2.7.2. This file must be copied into the directory:
+
+- `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/boards.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/rp2040/2.7.2/variants/Seeed_XIAO_RP2040/pins_arduino.h`
+
+Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
+This file must be copied into the directory:
+
+- `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/boards.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/x.yy.zz/variants/Seeed_XIAO_RP2040/pins_arduino.h`
 
 
 ---
@@ -530,7 +593,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -558,6 +621,8 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 
 ### Examples
 
+#### General
+
  1. [AP_SimpleWebServer](examples/AP_SimpleWebServer)
  2. [ConnectNoEncryption](examples/ConnectNoEncryption)
  3. [ConnectWithWEP](examples/ConnectWithWEP)
@@ -577,12 +642,20 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 17. [WiFiWebServer](examples/WiFiWebServer)
 18. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
 19. [WiFiStorage](examples/WiFiStorage)
+20. [WiFiAdvancedChatServer](examples/WiFiAdvancedChatServer) **New**
 
-### Tools
+#### Tools
 
-20. [CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
-21. [FirmwareUpdater](examples/Tools/FirmwareUpdater)
-22. [SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
+ 1. [CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
+ 2. [FirmwareUpdater](examples/Tools/FirmwareUpdater)
+ 3. [SerialNINAPassthrough](examples/Tools/SerialNINAPassthrough)
+
+#### WiFiMulti Examples
+
+ 1. [WiFiAdvancedChatServer_WiFiMulti](examples/WiFiMulti/WiFiAdvancedChatServer_WiFiMulti) **New**
+ 2. [WiFiUdpNtpClient_WiFiMulti](examples/WiFiMulti/WiFiUdpNtpClient_WiFiMulti) **New**
+ 3. [WiFiWebClientRepeating_WiFiMulti](examples/WiFiMulti/WiFiWebClientRepeating_WiFiMulti) **New**
+ 4. [WiFiWebClient_WiFiMulti](examples/WiFiMulti/WiFiWebClient_WiFiMulti) **New**
 
 ---
 
@@ -590,528 +663,13 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 
 ### 1. File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
 
-```cpp
-#include "defines.h"
-#include "arduino_secrets.h"
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/55557171895b942625d73fb35480f1e528437514/examples/WiFiWebServer/WiFiWebServer.ino#L41-L186
 
-// To eliminate FW warning when using not latest nina-fw version
-// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
-//#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
-
-#include <SPI.h>
-#include <WiFiNINA_Generic.h>
-
-///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
-
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
-
-int status = WL_IDLE_STATUS;
-
-WiFiServer server(80);
-
-void setup()
-{
-  //Initialize serial and wait for port to open:
-  Serial.begin(115200);
-  while (!Serial);
-
-  Serial.print(F("\nStart WiFiWebServer on ")); Serial.println(BOARD_NAME);
-  Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
-  if (WiFi.status() == WL_NO_MODULE)
-  {
-    Serial.println(F("Communication with WiFi module failed!"));
-    // don't continue
-    while (true);
-  }
-
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION)
-  {
-    Serial.print(F("Your current firmware NINA FW v"));
-    Serial.println(fv);
-    Serial.print(F("Please upgrade the firmware to NINA FW v"));
-    Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
-  }
-
-  // attempt to connect to Wifi network:
-  while (status != WL_CONNECTED)
-  {
-    Serial.print(F("Attempting to connect to SSID: "));
-    Serial.println(ssid);
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    status = WiFi.begin(ssid, pass);
-
-    // wait 10 seconds for connection:
-    //delay(10000);
-  }
-
-  server.begin();
-  // you're connected now, so print out the status:
-  printWiFiStatus();
-}
-
-void loop()
-{
-  // listen for incoming clients
-  WiFiClient client = server.available();
-  if (client)
-  {
-    Serial.println(F("New client"));
-    // an http request ends with a blank line
-    boolean currentLineIsBlank = true;
-    
-    while (client.connected()) 
-    {
-      if (client.available()) 
-      {
-        char c = client.read();
-        Serial.write(c);
-        // if you've gotten to the end of the line (received a newline
-        // character) and the line is blank, the http request has ended,
-        // so you can send a reply
-        if (c == '\n' && currentLineIsBlank) 
-        {
-          // send a standard http response header
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
-          client.println("Connection: close");  // the connection will be closed after completion of the response
-          client.println("Refresh: 5");  // refresh the page automatically every 5 sec
-          client.println();
-          client.println("<!DOCTYPE HTML>");
-          client.println("<html>");
-          
-          // output the value of each analog input pin
-          for (int analogChannel = 0; analogChannel < 6; analogChannel++) 
-          {
-            int sensorReading = analogRead(analogChannel);
-            client.print("analog input ");
-            client.print(analogChannel);
-            client.print(" is ");
-            client.print(sensorReading);
-            client.println("<br />");
-          }
-          
-          client.println("</html>");
-          break;
-        }
-        
-        if (c == '\n') 
-        {
-          // you're starting a new line
-          currentLineIsBlank = true;
-        } 
-        else if (c != '\r') 
-        {
-          // you've gotten a character on the current line
-          currentLineIsBlank = false;
-        }
-      }
-    }
-    // give the web browser time to receive the data
-    delay(1);
-
-    // close the connection:
-    client.stop();
-    Serial.println(F("Client disconnected"));
-  }
-}
-
-void printWiFiStatus() 
-{
-  // print the SSID of the network you're attached to:
-  Serial.print(F("SSID: "));
-  Serial.println(WiFi.SSID());
-
-  // print your board's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print(F("IP Address: "));
-  Serial.println(ip);
-
-  // print the received signal strength:
-  long rssi = WiFi.RSSI();
-  Serial.print(F("Signal strength (RSSI):"));
-  Serial.print(rssi);
-  Serial.println(F(" dBm"));
-}
-```
 
 ### 2. File [defines.h](examples/WiFiWebServer/defines.h)
 
-```cpp
-#ifndef defines_h
-#define defines_h
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/55557171895b942625d73fb35480f1e528437514/examples/WiFiWebServer/defines.h#L29-L400
 
-#if    ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
-      || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
-      || defined(ARDUINO_SAMD_MKRGSM1400) || defined(ARDUINO_SAMD_MKRNB1500) || defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(__SAMD21G18A__) \
-      || defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS) || defined(__SAMD21E18A__) || defined(__SAMD51__) || defined(__SAMD51J20A__) || defined(__SAMD51J19A__) \
-      || defined(__SAMD51G19A__) || defined(__SAMD51P19A__) || defined(__SAMD21G18A__) )
-  #if defined(WIFININA_USE_SAMD)
-    #undef WIFININA_USE_SAMD
-  #endif
-  #define WIFININA_USE_SAMD      true
-#endif
-
-#if defined(WIFININA_USE_SAMD)
-
-  #if defined(ARDUINO_SAMD_ZERO)
-    #define BOARD_TYPE      "SAMD Zero"
-  #elif defined(ARDUINO_SAMD_MKR1000)
-    #define BOARD_TYPE      "SAMD MKR1000"
-  #elif defined(ARDUINO_SAMD_MKRWIFI1010)
-    #define BOARD_TYPE      "SAMD MKRWIFI1010"
-  #elif defined(ARDUINO_SAMD_NANO_33_IOT)
-    #define BOARD_TYPE      "SAMD NANO_33_IOT"
-  #elif defined(ARDUINO_SAMD_MKRFox1200)
-    #define BOARD_TYPE      "SAMD MKRFox1200"
-  #elif ( defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) )
-    #define BOARD_TYPE      "SAMD MKRWAN13X0"
-  #elif defined(ARDUINO_SAMD_MKRGSM1400)
-    #define BOARD_TYPE      "SAMD MKRGSM1400"
-  #elif defined(ARDUINO_SAMD_MKRNB1500)
-    #define BOARD_TYPE      "SAMD MKRNB1500"
-  #elif defined(ARDUINO_SAMD_MKRVIDOR4000)
-    #define BOARD_TYPE      "SAMD MKRVIDOR4000"
-  #elif defined(ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS)
-    #define BOARD_TYPE      "SAMD ARDUINO_SAMD_CIRCUITPLAYGROUND_EXPRESS"
-  #elif defined(ADAFRUIT_FEATHER_M0_EXPRESS)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_FEATHER_M0_EXPRESS"
-  #elif defined(ADAFRUIT_METRO_M0_EXPRESS)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_METRO_M0_EXPRESS"
-  #elif defined(ADAFRUIT_CIRCUITPLAYGROUND_M0)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_CIRCUITPLAYGROUND_M0"
-  #elif defined(ADAFRUIT_GEMMA_M0)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_GEMMA_M0"
-  #elif defined(ADAFRUIT_TRINKET_M0)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_TRINKET_M0"
-  #elif defined(ADAFRUIT_ITSYBITSY_M0)
-    #define BOARD_TYPE      "SAMD21 ADAFRUIT_ITSYBITSY_M0"
-  #elif defined(ARDUINO_SAMD_HALLOWING_M0)
-    #define BOARD_TYPE      "SAMD21 ARDUINO_SAMD_HALLOWING_M0"
-  #elif defined(ADAFRUIT_METRO_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_EXPRESS"
-  #elif defined(ADAFRUIT_GRAND_CENTRAL_M4)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_GRAND_CENTRAL_M4"
-  #elif defined(ADAFRUIT_FEATHER_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_FEATHER_M4_EXPRESS"
-  #elif defined(ADAFRUIT_ITSYBITSY_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_ITSYBITSY_M4_EXPRESS"
-  #elif defined(ADAFRUIT_TRELLIS_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_TRELLIS_M4_EXPRESS"
-  #elif defined(ADAFRUIT_PYPORTAL)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL"
-  #elif defined(ADAFRUIT_PYPORTAL_M4_TITANO)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYPORTAL_M4_TITANO"
-  #elif defined(ADAFRUIT_PYBADGE_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_M4_EXPRESS"
-  #elif defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_METRO_M4_AIRLIFT_LITE"
-  #elif defined(ADAFRUIT_PYGAMER_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_M4_EXPRESS"
-  #elif defined(ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYGAMER_ADVANCE_M4_EXPRESS"
-  #elif defined(ADAFRUIT_PYBADGE_AIRLIFT_M4)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_PYBADGE_AIRLIFT_M4"
-  #elif defined(ADAFRUIT_MONSTER_M4SK_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_MONSTER_M4SK_EXPRESS"
-  #elif defined(ADAFRUIT_HALLOWING_M4_EXPRESS)
-    #define BOARD_TYPE      "SAMD51 ADAFRUIT_HALLOWING_M4_EXPRESS"
-  #elif defined(SEEED_WIO_TERMINAL)
-    #define BOARD_TYPE      "SAMD SEEED_WIO_TERMINAL"
-  #elif defined(SEEED_FEMTO_M0)
-    #define BOARD_TYPE      "SAMD SEEED_FEMTO_M0"
-  #elif defined(SEEED_XIAO_M0)
-    #define BOARD_TYPE      "SAMD SEEED_XIAO_M0"
-  #elif defined(Wio_Lite_MG126)
-    #define BOARD_TYPE      "SAMD SEEED Wio_Lite_MG126"
-  #elif defined(WIO_GPS_BOARD)
-    #define BOARD_TYPE      "SAMD SEEED WIO_GPS_BOARD"
-  #elif defined(SEEEDUINO_ZERO)
-    #define BOARD_TYPE      "SAMD SEEEDUINO_ZERO"
-  #elif defined(SEEEDUINO_LORAWAN)
-    #define BOARD_TYPE      "SAMD SEEEDUINO_LORAWAN"
-  #elif defined(SEEED_GROVE_UI_WIRELESS)
-    #define BOARD_TYPE      "SAMD SEEED_GROVE_UI_WIRELESS"
-  #elif defined(__SAMD21E18A__)
-    #define BOARD_TYPE      "SAMD21E18A"
-  #elif defined(__SAMD21G18A__)
-    #define BOARD_TYPE      "SAMD21G18A"
-  #elif defined(__SAMD51G19A__)
-    #define BOARD_TYPE      "SAMD51G19A"
-  #elif defined(__SAMD51J19A__)
-    #define BOARD_TYPE      "SAMD51J19A"
-  #elif defined(__SAMD51P19A__)
-    #define BOARD_TYPE      "__SAMD51P19A__"
-  #elif defined(__SAMD51J20A__)
-    #define BOARD_TYPE      "SAMD51J20A"
-  #elif defined(__SAM3X8E__)
-    #define BOARD_TYPE      "SAM3X8E"
-  #elif defined(__CPU_ARC__)
-    #define BOARD_TYPE      "CPU_ARC"
-  #elif defined(__SAMD51__)
-    #define BOARD_TYPE      "SAMD51"
-  #else
-    #define BOARD_TYPE      "SAMD Unknown"
-  #endif
-
-#endif
-
-#if ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
-      defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
-      defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) || defined(NINA_B302_ublox) || defined(NINA_B112_ublox) )
-  #if defined(WIFININA_USE_NRF52)
-    #undef WIFININA_USE_NRF52
-  #endif
-  #define WIFININA_USE_NRF52     true
-#endif
-
-#if defined(WIFININA_USE_NRF52)
-
-  #if defined(NRF52840_FEATHER)
-    #define BOARD_TYPE      "NRF52840_FEATHER_EXPRESS"
-  #elif defined(NRF52832_FEATHER)
-    #define BOARD_TYPE      "NRF52832_FEATHER"
-  #elif defined(NRF52840_FEATHER_SENSE)
-    #define BOARD_TYPE      "NRF52840_FEATHER_SENSE"
-  #elif defined(NRF52840_ITSYBITSY)
-    #define BOARD_TYPE      "NRF52840_ITSYBITSY_EXPRESS"
-  #elif defined(NRF52840_CIRCUITPLAY)
-    #define BOARD_TYPE      "NRF52840_CIRCUIT_PLAYGROUND"
-  #elif defined(NRF52840_CLUE)
-    #define BOARD_TYPE      "NRF52840_CLUE"
-  #elif defined(NRF52840_METRO)
-    #define BOARD_TYPE      "NRF52840_METRO_EXPRESS"
-  #elif defined(NRF52840_PCA10056)
-    #define BOARD_TYPE      "NORDIC_NRF52840DK"
-  #elif defined(NINA_B302_ublox)
-    #define BOARD_TYPE      "NINA_B302_ublox"
-  #elif defined(NINA_B112_ublox)
-    #define BOARD_TYPE      "NINA_B112_ublox"
-  #elif defined(PARTICLE_XENON)
-    #define BOARD_TYPE      "PARTICLE_XENON"
-  #elif defined(MDBT50Q_RX)
-    #define BOARD_TYPE      "RAYTAC_MDBT50Q_RX"
-  #elif defined(ARDUINO_NRF52_ADAFRUIT)
-    #define BOARD_TYPE      "ARDUINO_NRF52_ADAFRUIT"
-  #else
-    #define BOARD_TYPE      "nRF52 Unknown"
-  #endif
-
-#endif
-
-#if ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
-  #if defined(WIFININA_USE_SAMDUE)
-    #undef WIFININA_USE_SAMDUE
-  #endif
-  #define WIFININA_USE_SAMDUE      true
-#endif
-
-#if defined(WIFININA_USE_SAMDUE)
-
-  // For SAM DUE
-  #if defined(ARDUINO_SAM_DUE)
-    #define BOARD_TYPE      "SAM DUE"
-  #elif defined(__SAM3X8E__)
-    #define BOARD_TYPE      "SAM SAM3X8E"
-  #else
-    #define BOARD_TYPE      "SAM Unknown"
-  #endif
-
-#endif
-
-#if ( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
-       defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
-       defined(STM32WB) || defined(STM32MP1) )
-  #if defined(WIFININA_USE_STM32)
-    #undef WIFININA_USE_STM32
-  #endif
-  #define WIFININA_USE_STM32      true
-#endif
-
-#if defined(WIFININA_USE_STM32)
-  #if defined(STM32F0)
-    #warning STM32F0 board selected
-    #define BOARD_TYPE  "STM32F0"
-  #elif defined(STM32F1)
-    #warning STM32F1 board selected
-    #define BOARD_TYPE  "STM32F1"
-  #elif defined(STM32F2)
-    #warning STM32F2 board selected
-    #define BOARD_TYPE  "STM32F2"
-  #elif defined(STM32F3)
-    #warning STM32F3 board selected
-    #define BOARD_TYPE  "STM32F3"
-  #elif defined(STM32F4)
-    #warning STM32F4 board selected
-    #define BOARD_TYPE  "STM32F4"
-  #elif defined(STM32F7)
-    #warning STM32F7 board selected
-    #define BOARD_TYPE  "STM32F7"
-  #elif defined(STM32L0)
-    #warning STM32L0 board selected
-    #define BOARD_TYPE  "STM32L0"
-  #elif defined(STM32L1)
-    #warning STM32L1 board selected
-    #define BOARD_TYPE  "STM32L1"
-  #elif defined(STM32L4)
-    #warning STM32L4 board selected
-    #define BOARD_TYPE  "STM32L4"
-  #elif defined(STM32H7)
-    #warning STM32H7 board selected
-    #define BOARD_TYPE  "STM32H7"
-  #elif defined(STM32G0)
-    #warning STM32G0 board selected
-    #define BOARD_TYPE  "STM32G0"
-  #elif defined(STM32G4)
-    #warning STM32G4 board selected
-    #define BOARD_TYPE  "STM32G4"
-  #elif defined(STM32WB)
-    #warning STM32WB board selected
-    #define BOARD_TYPE  "STM32WB"
-  #elif defined(STM32MP1)
-    #warning STM32MP1 board selected
-    #define BOARD_TYPE  "STM32MP1"
-  #else
-    #warning STM32 unknown board selected
-    #define BOARD_TYPE  "STM32 Unknown"
-  #endif
-
-#endif
-
-#ifdef CORE_TEENSY
-
-  #if defined(WIFININA_USE_TEENSY)
-    #undef WIFININA_USE_TEENSY
-  #endif
-  #define WIFININA_USE_TEENSY      true
-  
-  #if defined(__IMXRT1062__)
-    // For Teensy 4.1/4.0
-    #define BOARD_TYPE      "TEENSY 4.1/4.0"
-  #elif defined(__MK66FX1M0__)
-    #define BOARD_TYPE "Teensy 3.6"
-  #elif defined(__MK64FX512__)
-    #define BOARD_TYPE "Teensy 3.5"
-  #elif defined(__MKL26Z64__)
-    #define BOARD_TYPE "Teensy LC"
-  #elif defined(__MK20DX256__)
-    #define BOARD_TYPE "Teensy 3.2" // and Teensy 3.1 (obsolete)
-  #elif defined(__MK20DX128__)
-    #define BOARD_TYPE "Teensy 3.0"
-  #elif defined(__AVR_AT90USB1286__)
-    #error Teensy 2.0++ not supported yet
-  #elif defined(__AVR_ATmega32U4__)
-    #error Teensy 2.0 not supported yet
-  #else
-    // For Other Boards
-    #define BOARD_TYPE      "Unknown Teensy Board"
-  #endif
-
-#endif
-
-#if ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || defined(ARDUINO_GENERIC_RP2040) )
-  #if defined(WIFININA_USE_RP2040)
-    #undef WIFININA_USE_RP2040
-  #endif
-  #define WIFININA_USE_RP2040      true
-
-  #if defined(ARDUINO_ARCH_MBED)
-
-    #if defined(BOARD_NAME)
-      #undef BOARD_NAME
-    #endif
-
-    #if defined(ARDUINO_NANO_RP2040_CONNECT)
-      #define BOARD_NAME      "MBED NANO_RP2040_CONNECT"
-    #elif defined(ARDUINO_RASPBERRY_PI_PICO) 
-      #define BOARD_NAME      "MBED RASPBERRY_PI_PICO"
-    #elif defined(ARDUINO_ADAFRUIT_FEATHER_RP2040)
-      #define BOARD_NAME      "MBED DAFRUIT_FEATHER_RP2040"
-    #elif defined(ARDUINO_GENERIC_RP2040)
-      #define BOARD_NAME      "MBED GENERIC_RP2040"
-    #else
-      #define BOARD_NAME      "MBED Unknown RP2040"
-    #endif
-    
-  #endif
-#endif
-
-#if ( defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__) || \
-      defined(__AVR_ATmega640__) || defined(__AVR_ATmega641__))
-  #define BOARD_TYPE    "Arduino AVR Mega2560/ADK"
-  #warning Using Arduino AVR Mega, Mega640(P), Mega2560/ADK.
-  
-#elif ( defined(__AVR_ATmega644__) || defined(__AVR_ATmega644A__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega644PA__)  || \
-        defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO) || defined(ARDUINO_AVR_MINI) ||    defined(ARDUINO_AVR_ETHERNET) || \
-        defined(ARDUINO_AVR_FIO) || defined(ARDUINO_AVR_BT)   || defined(ARDUINO_AVR_LILYPAD) || defined(ARDUINO_AVR_PRO)      || \
-        defined(ARDUINO_AVR_NG) || defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) || defined(ARDUINO_AVR_DUEMILANOVE) )      
-  #define BOARD_TYPE    "Arduino AVR UNO, Nano, etc." 
-  #warning Using Aduino AVR ATMega644(P), ATMega328(P) such as UNO, Nano.
-
-#elif ( defined(ARDUINO_AVR_FEATHER328P) || defined(ARDUINO_AVR_METRO) || defined(ARDUINO_AVR_PROTRINKET5) || defined(ARDUINO_AVR_PROTRINKET3) || \
-      defined(ARDUINO_AVR_PROTRINKET5FTDI) || defined(ARDUINO_AVR_PROTRINKET3FTDI) )
-  #define BOARD_TYPE    "Adafruit AVR ATMega328(P)"
-  #warning Using Adafruit ATMega328(P), such as AVR_FEATHER328P or AVR_METRO.
-        
-#elif ( defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_LEONARDO_ETH) || defined(ARDUINO_AVR_YUN) || defined(ARDUINO_AVR_MICRO) || \
-        defined(ARDUINO_AVR_ESPLORA)  || defined(ARDUINO_AVR_LILYPAD_USB)  || defined(ARDUINO_AVR_ROBOT_CONTROL) || defined(ARDUINO_AVR_ROBOT_MOTOR) || \
-        defined(ARDUINO_AVR_CIRCUITPLAY)  || defined(ARDUINO_AVR_YUNMINI) || defined(ARDUINO_AVR_INDUSTRIAL101) || defined(ARDUINO_AVR_LININO_ONE) )
-  #define BOARD_TYPE    "Arduino AVR ATMega32U4"
-  #warning Using Arduino ATMega32U4, such as Leonardo or Leonardo ETH.
-  
-#elif ( defined(ARDUINO_AVR_FLORA8 ) || defined(ARDUINO_AVR_FEATHER32U4) || defined(ARDUINO_AVR_CIRCUITPLAY) || defined(ARDUINO_AVR_ITSYBITSY32U4_5V) || \
-        defined(ARDUINO_AVR_ITSYBITSY32U4_3V)  || defined(ARDUINO_AVR_BLUEFRUITMICRO) || defined(ARDUINO_AVR_ADAFRUIT32U4) )
-  #define BOARD_TYPE    "Adafruit AVR ATMega32U4"
-  #warning Using Adafruit ATMega32U4, such as Feather_32u4, AVR_CIRCUITPLAY, etc.
-
-#elif ( defined(__AVR_ATmega32U4__) || defined(ARDUINO_AVR_MAKEYMAKEY ) || defined(ARDUINO_AVR_PROMICRO) || defined(ARDUINO_AVR_FIOV3) || \
-        defined(ARDUINO_AVR_QDUINOMINI) || defined(ARDUINO_AVR_LILYPAD_ARDUINO_USB_PLUS_BOARD ) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega32U4"
-  #warning Using Generic ATMega32U4, such as Sparkfun AVR_MAKEYMAKEY, AVR_PROMICRO, etc.
-
-#elif ( defined(__AVR_ATmega328P__) || defined(ARDUINO_AVR_DIGITAL_SANDBOX ) || defined(ARDUINO_REDBOT) || defined(ARDUINO_AVR_SERIAL_7_SEGMENT) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega328P"
-  #warning Using Generic ATMega328P, such as Sparkfun AVR_DIGITAL_SANDBOX, REDBOT, etc.
-
-#elif ( defined(__AVR_ATmega128RFA1__) || defined(ARDUINO_ATMEGA128RFA1_DEV_BOARD) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega128RFA1"
-  #warning Using Generic ATMega128RFA1, such as Sparkfun ATMEGA128RFA1_DEV_BOARD, etc.
-
-#elif ( defined(ARDUINO_AVR_GEMMA) || defined(ARDUINO_AVR_TRINKET3) || defined(ARDUINO_AVR_TRINKET5) )
-  #error These AVR boards are not supported! Please check your Tools->Board setting.
-  
-#endif
-
-#if ( defined(__AVR_ATmega4809__) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_AVR_NANO_EVERY) )
-  #if !defined(BOARD_NAME)
-    #if (ARDUINO_AVR_UNO_WIFI_REV2)
-      #define BOARD_NAME      "megaAVR UNO WiFi Rev2"
-    #elif (ARDUINO_AVR_NANO_EVERY)
-      #define BOARD_NAME      "megaAVR Nano Every"
-    #else
-      #define BOARD_NAME      "megaAVR Unknown"
-    #endif
-  #endif
-#endif
-
-#ifndef BOARD_TYPE
-  #define BOARD_TYPE    "Unknown board"
-#endif
-
-#ifndef BOARD_NAME
-  #define BOARD_NAME    BOARD_TYPE
-#endif
-
-#define DEBUG_WIFININA_PORT     Serial
-// Debug Level from 0 to 4
-#define _WIFININA_LOGLEVEL_     1
-
-#endif      //defines_h
-```
 
 ---
 ---
@@ -1129,7 +687,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -1282,7 +840,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1375,7 +933,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1452,7 +1010,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1482,7 +1040,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-3
+WiFiNINA_Generic v1.8.14-4
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1521,7 +1079,7 @@ Debug is enabled by default on Serial. Debug Level from 0 to 4. To disable, chan
 
 ## Troubleshooting
 
-If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.5+` or this library version.
+If you get compilation errors, more often than not, you may need to install a newer version of the board's core, `WiFiNINA module/shield firmware 1.4.8+` or this library version.
 
 Sometimes, the library will only work if you update the `WiFiNINA module/shield` core to the newer or older version because some function compatibility.
 
@@ -1557,6 +1115,13 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 19. Add support to **ADAFRUIT_MATRIXPORTAL_M4_EXPRESS**
 20. Add support to generic `__SAMD21E1xA__`, `__SAMD21G1xA__` and `__SAMD21J1xA__`
 21. Add support to **Nano_RP2040_Connect** using [arduino-pico core](https://github.com/earlephilhower/arduino-pico)
+22. Fix bugs by using some PRs from original WiFiNINA, such as:
+
+ - [WiFi.config - setting defaults as the Ethernet library #219](https://github.com/arduino-libraries/WiFiNINA/pull/219)
+ - [Fix WiFiClient watchdog usage #211](https://github.com/arduino-libraries/WiFiNINA/pull/211)
+ - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
+ - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
+ - [Fix PinStatus error on some platforms #185](https://github.com/arduino-libraries/WiFiNINA/pull/185)
 
 ---
 
@@ -1576,9 +1141,16 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
   - the fix, reported in [Version 1.4.0 can break code that uses more than one WiFiServer and socket](https://github.com/arduino-libraries/WiFiNINA/issues/87) and has been included.
   - the newly-added example [MultiServers](examples/MultiServers)
 5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
-6. Thanks to [mouradelbellili](https://github.com/mouradelbellili) to create PR [**Add support to Arduino UNO board** #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9) leading to version v1.8.12 to add support to Arduino, Adafruit, Sparkfun AVR 328P, 32u4, 16u4, etc. boards.
+6. Thanks to [mouradelbellili](https://github.com/mouradelbellili) to create PR [**Add support to Arduino UNO board** #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9) leading to version v1.8.12 to add support to Arduino, Adafruit, Sparkfun AVR 328P, 32u4, 16u4, etc. boards
+7. Thanks to [Juraj Andrássy](https://github.com/JAndrassy) to create these following PRs, used in v1.8.14-4
+ - [WiFi.config - setting defaults as the Ethernet library #219](https://github.com/arduino-libraries/WiFiNINA/pull/219)
+ - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
+8. Thanks to [Tamás Mélykuti](https://github.com/BlooD2oo1) to create the following PR, used in v1.8.14-4
+ - [Fix WiFiClient watchdog usage #211](https://github.com/arduino-libraries/WiFiNINA/pull/211)
+9. Thanks to [Mattia Pennasilico](https://github.com/pennam) to create the following PR, used in v1.8.14-4
+ - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
 
-
+---
 
 <table>
   <tr>
@@ -1587,6 +1159,9 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
     <td align="center"><a href="https://github.com/ocrdu"><img src="https://github.com/ocrdu.png" width="100px;" alt="ocrdu"/><br /><sub><b>Oscar den Uijl</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/gmstuff"><img src="https://github.com/gmstuff.png" width="100px;" alt="gmstuff"/><br /><sub><b>Gerard Moorcroft</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/mouradelbellili"><img src="https://github.com/mouradelbellili.png" width="100px;" alt="mouradelbellili"/><br /><sub><b>mouradelbellili</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/JAndrassy"><img src="https://github.com/JAndrassy.png" width="100px;" alt="JAndrassy"/><br /><sub><b>Juraj Andrássy</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/BlooD2oo1"><img src="https://github.com/BlooD2oo1.png" width="100px;" alt="BlooD2oo1"/><br /><sub><b>Tamás Mélykuti</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/pennam"><img src="https://github.com/pennam.png" width="100px;" alt="pennam"/><br /><sub><b>Mattia Pennasilico</b></sub></a><br /></td>
   </tr> 
 </table>
 
@@ -1600,6 +1175,7 @@ If you want to contribute to this project:
 - Create issues and pull requests
 - Tell other people about this library
 
+---
 ---
 
 ### License

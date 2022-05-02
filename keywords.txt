@@ -64,6 +64,16 @@ noLowPowerMode	KEYWORD2
 ping	KEYWORD2
 setTimeout	KEYWORD2
 
+#############
+# WiFiServer
+#############
+
+available	KEYWORD2
+accept	KEYWORD2
+begin	KEYWORD2
+write	KEYWORD2
+status	KEYWORD2
+
 ################
 # WiFiSSLClient
 ################

@@ -12,6 +12,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.14-4](#releases-v1814-4)
   * [Releases v1.8.14-3](#releases-v1814-3)
   * [Releases v1.8.14-2](#releases-v1814-2)
   * [Releases v1.8.14-1](#releases-v1814-1)
@@ -38,6 +39,22 @@
 ---
 
 ## Changelog
+
+### Releases v1.8.14-4
+
+1. Fix bugs by using some unmerged PRs from original WiFiNINA, such as:
+
+ - [WiFi.config - setting defaults as the Ethernet library #219](https://github.com/arduino-libraries/WiFiNINA/pull/219)
+ - [Fix WiFiClient watchdog usage #211](https://github.com/arduino-libraries/WiFiNINA/pull/211)
+ - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
+ - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
+ - [Fix PinStatus error on some platforms #185](https://github.com/arduino-libraries/WiFiNINA/pull/185)
+ 
+2. Add many WiFiMulti-related examples in [WiFiMulti](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiMulti)
+3. Update examples
+4. Update `Packages' Patches`
+
+
 
 ### Releases v1.8.14-3
 
