@@ -42,7 +42,7 @@
 
 // To eliminate FW warning when using not latest nina-fw version
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
-#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
@@ -59,8 +59,7 @@ int status = WL_IDLE_STATUS;
 WiFiClient client;
 
 // server address:
-char server[] = "example.org";
-//IPAddress server(64,131,82,241);
+char server[] = "arduino.tips";
 
 unsigned long lastConnectionTime = 0;            // last time you connected to the server, in milliseconds
 const unsigned long postingInterval = 10L * 1000L; // delay between updates, in milliseconds
@@ -69,7 +68,7 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print(F("\nStart WiFiWebClientRepeating on ")); Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
@@ -136,11 +135,10 @@ void httpRequest()
   // if there's a successful connection:
   if (client.connect(server, 80))
   {
-    Serial.println(F("Connecting..."));
-    // send the HTTP GET request:
-    client.println("GET / HTTP/1.1");
-    client.println("Host: example.org");
-    client.println("User-Agent: ArduinoWiFi/1.1");
+    Serial.println(F("Connected to server"));
+    // Make a HTTP request:
+    client.println(F("GET /asciilogo.txt HTTP/1.1"));
+    client.println("Host: arduino.tips");
     client.println("Connection: close");
     client.println();
 

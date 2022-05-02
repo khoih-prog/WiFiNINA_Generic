@@ -1,13 +1,15 @@
 /****************************************************************************************************************************
-  WiFiUdpSendReceiveString.ino
+  WiFiAdvancedChatServer.ino
 
-  WiFi UDP Send and Receive String
+  Advanced WiFi Chat Server
 
-  This sketch wait an UDP packet on localPort using the WiFi module.
-  When a packet is received an Acknowledge packet is sent to the client on port remotePort
+  A more advanced server that distributes any incoming messages
+  to all connected clients but the client the message comes from.
+  To use, telnet to your device's IP address and type.
+  You can see the client's input in the serial monitor as well.
 
-  created 30 December 2012
-  by dlf (Metodo2 srl)
+  Circuit:
+    Board with NINA module (Arduino MKR WiFi 1010, MKR VIDOR 4000 and UNO WiFi Rev.2)
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
@@ -36,28 +38,23 @@
 #include "defines.h"
 #include "arduino_secrets.h"
 
-// To eliminate FW warning when using not latest nina-fw version
-// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
-#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
-
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
-#include <WiFiUdp_Generic.h>
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP), length must be 8+
-
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
+char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP)
 
 int status = WL_IDLE_STATUS;
 
-unsigned int localPort = 2390;      // local port to listen on
+#define TELNET_PORT             23
 
-char packetBuffer[255]; //buffer to hold incoming packet
-char  ReplyBuffer[] = "acknowledged";       // a string to send back
+// telnet defaults to port 23
+WiFiServer server(TELNET_PORT);
 
-WiFiUDP Udp;
+#define MAX_NUMBER_CLIENTS      8
+
+WiFiClient clients[MAX_NUMBER_CLIENTS];
 
 void setup()
 {
@@ -65,7 +62,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart WiFiUdpSendReceiveString on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart WiFiAdvancedChatServer on ")); Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
@@ -85,72 +82,80 @@ void setup()
     Serial.println(WIFI_FIRMWARE_LATEST_VERSION);
   }
 
-  // attempt to connect to Wifi network:
+  // attempt to connect to WiFi network:
   while (status != WL_CONNECTED)
   {
-    Serial.print(F("Attempting to connect to SSID: "));
-    Serial.println(ssid);
+    Serial.print(F("Attempting to connect to Network named: "));
+    Serial.println(ssid);                   // print the network name (SSID);
+
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
-
     // wait 10 seconds for connection:
     //delay(10000);
   }
-  Serial.println(F("Connected to WiFi"));
-  printWiFiStatus();
 
-  Serial.println(F("\nStarting connection to server..."));
-  // if you get a connection, report back via serial:
-  Udp.begin(localPort);
+  // start the server:
+  server.begin();
+
+  Serial.print("Chat server address:");
+  Serial.println(WiFi.localIP());
 }
 
-void loop()
+void loop() 
 {
-  // if there's data available, read a packet
-  int packetSize = Udp.parsePacket();
-
-  if (packetSize)
+  // check for any new client connecting, and say hello (before any incoming data)
+  WiFiClient newClient = server.accept();
+  
+  if (newClient) 
   {
-    Serial.print(F("Received packet of size "));
-    Serial.println(packetSize);
-    Serial.print(F("From "));
-    IPAddress remoteIp = Udp.remoteIP();
-    Serial.print(remoteIp);
-    Serial.print(F(", port "));
-    Serial.println(Udp.remotePort());
-
-    // read the packet into packetBufffer
-    int len = Udp.read(packetBuffer, 255);
-
-    if (len > 0)
+    for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
     {
-      packetBuffer[len] = 0;
+      if (!clients[i]) 
+      {
+        Serial.print("We have a new client #");
+        Serial.println(i);
+        
+        newClient.print("Hello, client number: ");
+        newClient.println(i);
+        
+        // Once we "accept", the client is no longer tracked by WiFiServer
+        // so we must store it into our list of clients
+        clients[i] = newClient;
+        break;
+      }
     }
-
-    Serial.println(F("Contents:"));
-    Serial.println(packetBuffer);
-
-    // send a reply, to the IP address and port that sent us the packet we received
-    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-    Udp.write(ReplyBuffer);
-    Udp.endPacket();
   }
-}
 
-void printWiFiStatus() 
-{
-  // print the SSID of the network you're attached to:
-  Serial.print(F("SSID: "));
-  Serial.println(WiFi.SSID());
+  // check for incoming data from all clients
+  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
+  {
+    if (clients[i] && clients[i].available() > 0) 
+    {
+      #define BUFFER_SIZE     80
+      
+      // read bytes from a client
+      byte buffer[BUFFER_SIZE];
+      int count = clients[i].read(buffer, BUFFER_SIZE);
+      
+      // write the bytes to all other connected clients
+      for (byte j = 0; j < MAX_NUMBER_CLIENTS; j++) 
+      {
+        if (j != i && clients[j].connected()) 
+        {
+          clients[j].write(buffer, count);
+        }
+      }
+    }
+  }
 
-  // print your board's IP address:
-  IPAddress ip = WiFi.localIP();
-  Serial.print(F("IP Address: "));
-  Serial.println(ip);
-
-  // print the received signal strength:
-  long rssi = WiFi.RSSI();
-  Serial.print(F("Signal strength (RSSI):"));
-  Serial.print(rssi);
-  Serial.println(F(" dBm"));
+  // stop any clients which disconnect
+  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
+  {
+    if (clients[i] && !clients[i].connected()) 
+    {
+      Serial.print("disconnect client #");
+      Serial.println(i);
+      clients[i].stop();
+    }
+  }
 }

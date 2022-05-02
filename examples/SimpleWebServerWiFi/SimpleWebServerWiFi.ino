@@ -51,7 +51,7 @@
 
 // To eliminate FW warning when using not latest nina-fw version
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
-#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
@@ -70,7 +70,7 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print(F("\nStart SimpleWebServerWiFi on ")); Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);

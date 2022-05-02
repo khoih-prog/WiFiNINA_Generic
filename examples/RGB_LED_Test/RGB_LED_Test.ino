@@ -26,13 +26,17 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *****************************************************************************************************************************/
 
+#if (!defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_ARCH_MBED))
+  #error Only for ARDUINO_NANO_RP2040_CONNECT using arduino-pico core
+#endif
+
 //#include <WiFiNINA.h>
 #include <WiFiNINA_Generic.h>
 
 void setup() 
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("RGB_LED_Test on ");
   Serial.print(BOARD_NAME);

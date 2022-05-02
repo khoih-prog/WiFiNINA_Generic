@@ -44,7 +44,7 @@
 
 // To eliminate FW warning when using not latest nina-fw version
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
-#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.5"
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
@@ -57,7 +57,10 @@ int keyIndex = 0;                 // your network key Index number (needed only 
 
 int status = WL_IDLE_STATUS;
 
-WiFiServer server(23);
+#define TELNET_PORT             23
+
+// telnet defaults to port 23
+WiFiServer server(TELNET_PORT);
 
 boolean alreadyConnected = false; // whether or not the client was connected previously
 
@@ -65,7 +68,7 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print(F("\nStart WiFiChatServer on ")); Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
