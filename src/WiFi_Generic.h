@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.14-4
+  Version: 1.8.14-5
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -36,6 +36,7 @@
   1.8.14-2   K Hoang    31/12/2021 Add support to Nano_RP2040_Connect using arduino-pico core
   1.8.14-3   K Hoang    31/12/2021 Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
+  1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -48,14 +49,14 @@
 
 #define WIFI_HAS_FEED_WATCHDOG_FUNC
 
-#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.14-4"
+#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.14-5"
 
 #define WIFININA_GENERIC_VERSION_MAJOR          1
 #define WIFININA_GENERIC_VERSION_MINOR          8
 #define WIFININA_GENERIC_VERSION_PATCH          14
-#define WIFININA_GENERIC_VERSION_PATCH_MINOR    4
+#define WIFININA_GENERIC_VERSION_PATCH_MINOR    5
 
-#define WIFININA_GENERIC_VERSION_INT            1008014004
+#define WIFININA_GENERIC_VERSION_INT            1008014005
 
 #include <inttypes.h>
 

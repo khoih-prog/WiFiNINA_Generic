@@ -101,7 +101,9 @@
 
 ### Important Notes
 
-Plase use the new firmware `NINA_W102.zip`, modified by [Juraj Andrássy](https://github.com/JAndrassy), from [Using WIFI-NINA with FtpServer; no accept() #31](https://forum.arduino.cc/t/using-wifi-nina-with-ftpserver-no-accept/933690/31) to use with new version [WiFiNINA_Generic v1.8.14-4+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-4) to fix some issues, such as FTPServer port 23, etc.
+The new [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-5) fixes bug causing data lost when sending large files, such as FTP Client uploading files.
+
+Please use the new firmware `NINA_W102.zip`, modified by [Juraj Andrássy](https://github.com/JAndrassy), from [Using WIFI-NINA with FtpServer; no accept() #31](https://forum.arduino.cc/t/using-wifi-nina-with-ftpserver-no-accept/933690/31) to use with new version [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-4) to fix some issues, such as FTPServer port 23, etc.
 
 ---
 ---
@@ -161,8 +163,8 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
  7. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
  8. [`Adafruit nRF52 v1.3.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
  9. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
-10. [`Arduino mbed_rp2040 core 3.0.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-11. [`Earle Philhower's arduino-pico core v2.0.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+10. [`Arduino mbed_rp2040 core 3.1.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+11. [`Earle Philhower's arduino-pico core v2.0.2+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 12. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install. [![Latest release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest/)
 13. [`Adafruit AVR core 1.4.14+`](https://github.com/adafruit/Adafruit_Arduino_Boards) for Adafruit AVR boards. Use Arduino Board Manager to install. 
 14. [`Sparkfun AVR core 1.1.13+`](https://github.com/sparkfun/Arduino_Boards) for Sparkfun AVR boards. Use Arduino Board Manager to install. 
@@ -412,12 +414,12 @@ With core after v1.5.0, this step is not necessary anymore thanks to the PR [Add
 
 #### 9. For Portenta_H7 boards using Arduino IDE in Linux
 
-  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh). 
+  **To be able to upload firmware to Portenta_H7 using Arduino IDE in Linux (Ubuntu, etc.)**, you have to copy the file [portenta_post_install.sh](Packages_Patches/arduino/hardware/mbed_portenta/3.1.1/portenta_post_install.sh) into mbed_portenta directory (~/.arduino15/packages/arduino/hardware/mbed_portenta/3.1.1/portenta_post_install.sh). 
   
   Then run the following command using `sudo`
   
 ```
-$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0
+$ cd ~/.arduino15/packages/arduino/hardware/mbed_portenta/3.1.1
 $ chmod 755 portenta_post_install.sh
 $ sudo ./portenta_post_install.sh
 ```
@@ -430,9 +432,9 @@ This will create the file `/etc/udev/rules.d/49-portenta_h7.rules` as follows:
 SUBSYSTEMS=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="035b", GROUP="plugdev", MODE="0666"
 ```
 
-Supposing the ArduinoCore-mbed core version is 3.0.0. Now only one file must be copied into the directory:
+Supposing the ArduinoCore-mbed core version is 3.1.1. Now only one file must be copied into the directory:
 
-- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.0.0/portenta_post_install.sh`
+- `~/.arduino15/packages/arduino/hardware/mbed_portenta/3.1.1/portenta_post_install.sh`
 
 Whenever a new version is installed, remember to copy this files into the new version directory. For example, new version is x.yy.zz
 
@@ -593,7 +595,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -687,7 +689,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -840,7 +842,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -933,7 +935,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1010,7 +1012,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1040,7 +1042,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-4
+WiFiNINA_Generic v1.8.14-5
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1122,6 +1124,8 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
  - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
  - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
  - [Fix PinStatus error on some platforms #185](https://github.com/arduino-libraries/WiFiNINA/pull/185)
+23. Fix bug causing data lost when sending large files. This is just a kludge for temporary use, waiting for better and final fix, dealing with SPI driver, from Arduino.
+
 
 ---
 
@@ -1149,6 +1153,8 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
  - [Fix WiFiClient watchdog usage #211](https://github.com/arduino-libraries/WiFiNINA/pull/211)
 9. Thanks to [Mattia Pennasilico](https://github.com/pennam) to create the following PR, used in v1.8.14-4
  - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
+
+
 
 ---
 

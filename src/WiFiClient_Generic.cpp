@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.14-4
+  Version: 1.8.14-5
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -36,6 +36,7 @@
   1.8.14-2   K Hoang    31/12/2021 Add support to Nano_RP2040_Connect using arduino-pico core
   1.8.14-3   K Hoang    31/12/2021 Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
+  1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
  ***********************************************************************************************************************************/
 
 #define _WIFININA_LOGLEVEL_         1
@@ -274,25 +275,51 @@ size_t WiFiClient::write(uint8_t b)
   return write(&b, 1);
 }
 
+///////////////////////////////////////////////////////////////////////////
+// KH fix bug error when sending repetitively for large file
 size_t WiFiClient::write(const uint8_t *buf, size_t size)
 {
+  NN_LOGDEBUG1("WiFiClient::write: To write, size = ", size);
+  
   if (_sock == NO_SOCKET_AVAIL)
   {
     setWriteError();
+    
+    NN_LOGDEBUG("WiFiClient::write: NO_SOCKET_AVAIL");
+    
     return 0;
   }
 
   if (size == 0)
   {
     setWriteError();
+    
+    NN_LOGDEBUG("WiFiClient::write: size = 0");
+    
     return 0;
   }
 
   size_t written = ServerDrv::sendData(_sock, buf, size);
   
+  uint8_t timesResent = 0;
+  
+  while ( (written != size) && (timesResent++ < 100) )
+  {
+    // Don't use too short delay so that NINA has some time to recover
+    // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
+    delay(100);
+    
+    written += ServerDrv::sendData(_sock, buf + written, size - written);
+  }
+  
+  NN_LOGDEBUG1("WiFiClient::write: loopSend => written = ", written);
+  NN_LOGDEBUG1("WiFiClient::write: loopSend => timesResent = ", timesResent);
+  
   if (!written && _retrySend) 
   {
     written = retry(buf, size, true);
+    
+    NN_LOGDEBUG1("WiFiClient::write: _retrySend => written = ", written);
   }
   
   if (!written)
@@ -300,17 +327,34 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
     // close socket
     ServerDrv::stopClient(_sock);
     setWriteError();
+    
+    NN_LOGDEBUG("WiFiClient::write: !written error");
+    
     return 0;
   }
 
   if (!ServerDrv::checkDataSent(_sock))
   {
     setWriteError();
+    
+    NN_LOGDEBUG("WiFiClient::write: error !checkDataSent");
+    
     return 0;
+  }
+  
+  if (written == size)
+  {
+    NN_LOGINFO1("WiFiClient::write: OK, written = ", written);
+  }
+  else
+  {
+    NN_LOGERROR3("WiFiClient::write: Not OK, size = ", size, ", written = ", written);
   }
 
   return written;
 }
+
+///////////////////////////////////////////////////////////////////////////
 
 size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write) 
 {

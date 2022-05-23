@@ -40,6 +40,11 @@
 
 ## Changelog
 
+### Releases v1.8.14-5
+
+1. Fix bug causing data lost when sending large files. Check [Thread: Teensy 4.1 - Adafruit Airlift Featherwing Co-Processor FTP Server not opening Port 21](https://forum.pjrc.com/threads/70062-Teensy-4-1-Adafruit-Airlift-Featherwing-Co-Processor-FTP-Server-not-opening-Port-21?p=306507&viewfull=1#post306507). This is just a kludge for temporary use, waiting for better and final fix, dealing with SPI driver, from Arduino.
+2. Update `Packages' Patches`
+
 ### Releases v1.8.14-4
 
 1. Fix bugs by using some unmerged PRs from original WiFiNINA, such as:

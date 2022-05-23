@@ -15,7 +15,7 @@ If you don't find anything, please [open a new issue](https://github.com/khoih-p
 Please ensure to specify the following:
 
 * Arduino IDE version (e.g. 1.8.19) or Platform.io version
-* Core Version (e.g. Arduino SAMD core v1.8.13, Adafruit SAMD core v1.7.10, Arduino-mbed RP2040 v3.0.1)
+* Core Version (e.g. Arduino SAMD core v1.8.13, Adafruit SAMD core v1.7.10, Arduino-mbed RP2040 v3.1.1)
 * Board type (e.g. NANO_RP2040_CONNECT, RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040, GENERIC_RP2040, etc.)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
@@ -28,10 +28,10 @@ Please ensure to specify the following:
 
 ```
 Arduino IDE version: 1.8.19
-Arduino-mbed RP2040 v3.0.1
+Arduino-mbed RP2040 v3.1.1
 NANO_RP2040_CONNECT Module
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.13.0-40-generic #45~20.04.1-Ubuntu SMP Mon Apr 4 09:38:31 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.13.0-41-generic #46~20.04.1-Ubuntu SMP Wed Apr 20 13:16:21 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered an endless loop while trying to connect to Local WiFi.
