@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.14-5
+  Version: 1.8.14-6
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -37,6 +37,7 @@
   1.8.14-3   K Hoang    31/12/2021 Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
+  1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -367,16 +368,17 @@
 
   #if defined(__IMXRT1062__)
     // For Teensy 4.0
-    #warning You have to modify pin usage according to actual connection for Teensy 4.0
+    #warning You have to modify pin usage according to actual connection for Teensy 4.0/4.1
     #define PINS_COUNT           (60u)
-    //NINA
-    #define NINA_GPIO0  (6u)                             //6
-    #define NINA_RESETN (2u)
-    #define NINA_ACK    (5u)
+    // T4.1 SPI pin defs for WiFiNINA AirLift.
+    #define NINA_GPIO0  (255u)                           //6
+    #define NINA_RESETN (6u)
+    #define NINA_ACK    (9u)
 
-    #define SPIWIFI_SS       10   //PIN_SPI1_SS           //10
-    #define SPIWIFI_ACK      5   //NINA_ACK               //5
-    #define SPIWIFI_RESET    2   //NINA_RESETN            //7
+    // T4.1 SPI pin defs for WiFiNINA AirLift.
+    #define SPIWIFI_SS       5   //PIN_SPI1_SS           //10
+    #define SPIWIFI_ACK      9   //NINA_ACK               //7
+    #define SPIWIFI_RESET    6   //NINA_RESETN            //5
 
   #elif ( defined(__MKL26Z64__) || defined(ARDUINO_ARCH_AVR) )
 

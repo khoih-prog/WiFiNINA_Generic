@@ -12,6 +12,8 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.14-6](#releases-v1814-6)
+  * [Releases v1.8.14-5](#releases-v1814-5)
   * [Releases v1.8.14-4](#releases-v1814-4)
   * [Releases v1.8.14-3](#releases-v1814-3)
   * [Releases v1.8.14-2](#releases-v1814-2)
@@ -39,6 +41,12 @@
 ---
 
 ## Changelog
+
+### Releases v1.8.14-6
+
+1. Add support to `Teensy 4.x` using `Adafruit Airlift Featherwing Co-Processor`
+2. Fix `WiFiStorageFile.flush()` linker error in some platform. Check [Flush method not implemented #22](https://github.com/khoih-prog/WiFiNINA_Generic/issues/22)
+3. Update `Packages' Patches`
 
 ### Releases v1.8.14-5
 

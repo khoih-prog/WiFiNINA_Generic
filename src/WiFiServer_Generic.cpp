@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   
-  Version: 1.8.14-5
+  Version: 1.8.14-6
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -37,12 +37,13 @@
   1.8.14-3   K Hoang    31/12/2021 Fix issue with UDP for Nano_RP2040_Connect using arduino-pico core
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
+  1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
  ***********************************************************************************************************************************/
 
 #include <string.h>
 #include "utility/server_drv.h"
 
-#define _WIFININA_LOGLEVEL_         1
+#define _WIFININA_LOGLEVEL_         3
 
 extern "C" 
 {
@@ -195,6 +196,61 @@ size_t WiFiServer::write(uint8_t b)
   return write(&b, 1);
 }
 
+#if 1
+
+size_t WiFiServer::write(const uint8_t *buffer, size_t size)
+{
+  if (size == 0)
+  {
+    setWriteError();
+    return 0;
+  }
+
+  size_t written = ServerDrv::sendData(_sock, buffer, size);
+  
+  uint8_t timesResent = 0;
+  
+  while ( (written != size) && (timesResent++ < 100) )
+  {
+    // Don't use too short delay so that NINA has some time to recover
+    // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
+    delay(100);
+    
+    written += ServerDrv::sendData(_sock, buffer + written, size - written);
+  }
+  
+  NN_LOGINFO1("WiFiServer::write: loopSend => written = ", written);
+  NN_LOGINFO1("WiFiServer::write: loopSend => timesResent = ", timesResent);
+  
+  if (!written)
+  {
+    setWriteError();
+    
+    NN_LOGERROR("WiFiServer::write: !written error");
+    
+    return 0;
+  }
+
+  if (!ServerDrv::checkDataSent(_sock))
+  {
+    setWriteError();
+    return 0;
+  }
+
+  if (written == size)
+  {
+    NN_LOGINFO1("WiFiServer::write: OK, written = ", written);
+  }
+  else
+  {
+    NN_LOGERROR3("WiFiServer::write: Not OK, size = ", size, ", written = ", written);
+  }
+  
+  return written;
+}
+
+#else
+
 size_t WiFiServer::write(const uint8_t *buffer, size_t size)
 {
   if (size == 0)
@@ -219,3 +275,5 @@ size_t WiFiServer::write(const uint8_t *buffer, size_t size)
 
   return written;
 }
+
+#endif

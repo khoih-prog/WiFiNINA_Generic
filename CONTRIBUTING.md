@@ -31,7 +31,7 @@ Arduino IDE version: 1.8.19
 Arduino-mbed RP2040 v3.1.1
 NANO_RP2040_CONNECT Module
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.13.0-41-generic #46~20.04.1-Ubuntu SMP Wed Apr 20 13:16:21 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.15.0-41-generic #44~20.04.1-Ubuntu SMP Fri Jun 24 13:27:29 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
 I encountered an endless loop while trying to connect to Local WiFi.

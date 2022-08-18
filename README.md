@@ -103,7 +103,7 @@
 
 The new [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-5) fixes bug causing data lost when sending large files, such as FTP Client uploading files.
 
-Please use the new firmware `NINA_W102.zip`, modified by [Juraj Andrássy](https://github.com/JAndrassy), from [Using WIFI-NINA with FtpServer; no accept() #31](https://forum.arduino.cc/t/using-wifi-nina-with-ftpserver-no-accept/933690/31) to use with new version [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-4) to fix some issues, such as FTPServer port 23, etc.
+Please use the new firmware `NINA_W102.zip`, modified by [Juraj Andrássy](https://github.com/JAndrassy), from [Using WIFI-NINA with FtpServer; no accept() #31](https://forum.arduino.cc/t/using-wifi-nina-with-ftpserver-no-accept/933690/31) to use with new version [WiFiNINA_Generic v1.8.14-4+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-4) to fix some issues, such as FTPServer port 23, etc.
 
 ---
 ---
@@ -156,19 +156,19 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
 
  1. [`Arduino IDE 1.8.19+`](https://www.arduino.cc/en/Main/Software)
  2. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino (Use Arduino Board Manager) for AVR boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest)
- 3. [`Teensy core 1.56+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
+ 3. [`Teensy core 1.57+`](https://www.pjrc.com/teensy/td_download.html) for Teensy (4.1, 4.0, 3.6, 3.5, 3,2, 3.1, 3.0, LC) boards
  4. [`Arduino SAM DUE core 1.6.12+`](https://github.com/arduino/ArduinoCore-sam) for SAM DUE ARM Cortex-M3 boards
  5. [`Arduino SAMD core 1.8.13+`](https://www.arduino.cc/en/Guide/ArduinoM0) for SAMD ARM Cortex-M0+ boards. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-samd.svg)](https://github.com/arduino/ArduinoCore-samd/releases/latest)
  6. [`Adafruit SAMD core 1.7.10+`](https://www.adafruit.com/) for SAMD ARM Cortex-M0+ and M4 boards (Nano 33 IoT, etc.). [![GitHub release](https://img.shields.io/github/release/adafruit/ArduinoCore-samd.svg)](https://github.com/adafruit/ArduinoCore-samd/releases/latest)
- 7. [`Seeeduino SAMD core 1.8.2+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
+ 7. [`Seeeduino SAMD core 1.8.3+`](https://github.com/Seeed-Studio/ArduinoCore-samd) for SAMD21/SAMD51 boards (XIAO M0, Wio Terminal, etc.). [![Latest release](https://img.shields.io/github/release/Seeed-Studio/ArduinoCore-samd.svg)](https://github.com/Seeed-Studio/ArduinoCore-samd/releases/latest/)
  8. [`Adafruit nRF52 v1.3.0+`](https://www.adafruit.com) for nRF52 boards such as Adafruit NRF52840_FEATHER, NRF52832_FEATHER, NRF52840_FEATHER_SENSE, NRF52840_ITSYBITSY, NRF52840_CIRCUITPLAY, NRF52840_CLUE, NRF52840_METRO, NRF52840_PCA10056, PARTICLE_XENON, **NINA_B302_ublox**, etc. [![GitHub release](https://img.shields.io/github/release/adafruit/Adafruit_nRF52_Arduino.svg)](https://github.com/adafruit/Adafruit_nRF52_Arduino/releases/latest)
- 9. [`Arduino Core for STM32 v2.2.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
+ 9. [`Arduino Core for STM32 v2.3.0+`](https://github.com/stm32duino/Arduino_Core_STM32) for STM32F/L/H/G/WB/MP1 boards. [![GitHub release](https://img.shields.io/github/release/stm32duino/Arduino_Core_STM32.svg)](https://github.com/stm32duino/Arduino_Core_STM32/releases/latest)
 10. [`Arduino mbed_rp2040 core 3.1.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino (Use Arduino Board Manager) RP2040-based boards, such as **Arduino Nano RP2040 Connect, RASPBERRY_PI_PICO, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
-11. [`Earle Philhower's arduino-pico core v2.0.2+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
+11. [`Earle Philhower's arduino-pico core v2.4.0+`](https://github.com/earlephilhower/arduino-pico) for RP2040-based boards such as **RASPBERRY_PI_PICO, ADAFRUIT_FEATHER_RP2040 and GENERIC_RP2040**, etc. [![GitHub release](https://img.shields.io/github/release/earlephilhower/arduino-pico.svg)](https://github.com/earlephilhower/arduino-pico/releases/latest)
 12. [`Arduino AVR core 1.8.5+`](https://github.com/arduino/ArduinoCore-avr) for Arduino AVR boards. Use Arduino Board Manager to install. [![Latest release](https://img.shields.io/github/release/arduino/ArduinoCore-avr.svg)](https://github.com/arduino/ArduinoCore-avr/releases/latest/)
 13. [`Adafruit AVR core 1.4.14+`](https://github.com/adafruit/Adafruit_Arduino_Boards) for Adafruit AVR boards. Use Arduino Board Manager to install. 
 14. [`Sparkfun AVR core 1.1.13+`](https://github.com/sparkfun/Arduino_Boards) for Sparkfun AVR boards. Use Arduino Board Manager to install. 
-15. [`WiFiMulti_Generic library v1.1.1+`](https://github.com/khoih-prog/WiFiMulti_Generic) to use WiFiMulti function in some examples. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiMulti_Generic.svg?)](https://www.ardu-badge.com/WiFiMulti_Generic). **New**
+15. [`WiFiMulti_Generic library v1.2.2+`](https://github.com/khoih-prog/WiFiMulti_Generic) to use WiFiMulti function in some examples. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiMulti_Generic.svg?)](https://www.ardu-badge.com/WiFiMulti_Generic). **New**
 
 
 ---
@@ -323,14 +323,14 @@ This file must be copied into the directory:
 
 #### 6. For Seeeduino SAMD boards
  
- ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.2) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2). 
+ ***To be able to compile, run and automatically detect and display BOARD_NAME on Seeeduino SAMD (XIAO M0, Wio Terminal, etc) boards***, you have to copy the whole [Seeeduino SAMD Packages_Patches](Packages_Patches/Seeeduino/hardware/samd/1.8.3) directory into Seeeduino samd directory (~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3). 
 
-Supposing the Seeeduino SAMD core version is 1.8.2. This file must be copied into the directory:
+Supposing the Seeeduino SAMD core version is 1.8.3. This file must be copied into the directory:
 
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/platform.txt`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Arduino.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.h`
-- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.2/cores/arduino/Print.cpp`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/platform.txt`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Arduino.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.h`
+- `~/.arduino15/packages/Seeeduino/hardware/samd/1.8.3/cores/arduino/Print.cpp`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -350,12 +350,12 @@ To use LAN8720 on some STM32 boards
 - **Discovery (DISCO_F746NG)**
 - **STM32F4 boards (BLACK_F407VE, BLACK_F407VG, BLACK_F407ZE, BLACK_F407ZG, BLACK_F407VE_Mini, DIYMORE_F407VGT, FK407M1)**
 
-you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.2.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system) to overwrite the old files.
+you have to copy the files [stm32f4xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F4xx) and [stm32f7xx_hal_conf_default.h](Packages_Patches/STM32/hardware/stm32/2.3.0/system/STM32F7xx) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system) to overwrite the old files.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F4xx/stm32f4xx_hal_conf_default.h` for STM32F4.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/system/STM32F7xx/stm32f7xx_hal_conf_default.h` for Nucleo-144 STM32F7.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
@@ -366,12 +366,12 @@ theses files must be copied into the corresponding directory:
 
 #### 7.2 For STM32 boards to use Serial1
 
-**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.2.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.2.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
+**To use Serial1 on some STM32 boards without Serial1 definition (Nucleo-144 NUCLEO_F767ZI, Nucleo-64 NUCLEO_L053R8, etc.) boards**, you have to copy the files [STM32 variant.h](Packages_Patches/STM32/hardware/stm32/2.3.0) into STM32 stm32 directory (~/.arduino15/packages/STM32/hardware/stm32/2.3.0). You have to modify the files corresponding to your boards, this is just an illustration how to do.
 
-Supposing the STM32 stm32 core version is 2.2.0. These files must be copied into the directory:
+Supposing the STM32 stm32 core version is 2.3.0. These files must be copied into the directory:
 
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
-- `~/.arduino15/packages/STM32/hardware/stm32/2.2.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32F7xx/F765Z(G-I)T_F767Z(G-I)T_F777ZIT/NUCLEO_F767ZI/variant.h` for Nucleo-144 NUCLEO_F767ZI.
+- `~/.arduino15/packages/STM32/hardware/stm32/2.3.0/variants/STM32L0xx/L052R(6-8)T_L053R(6-8)T_L063R8T/NUCLEO_L053R8/variant.h` for Nucleo-64 NUCLEO_L053R8.
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz,
 theses files must be copied into the corresponding directory:
@@ -445,11 +445,11 @@ This file must be copied into the directory:
 
 #### 10. For RTL8720DN boards using AmebaD core
  
- To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h). 
+ To avoid compile error relating to PROGMEM, you have to copy the file [Realtek AmebaD core pgmspace.h](Packages_Patches/realtek/hardware/AmebaD/3.1.3/cores/arduino/avr/pgmspace.h) into Realtek AmebaD directory (~/.arduino15/packages/realtek/hardware/AmebaD/3.1.3/cores/arduino/avr/pgmspace.h). 
 
-Supposing the Realtek AmebaD core version is 3.1.2. This file must be copied into the directory:
+Supposing the Realtek AmebaD core version is 3.1.3. This file must be copied into the directory:
 
-- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.2/cores/arduino/avr/pgmspace.h`
+- `~/.arduino15/packages/realtek/hardware/AmebaD/3.1.3/cores/arduino/avr/pgmspace.h`
 
 Whenever a new version is installed, remember to copy this file into the new version directory. For example, new version is x.yy.zz
 This file must be copied into the directory:
@@ -595,7 +595,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -689,7 +689,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -842,7 +842,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -935,7 +935,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1012,7 +1012,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1042,7 +1042,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-5
+WiFiNINA_Generic v1.8.14-6
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1125,7 +1125,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
  - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
  - [Fix PinStatus error on some platforms #185](https://github.com/arduino-libraries/WiFiNINA/pull/185)
 23. Fix bug causing data lost when sending large files. This is just a kludge for temporary use, waiting for better and final fix, dealing with SPI driver, from Arduino.
-
+24. Add support to Teensy 4.x using `Adafruit Airlift Featherwing Co-Processor`
 
 ---
 
@@ -1138,22 +1138,22 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
 
 ### Contributions and Thanks
 
-1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
-2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **NINA_B302_ublox running as nRF52840 and NINA_B112_ublox running as nRF52832**, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
-3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
-4. Thanks to [Oscar den Uijl](https://github.com/ocrdu) for : 
+ 1. Based on and modified from from [Arduino WiFiNINA library](http://www.arduino.cc/en/Reference/WiFiNINA).Thanks to the great works of these [WiFiNINA Library's Contributors](https://github.com/arduino-libraries/WiFiNINA/graphs/contributors)
+ 2. Thanks to good work of [Miguel Alexandre Wisintainer](https://github.com/tcpipchip) for initiating, inspriring, working with, developing, debugging and testing. Without that, support to nRF52, especially **NINA_B302_ublox running as nRF52840 and NINA_B112_ublox running as nRF52832**, has never been started and finished. See [u-blox nina b](https://github.com/khoih-prog/WiFiNINA_Generic/issues/1)
+ 3. Thanks to [AppsByDavideV](https://github.com/AppsByDavideV) to report [WiFiStorage Bug](https://github.com/khoih-prog/WiFiNINA_Generic/issues/4)
+ 4. Thanks to [Oscar den Uijl](https://github.com/ocrdu) for : 
   - the fix, reported in [Version 1.4.0 can break code that uses more than one WiFiServer and socket](https://github.com/arduino-libraries/WiFiNINA/issues/87) and has been included.
   - the newly-added example [MultiServers](examples/MultiServers)
-5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
-6. Thanks to [mouradelbellili](https://github.com/mouradelbellili) to create PR [**Add support to Arduino UNO board** #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9) leading to version v1.8.12 to add support to Arduino, Adafruit, Sparkfun AVR 328P, 32u4, 16u4, etc. boards
-7. Thanks to [Juraj Andrássy](https://github.com/JAndrassy) to create these following PRs, used in v1.8.14-4
+ 5. Thanks to [Gerard Moorcroft](https://github.com/gmstuff) to report issue [**WiFi Hangs when attempting to start WiFi (Adafruit M4 Express Airlift Lite board)**](https://github.com/khoih-prog/MySQL_MariaDB_Generic/issues/2) leading to version v1.7.2 to add support to Adafruit METRO_M4_AIRLIFT_LITE, PYBADGE_AIRLIFT_M4.
+ 6. Thanks to [mouradelbellili](https://github.com/mouradelbellili) to create PR [**Add support to Arduino UNO board** #9](https://github.com/khoih-prog/WiFiNINA_Generic/pull/9) leading to version v1.8.12 to add support to Arduino, Adafruit, Sparkfun AVR 328P, 32u4, 16u4, etc. boards
+ 7. Thanks to [Juraj Andrássy](https://github.com/JAndrassy) to create these following PRs, used in v1.8.14-4
  - [WiFi.config - setting defaults as the Ethernet library #219](https://github.com/arduino-libraries/WiFiNINA/pull/219)
  - [added server.accept() #204](https://github.com/arduino-libraries/WiFiNINA/pull/204)
-8. Thanks to [Tamás Mélykuti](https://github.com/BlooD2oo1) to create the following PR, used in v1.8.14-4
+ 8. Thanks to [Tamás Mélykuti](https://github.com/BlooD2oo1) to create the following PR, used in v1.8.14-4
  - [Fix WiFiClient watchdog usage #211](https://github.com/arduino-libraries/WiFiNINA/pull/211)
-9. Thanks to [Mattia Pennasilico](https://github.com/pennam) to create the following PR, used in v1.8.14-4
+ 9. Thanks to [Mattia Pennasilico](https://github.com/pennam) to create the following PR, used in v1.8.14-4
  - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
-
+10. Thanks to [NachtRave](https://github.com/NachtRaveVL) to report issue [**Flush method not implemented #22**](https://github.com/khoih-prog/WiFiNINA_Generic/issues/22) leading to version v1.8.14-6
 
 
 ---
@@ -1170,6 +1170,7 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
   <tr>
     <td align="center"><a href="https://github.com/BlooD2oo1"><img src="https://github.com/BlooD2oo1.png" width="100px;" alt="BlooD2oo1"/><br /><sub><b>Tamás Mélykuti</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/pennam"><img src="https://github.com/pennam.png" width="100px;" alt="pennam"/><br /><sub><b>Mattia Pennasilico</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/NachtRaveVL"><img src="https://github.com/NachtRaveVL.png" width="100px;" alt="NachtRaveVL"/><br /><sub><b>NachtRave</b></sub></a><br /></td>
   </tr> 
 </table>
 
