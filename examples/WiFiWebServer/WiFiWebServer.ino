@@ -108,7 +108,6 @@ void setup()
 
 void loop()
 {
-#if 1
 	// listen for incoming clients
 	WiFiClient client = server.available();
 
@@ -177,7 +176,6 @@ void loop()
 		client.stop();
 		Serial.println(F("Client disconnected"));
 	}
-#endif
 }
 
 void printWiFiStatus()
