@@ -670,12 +670,12 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 
 ### 1. File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
 
-https://github.com/khoih-prog/WiFiNINA_Generic/blob/55557171895b942625d73fb35480f1e528437514/examples/WiFiWebServer/WiFiWebServer.ino#L41-L186
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/de0ce061e0269c96c10e2285416b87dd2531a50c/examples/WiFiWebServer/WiFiWebServer.ino#L41-L197
 
 
 ### 2. File [defines.h](examples/WiFiWebServer/defines.h)
 
-https://github.com/khoih-prog/WiFiNINA_Generic/blob/55557171895b942625d73fb35480f1e528437514/examples/WiFiWebServer/defines.h#L29-L400
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/de0ce061e0269c96c10e2285416b87dd2531a50c/examples/WiFiWebServer/defines.h#L29-L400
 
 
 ---
