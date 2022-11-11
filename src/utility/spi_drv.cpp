@@ -1,9 +1,9 @@
 /**********************************************************************************************************************************
   spi_drv.cpp - Library for Arduino WiFiNINA module/shield.
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #include "Arduino.h"
@@ -56,23 +57,23 @@
 
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
 
-// check if a bitstream is already included
-#if __has_include(<VidorFPGA.h>)
-// yes, so use the existing VidorFPGA include
-#include <VidorFPGA.h>
-#else
-// otherwise, fallback to VidorPeripherals and it's bitstream
-#include <VidorPeripherals.h>
-#endif
+  // check if a bitstream is already included
+  #if __has_include(<VidorFPGA.h>)
+    // yes, so use the existing VidorFPGA include
+    #include <VidorFPGA.h>
+  #else
+    // otherwise, fallback to VidorPeripherals and it's bitstream
+    #include <VidorPeripherals.h>
+  #endif
 
-#define NINA_GPIO0    FPGA_NINA_GPIO0
-#define SPIWIFI_SS    FPGA_SPIWIFI_SS
-#define SPIWIFI_ACK   FPGA_SPIWIFI_ACK
-#define SPIWIFI_RESET FPGA_SPIWIFI_RESET
+  #define NINA_GPIO0    FPGA_NINA_GPIO0
+  #define SPIWIFI_SS    FPGA_SPIWIFI_SS
+  #define SPIWIFI_ACK   FPGA_SPIWIFI_ACK
+  #define SPIWIFI_RESET FPGA_SPIWIFI_RESET
 
-#define pinMode(pin, mode)       FPGA.pinMode(pin, mode)
-#define digitalRead(pin)         FPGA.digitalRead(pin)
-#define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
+  #define pinMode(pin, mode)       FPGA.pinMode(pin, mode)
+  #define digitalRead(pin)         FPGA.digitalRead(pin)
+  #define digitalWrite(pin, value) FPGA.digitalWrite(pin, value)
 #endif    //ARDUINO_SAMD_MKRVIDOR4000
 
 #define _DEBUG_
@@ -121,10 +122,13 @@ void SpiDrv::begin()
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
   inverted_reset = false;
 #else
-  if (SLAVERESET > PINS_COUNT) {
+
+  if (SLAVERESET > PINS_COUNT)
+  {
     inverted_reset = true;
     SLAVERESET = ~SLAVERESET;
   }
+
 #endif
 
 #if (KH_WIFININA_SPI_DEBUG >1)
@@ -149,7 +153,7 @@ void SpiDrv::begin()
   Serial.print("NINA_ACK: ");
   Serial.println(NINA_ACK);
 #endif
-  
+
   Serial.println("===============================");
   Serial.println("\nActual final pinout to used: ");
   Serial.print("SPIWIFI_SS: ");
@@ -178,7 +182,7 @@ void SpiDrv::begin()
 
   digitalWrite(NINA_GPIO0, LOW);
   pinMode(NINA_GPIOIRQ, INPUT);
-  
+
   SPIWIFI.begin();
 
 #ifdef _DEBUG_
@@ -292,13 +296,13 @@ void SpiDrv::waitForSlaveSign()
 void SpiDrv::waitForSlaveReady()
 {
   unsigned long start = millis();
-  
+
   while (!waitSlaveReady())
   {
-    if ((millis() - start) > 10000) 
+    if ((millis() - start) > 10000)
     {
       WiFi.feedWatchdog();
-      
+
       start = millis();
     }
   }
@@ -323,7 +327,7 @@ int SpiDrv::waitResponseCmd(uint8_t cmd, uint8_t numParam, uint8_t* param, uint8
     CHECK_DATA(numParam, _data)
     {
       readParamLen8(param_len);
-      
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -384,11 +388,11 @@ int SpiDrv::waitResponseData16(uint8_t cmd, uint8_t* param, uint16_t* param_len)
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t numParam = readChar();
-    
+
     if (numParam != 0)
     {
       readParamLen16(param_len);
-      
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -412,11 +416,11 @@ int SpiDrv::waitResponseData8(uint8_t cmd, uint8_t* param, uint8_t* param_len)
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t numParam = readChar();
-    
+
     if (numParam != 0)
     {
       readParamLen8(param_len);
-      
+
       for (ii = 0; ii < (*param_len); ++ii)
       {
         // Get Params data
@@ -441,20 +445,20 @@ int SpiDrv::waitResponseParams(uint8_t cmd, uint8_t numParam, tParam* params)
     CHECK_DATA(cmd | REPLY_FLAG, _data) {};
 
     uint8_t _numParam = readChar();
-    
+
     if (_numParam != 0)
     {
       for (i = 0; i < _numParam; ++i)
       {
         params[i].paramLen = readParamLen8();
-        
+
         for (ii = 0; ii < params[i].paramLen; ++ii)
         {
           // Get Params data
           params[i].param[ii] = spiTransfer(DUMMY_DATA);
         }
       }
-    } 
+    }
     else
     {
       WARN("Error numParam == 0");
@@ -469,7 +473,7 @@ int SpiDrv::waitResponseParams(uint8_t cmd, uint8_t numParam, tParam* params)
 
     readAndCheckChar(END_CMD, &_data);
   }
-  
+
   return 1;
 }
 
@@ -534,15 +538,15 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
     {
       numParam = maxNumParams;
     }
-    
+
     *numParamRead = numParam;
-    
+
     if (numParam != 0)
     {
       for (i = 0; i < numParam; ++i)
       {
         uint8_t paramLen = readParamLen8();
-        
+
         for (ii = 0; ii < paramLen; ++ii)
         {
           //ssid[ii] = spiTransfer(DUMMY_DATA);
@@ -550,20 +554,20 @@ int SpiDrv::waitResponse(uint8_t cmd, uint8_t* numParamRead, uint8_t** params, u
           index[i][ii] = (uint8_t)spiTransfer(DUMMY_DATA);
 
         }
-        
+
         index[i][ii] = 0;
       }
-    } 
+    }
     else
     {
       WARN("Error numParams == 0");
       readAndCheckChar(END_CMD, &_data);
       return 0;
     }
-    
+
     readAndCheckChar(END_CMD, &_data);
   }
-  
+
   return 1;
 }
 
@@ -617,24 +621,24 @@ void SpiDrv::sendParamLen16(uint16_t param_len)
 uint8_t SpiDrv::readParamLen8(uint8_t* param_len)
 {
   uint8_t _param_len = spiTransfer(DUMMY_DATA);
-  
+
   if (param_len != NULL)
   {
     *param_len = _param_len;
   }
-  
+
   return _param_len;
 }
 
 uint16_t SpiDrv::readParamLen16(uint16_t* param_len)
 {
   uint16_t _param_len = spiTransfer(DUMMY_DATA) << 8 | (spiTransfer(DUMMY_DATA) & 0xff);
-  
+
   if (param_len != NULL)
   {
     *param_len = _param_len;
   }
-  
+
   return _param_len;
 }
 

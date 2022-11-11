@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -46,39 +47,39 @@
 // (https://github.com/arduino-libraries/WiFiNINA/issues/87
 #define USING_MULTI_SERVER_ISSUE_FIX      true
 
-extern "C" 
+extern "C"
 {
-  #include "utility/wl_definitions.h"
+#include "utility/wl_definitions.h"
   // KH, from v1.6.0
-  #include "utility/debug.h"
+#include "utility/debug.h"
 }
 
 #include "Server.h"
 
 class WiFiClient;
 
-class WiFiServer : public Server 
+class WiFiServer : public Server
 {
   private:
     uint8_t _sock;
-    
+
 #if !USING_MULTI_SERVER_ISSUE_FIX
     uint8_t _lastSock;
 #endif
-    
+
     uint16_t _port;
     void*     pcb;
-    
+
   public:
     WiFiServer(uint16_t);
     // KH New
     //bool hasClient(void);
 
     WiFiClient available(uint8_t* status = NULL);
-    
+
     // From https://github.com/arduino-libraries/WiFiNINA/pull/204
     WiFiClient accept();
-    
+
     void begin();
 
     // KH, New 1.5.3

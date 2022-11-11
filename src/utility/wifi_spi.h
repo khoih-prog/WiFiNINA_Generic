@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -135,9 +136,9 @@ enum
   DOWNLOAD_FILE         = 0x64,
   APPLY_OTA_COMMAND     = 0x65,
   RENAME_FILE           = 0x66,
-  
+
   // New from v1.7.0
-  DOWNLOAD_OTA		      = 0x67,
+  DOWNLOAD_OTA          = 0x67,
   //////
 };
 
@@ -177,13 +178,15 @@ typedef struct  __attribute__((__packed__))
 {
   uint8_t       paramLen;
   char*         param;
-} tParam;
+}
+tParam;
 
 typedef struct  __attribute__((__packed__))
 {
   uint16_t      dataLen;
   char*         data;
-} tDataParam;
+}
+tDataParam;
 
 
 typedef struct  __attribute__((__packed__))
@@ -192,7 +195,8 @@ typedef struct  __attribute__((__packed__))
   unsigned char tcmd;
   unsigned char nParam;
   tParam        params[MAX_PARAMS];
-} tSpiMsg;
+}
+tSpiMsg;
 
 typedef struct  __attribute__((__packed__))
 {
@@ -200,7 +204,8 @@ typedef struct  __attribute__((__packed__))
   unsigned char tcmd;
   unsigned char nParam;
   tDataParam    params[MAX_PARAMS];
-} tSpiMsgData;
+}
+tSpiMsgData;
 
 
 typedef struct  __attribute__((__packed__))
@@ -209,23 +214,27 @@ typedef struct  __attribute__((__packed__))
   unsigned char tcmd;
   //unsigned char totLen;
   unsigned char nParam;
-} tSpiHdr;
+}
+tSpiHdr;
 
 typedef struct  __attribute__((__packed__))
 {
   uint8_t     paramLen;
   uint32_t    param;
-} tLongParam;
+}
+tLongParam;
 
 typedef struct  __attribute__((__packed__))
 {
   uint8_t     paramLen;
   uint16_t    param;
-} tIntParam;
+}
+tIntParam;
 
 typedef struct  __attribute__((__packed__))
 {
   uint8_t     paramLen;
   uint8_t     param;
-} tByteParam;
+}
+tByteParam;
 

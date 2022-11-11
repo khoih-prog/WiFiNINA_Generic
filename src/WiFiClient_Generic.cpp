@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,16 +38,17 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #define _WIFININA_LOGLEVEL_         1
 
-extern "C" 
+extern "C"
 {
-  #include "utility/wl_definitions.h"
-  #include "utility/wl_types.h"
-  #include "string.h"
-  #include "utility/debug.h"
+#include "utility/wl_definitions.h"
+#include "utility/wl_types.h"
+#include "string.h"
+#include "utility/debug.h"
 }
 
 
@@ -111,7 +112,7 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
   {
     // KH
     NN_LOGDEBUG(F("No Socket available"));
-    
+
     return 0;
   }
 
@@ -152,6 +153,7 @@ int WiFiClient::connectSSL(IPAddress ip, uint16_t port)
 
     return 0;
   }
+
   return 1;
 }
 
@@ -163,7 +165,7 @@ int WiFiClient::connectSSL(const char *host, uint16_t port)
   }
 
   _sock = ServerDrv::getSocket();
-  
+
   if (_sock != NO_SOCKET_AVAIL)
   {
     ServerDrv::startClient(host, strlen(host), uint32_t(0), port, _sock, TLS_MODE);
@@ -220,15 +222,15 @@ int WiFiClient::connectBearSSL(IPAddress ip, uint16_t port)
     {
       return 0;
     }
-  } 
-  else 
+  }
+  else
   {
     // KH
     NN_LOGDEBUG(F("No Socket available"));
-    
+
     return 0;
   }
-  
+
   return 1;
 }
 
@@ -240,7 +242,7 @@ int WiFiClient::connectBearSSL(const char *host, uint16_t port)
   }
 
   _sock = ServerDrv::getSocket();
-  
+
   if (_sock != NO_SOCKET_AVAIL)
   {
     ServerDrv::startClient(host, strlen(host), uint32_t(0), port, _sock, TLS_BEARSSL_MODE);
@@ -258,15 +260,15 @@ int WiFiClient::connectBearSSL(const char *host, uint16_t port)
     {
       return 0;
     }
-  } 
-  else 
+  }
+  else
   {
     // KH
     NN_LOGDEBUG(F("No Socket available"));
-    
+
     return 0;
   }
-  
+
   return 1;
 }
 //////
@@ -281,68 +283,68 @@ size_t WiFiClient::write(uint8_t b)
 size_t WiFiClient::write(const uint8_t *buf, size_t size)
 {
   NN_LOGDEBUG1("WiFiClient::write: To write, size = ", size);
-  
+
   if (_sock == NO_SOCKET_AVAIL)
   {
     setWriteError();
-    
+
     NN_LOGDEBUG("WiFiClient::write: NO_SOCKET_AVAIL");
-    
+
     return 0;
   }
 
   if (size == 0)
   {
     setWriteError();
-    
+
     NN_LOGDEBUG("WiFiClient::write: size = 0");
-    
+
     return 0;
   }
 
   size_t written = ServerDrv::sendData(_sock, buf, size);
-  
+
   uint8_t timesResent = 0;
-  
+
   while ( (written != size) && (timesResent++ < 100) )
   {
     // Don't use too short delay so that NINA has some time to recover
     // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
     delay(100);
-    
+
     written += ServerDrv::sendData(_sock, buf + written, size - written);
   }
-  
+
   NN_LOGDEBUG1("WiFiClient::write: loopSend => written = ", written);
   NN_LOGDEBUG1("WiFiClient::write: loopSend => timesResent = ", timesResent);
-  
-  if (!written && _retrySend) 
+
+  if (!written && _retrySend)
   {
     written = retry(buf, size, true);
-    
+
     NN_LOGDEBUG1("WiFiClient::write: _retrySend => written = ", written);
   }
-  
+
   if (!written)
   {
     // close socket
     ServerDrv::stopClient(_sock);
     setWriteError();
-    
+
     NN_LOGDEBUG("WiFiClient::write: !written error");
-    
+
     return 0;
   }
 
   if (!ServerDrv::checkDataSent(_sock))
   {
     setWriteError();
-    
+
     NN_LOGDEBUG("WiFiClient::write: error !checkDataSent");
-    
+
     return 0;
   }
-  
+
   if (written == size)
   {
     NN_LOGINFO1("WiFiClient::write: OK, written = ", written);
@@ -357,26 +359,26 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
 
 ///////////////////////////////////////////////////////////////////////////
 
-size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write) 
+size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write)
 {
   size_t rec_bytes = 0;
 
-  if (write) 
+  if (write)
   {
     //RETRY WRITE
-    for (int i = 0; i < 5; i++) 
+    for (int i = 0; i < 5; i++)
     {
       rec_bytes = ServerDrv::sendData(_sock, buf, size);
-      
-      if (rec_bytes) 
+
+      if (rec_bytes)
       {
         break;
       }
     }
-    
+
     return rec_bytes;
   }
-  else 
+  else
   {
     //RETRY READ
     // To be implemented, if needed
@@ -418,7 +420,7 @@ int WiFiClient::peek()
   return WiFiSocketBuffer.peek(_sock);
 }
 
-void WiFiClient::setRetry(bool retry) 
+void WiFiClient::setRetry(bool retry)
 {
   _retrySend = retry;
 }

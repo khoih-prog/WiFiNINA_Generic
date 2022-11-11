@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,16 +38,17 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #include "utility/wifi_drv.h"
 #include "WiFi_Generic.h"
 
-extern "C" 
+extern "C"
 {
-  #include "utility/wl_definitions.h"
-  #include "utility/wl_types.h"
-  #include "utility/debug.h"
+#include "utility/wl_definitions.h"
+#include "utility/wl_types.h"
+#include "utility/debug.h"
 }
 
 WiFiClass::WiFiClass() : _timeout(50000), _feed_watchdog_func(0)
@@ -75,17 +76,18 @@ int WiFiClass::begin(const char* ssid)
       feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
-      
-      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED)) 
+
+      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         break;
       }
     }
-  } 
+  }
   else
   {
     status = WL_CONNECT_FAILED;
   }
+
   return status;
 }
 
@@ -101,18 +103,18 @@ int WiFiClass::begin(const char* ssid, uint8_t key_idx, const char *key)
       feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
-      
-      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED)) 
+
+      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         break;
       }
     }
-  } 
-  else 
+  }
+  else
   {
     status = WL_CONNECT_FAILED;
   }
-  
+
   return status;
 }
 
@@ -128,7 +130,7 @@ int WiFiClass::begin(const char* ssid, const char *passphrase)
       feedWatchdog();
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
-      
+
       if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         //KH
@@ -136,7 +138,9 @@ int WiFiClass::begin(const char* ssid, const char *passphrase)
         break;
       }
     }
-  } else {
+  }
+  else
+  {
     status = WL_CONNECT_FAILED;
   }
 
@@ -161,7 +165,7 @@ uint8_t WiFiClass::beginAP(const char *ssid, uint8_t channel)
     {
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
-      
+
       if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         //KH
@@ -230,29 +234,31 @@ uint8_t WiFiClass::beginEnterprise(const char* ssid, const char* username, const
   return beginEnterprise(ssid, username, password, identity, "");
 }
 
-uint8_t WiFiClass::beginEnterprise(const char* ssid, const char* username, const char* password, const char* identity, const char* ca)
+uint8_t WiFiClass::beginEnterprise(const char* ssid, const char* username, const char* password, const char* identity,
+                                   const char* ca)
 {
   uint8_t status = WL_IDLE_STATUS;
 
   // set passphrase
-  if (WiFiDrv::wifiSetEnterprise(0 /*PEAP/MSCHAPv2*/, ssid, strlen(ssid), username, strlen(username), password, strlen(password), identity, strlen(identity), ca, strlen(ca) + 1) != WL_FAILURE)
+  if (WiFiDrv::wifiSetEnterprise(0 /*PEAP/MSCHAPv2*/, ssid, strlen(ssid), username, strlen(username), password,
+                                 strlen(password), identity, strlen(identity), ca, strlen(ca) + 1) != WL_FAILURE)
   {
     for (unsigned long start = millis(); (millis() - start) < _timeout;)
     {
       delay(WL_DELAY_START_CONNECTION);
       status = WiFiDrv::getConnectionStatus();
-      
-      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED)) 
+
+      if ((status != WL_IDLE_STATUS) && (status != WL_NO_SSID_AVAIL) && (status != WL_SCAN_COMPLETED))
       {
         break;
       }
     }
-  } 
-  else 
+  }
+  else
   {
     status = WL_CONNECT_FAILED;
   }
-  
+
   return status;
 }
 
@@ -347,7 +353,7 @@ uint8_t* WiFiClass::BSSID(uint8_t* bssid)
 {
   uint8_t* _bssid = WiFiDrv::getCurrentBSSID();
   memcpy(bssid, _bssid, WL_MAC_ADDR_LENGTH);
-  
+
   return bssid;
 }
 
@@ -369,14 +375,13 @@ int8_t WiFiClass::scanNetworks()
 
   if (WiFiDrv::startScanNetworks() == WL_FAILURE)
     return WL_FAILURE;
-    
+
   do
   {
     delay(2000);
     numOfNetworks = WiFiDrv::getScanNetworks();
-  }
-  while (( numOfNetworks == 0) && (--attempts > 0));
-  
+  } while (( numOfNetworks == 0) && (--attempts > 0));
+
   return numOfNetworks;
 }
 
@@ -439,7 +444,7 @@ int WiFiClass::ping(const char* hostname, uint8_t ttl)
 {
   IPAddress ip;
 
-  if (!hostByName(hostname, ip)) 
+  if (!hostByName(hostname, ip))
   {
     return WL_PING_UNKNOWN_HOST;
   }

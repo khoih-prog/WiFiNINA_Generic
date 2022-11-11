@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -46,17 +47,19 @@
 
 #define UDP_TX_PACKET_MAX_SIZE 24
 
-class WiFiUDP : public UDP 
+class WiFiUDP : public UDP
 {
   private:
     uint8_t _sock;  // socket ID for Wiz5100
     uint16_t _port; // local port to listen on
     int _parsed;
-    
+
   public:
     WiFiUDP();  // Constructor
-    virtual uint8_t begin(uint16_t);  // initialize, start listening on specified port. Returns 1 if successful, 0 if there are no sockets available to use
-    virtual uint8_t beginMulticast(IPAddress, uint16_t);  // initialize, start listening on specified multicast IP address and port. Returns 1 if successful, 0 if there are no sockets available to use
+    virtual uint8_t begin(
+      uint16_t);  // initialize, start listening on specified port. Returns 1 if successful, 0 if there are no sockets available to use
+    virtual uint8_t beginMulticast(IPAddress,
+                                   uint16_t);  // initialize, start listening on specified multicast IP address and port. Returns 1 if successful, 0 if there are no sockets available to use
     virtual void stop();  // Finish with the UDP socket
 
     // Sending UDP packets
@@ -89,7 +92,8 @@ class WiFiUDP : public UDP
     virtual int read(unsigned char* buffer, size_t len);
     // Read up to len characters from the current packet and place them into buffer
     // Returns the number of characters read, or 0 if none are available
-    virtual int read(char* buffer, size_t len) {
+    virtual int read(char* buffer, size_t len)
+    {
       return read((unsigned char*)buffer, len);
     };
     // Return the next byte from the current packet without moving on to the next byte

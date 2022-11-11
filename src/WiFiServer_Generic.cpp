@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #include <string.h>
@@ -45,9 +46,9 @@
 
 #define _WIFININA_LOGLEVEL_         3
 
-extern "C" 
+extern "C"
 {
-  #include "utility/debug.h"
+#include "utility/debug.h"
 }
 
 #include "WiFi_Generic.h"
@@ -68,7 +69,7 @@ WiFiServer::WiFiServer(uint16_t port) : _sock(NO_SOCKET_AVAIL), _lastSock(NO_SOC
 void WiFiServer::begin()
 {
   _sock = ServerDrv::getSocket();
-  
+
   if (_sock != NO_SOCKET_AVAIL)
   {
     ServerDrv::startServer(_port, _sock);
@@ -79,7 +80,7 @@ void WiFiServer::begin()
 WiFiClient WiFiServer::accept()
 {
   int sock = ServerDrv::availServer(_sock, true);
-  
+
   return WiFiClient(sock);
 }
 
@@ -103,67 +104,69 @@ WiFiClient WiFiServer::available(byte* status)
 {
   int sock = NO_SOCKET_AVAIL;
 
-  if (_sock != NO_SOCKET_AVAIL) 
+  if (_sock != NO_SOCKET_AVAIL)
   {
-// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
-// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+    // See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+    // (https://github.com/arduino-libraries/WiFiNINA/issues/87
 #if USING_MULTI_SERVER_ISSUE_FIX
     sock = ServerDrv::availServer(_sock);
 #else
+
     // check previous received client socket
-    if (_lastSock != NO_SOCKET_AVAIL) 
-    {     
+    if (_lastSock != NO_SOCKET_AVAIL)
+    {
       WiFiClient client(_lastSock);
-      
+
       // KH, from v1.6.0 debug
       NN_LOGDEBUG1("WiFiServer::available: _lastSock =", _lastSock);
-      
-      if (client.connected()) 
+
+      if (client.connected())
         NN_LOGDEBUG("WiFiServer::available: client.connected");
-        
-      if (client.available()) 
+
+      if (client.available())
         NN_LOGDEBUG("WiFiServer::available: client.available");
-        
-      
+
+
       //////
 
-      if (client.connected() && client.available()) 
+      if (client.connected() && client.available())
       {
         sock = _lastSock;
-        
+
         // KH, from v1.6.0 debug
         NN_LOGDEBUG1("WiFiServer::available: sock/_lastSock =", sock);
       }
     }
 
-    if (sock == NO_SOCKET_AVAIL) 
+    if (sock == NO_SOCKET_AVAIL)
     {
       // check for new client socket
       sock = ServerDrv::availServer(_sock);
-      
+
       // KH, from v1.6.0 debug
       //NN_LOGDEBUG1("WiFiServer::available: sock =", sock);
       //////
     }
+
 #endif
-    
+
   }
 
-  if (sock != NO_SOCKET_AVAIL) 
+  if (sock != NO_SOCKET_AVAIL)
   {
     WiFiClient client(sock);
 
-    if (status != NULL) 
+    if (status != NULL)
     {
       *status = client.status();
     }
 
-// See Version 1.4.0 can break code that uses more than one WiFiServer and socket
-// (https://github.com/arduino-libraries/WiFiNINA/issues/87
+    // See Version 1.4.0 can break code that uses more than one WiFiServer and socket
+    // (https://github.com/arduino-libraries/WiFiNINA/issues/87
 #if !USING_MULTI_SERVER_ISSUE_FIX
     _lastSock = sock;
 #endif
-    
+
     // KH, from v1.6.0 debug
     NN_LOGDEBUG1("WiFiServer::available: Client OK, sock =", sock);
     //////
@@ -174,17 +177,17 @@ WiFiClient WiFiServer::available(byte* status)
   // KH, from v1.6.0 debug
   //NN_LOGDEBUG("WiFiServer::available: Client not OK");
   //////
-    
+
   return WiFiClient(255);
 }
 
-uint8_t WiFiServer::status() 
+uint8_t WiFiServer::status()
 {
-  if (_sock == NO_SOCKET_AVAIL) 
+  if (_sock == NO_SOCKET_AVAIL)
   {
     return CLOSED;
-  } 
-  else 
+  }
+  else
   {
     return ServerDrv::getServerState(_sock);
   }
@@ -207,27 +210,27 @@ size_t WiFiServer::write(const uint8_t *buffer, size_t size)
   }
 
   size_t written = ServerDrv::sendData(_sock, buffer, size);
-  
+
   uint8_t timesResent = 0;
-  
+
   while ( (written != size) && (timesResent++ < 100) )
   {
     // Don't use too short delay so that NINA has some time to recover
     // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
     delay(100);
-    
+
     written += ServerDrv::sendData(_sock, buffer + written, size - written);
   }
-  
+
   NN_LOGINFO1("WiFiServer::write: loopSend => written = ", written);
   NN_LOGINFO1("WiFiServer::write: loopSend => timesResent = ", timesResent);
-  
+
   if (!written)
   {
     setWriteError();
-    
+
     NN_LOGERROR("WiFiServer::write: !written error");
-    
+
     return 0;
   }
 
@@ -245,7 +248,7 @@ size_t WiFiServer::write(const uint8_t *buffer, size_t size)
   {
     NN_LOGERROR3("WiFiServer::write: Not OK, size = ", size, ", written = ", written);
   }
-  
+
   return written;
 }
 
@@ -260,7 +263,7 @@ size_t WiFiServer::write(const uint8_t *buffer, size_t size)
   }
 
   size_t written = ServerDrv::sendData(_sock, buffer, size);
-  
+
   if (!written)
   {
     setWriteError();

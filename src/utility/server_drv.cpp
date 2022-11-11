@@ -1,9 +1,9 @@
 /**********************************************************************************************************************************
   server_drv.cpp - Library for Arduino WiFiNINA module/shield.
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #define _DEBUG_
@@ -48,7 +49,7 @@
 
 #include "Arduino.h"
 #include "spi_drv.h"
-  
+
 // From v1.5.1, For nRF52x
 #include "wl_types.h"
 #include "debug.h"
@@ -138,7 +139,8 @@ void ServerDrv::startClient(uint32_t ipAddress, uint16_t port, uint8_t sock, uin
   SpiDrv::spiSlaveDeselect();
 }
 
-void ServerDrv::startClient(const char* host, uint8_t host_len, uint32_t ipAddress, uint16_t port, uint8_t sock, uint8_t protMode)
+void ServerDrv::startClient(const char* host, uint8_t host_len, uint32_t ipAddress, uint16_t port, uint8_t sock,
+                            uint8_t protMode)
 {
   WAIT_FOR_SLAVE_SELECT();
   // Send Command
@@ -268,19 +270,19 @@ uint8_t ServerDrv::getClientState(uint8_t sock)
 
 uint16_t ServerDrv::availData(uint8_t sock)
 {
-  if  (!SpiDrv::available()) 
+  if  (!SpiDrv::available())
   {
     // KH
 #if (KH_WIFININA_SERVER_DRV_DEBUG > 2)
     Serial.println("ServerDrv::availData: SpiDrv not available");
-#endif    
+#endif
     return 0;
   }
- 
+
   // KH
-#if (KH_WIFININA_SERVER_DRV_DEBUG > 2)    
+#if (KH_WIFININA_SERVER_DRV_DEBUG > 2)
   Serial.println("ServerDrv::availData: SpiDrv OK");
-#endif  
+#endif
 
   WAIT_FOR_SLAVE_SELECT();
   // Send Command
@@ -303,7 +305,7 @@ uint16_t ServerDrv::availData(uint8_t sock)
   SpiDrv::waitResponseCmd(AVAIL_DATA_TCP_CMD, PARAM_NUMS_1, (uint8_t*)&len,  &_dataLen);
 
   SpiDrv::spiSlaveDeselect();
-  
+
   // KH
 #if (KH_WIFININA_SERVER_DRV_DEBUG > 2)
   Serial.print("ServerDrv::availData: len =");
@@ -523,7 +525,7 @@ uint16_t ServerDrv::sendData(uint8_t sock, const uint8_t *data, uint16_t len)
   }
 
   SpiDrv::spiSlaveDeselect();
-  
+
   return _data;
 }
 
@@ -556,19 +558,19 @@ uint8_t ServerDrv::checkDataSent(uint8_t sock)
     {
       WARN("error waitResponse isDataSent");
     }
-    
+
     SpiDrv::spiSlaveDeselect();
 
-    if (_data) 
+    if (_data)
       timeout = 0;
-    else 
+    else
     {
       ++timeout;
       delay(100);
     }
 
   } while ((_data == 0) && (timeout < TIMEOUT_DATA_SENT));
-  
+
   return (timeout == TIMEOUT_DATA_SENT) ? 0 : 1;
 }
 

@@ -1,15 +1,15 @@
 /**********************************************************************************************************************************
   nano_rp2040_support.cpp - Library for Arduino WiFiNINA module/shield.
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
   This file is part of the WiFiNINA library.
   Copyright (c) 2021 Arduino SA. All rights reserved.
-  
+
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 //#ifdef ARDUINO_NANO_RP2040_CONNECT
@@ -45,14 +46,14 @@
 #if defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
 
 /******************************************************************************
- * INCLUDE
+   INCLUDE
  ******************************************************************************/
 
 #include "nina_pins.h" /* variants/NANO_RP2040_CONNECT/ninaPins.h */
 #include "wifi_drv.h"
 
 /******************************************************************************
- * FUNCTION DEFINITION
+   FUNCTION DEFINITION
  ******************************************************************************/
 
 #ifdef NINA_PINS_AS_CLASS
@@ -63,15 +64,21 @@
 
 uint8_t toAnalogPin(NinaPin pin)
 {
-  if      (pin == A4) return 6; /* ADC1 - CH6 */
-  else if (pin == A5) return 3; /* ADC1 - CH3 */
-  
-#if defined(ARDUINO_NANO_RP2040_CONNECT)  
-  else if (pin == A6) return 0; /* ADC1 - CH0 */
-  else if (pin == A7) return 7; /* ADC1 - CH7 */
+  if      (pin == A4)
+    return 6; /* ADC1 - CH6 */
+  else if (pin == A5)
+    return 3; /* ADC1 - CH3 */
+
+#if defined(ARDUINO_NANO_RP2040_CONNECT)
+  else if (pin == A6)
+    return 0; /* ADC1 - CH0 */
+  else if (pin == A7)
+    return 7; /* ADC1 - CH7 */
+
 #endif
-  
-  else                return 0xFF;
+
+  else
+    return 0xFF;
 }
 
 void pinMode(NinaPin pin, PinMode mode)
@@ -89,11 +96,11 @@ void digitalWrite(NinaPin pin, PinStatus value)
   if (value == LOW)
   {
     WiFiDrv::digitalWrite(VAL(pin), 1);
-  }  
+  }
   else
   {
     WiFiDrv::digitalWrite(VAL(pin), 0);
-  }  
+  }
 }
 
 int analogRead(NinaPin pin)
@@ -105,6 +112,7 @@ int analogRead(NinaPin pin)
   else
 #ifdef NINA_PINS_AS_CLASS
     return WiFiDrv::analogRead(adc_channel) >> (12 - pin.analogReadResolution());
+
 #else
     return WiFiDrv::analogRead(adc_channel);
 #endif

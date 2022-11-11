@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #include <string.h>
@@ -47,10 +48,10 @@
 #endif
 #define KH_WIFININA_UDP_DEBUG   0
 
-extern "C" 
+extern "C"
 {
-  #include "utility/debug.h"
-  #include "utility/wifi_spi.h"
+#include "utility/debug.h"
+#include "utility/wifi_spi.h"
 }
 
 #include "utility/server_drv.h"
@@ -67,7 +68,7 @@ extern "C"
 WiFiUDP::WiFiUDP() : _sock(NO_SOCKET_AVAIL), _parsed(0) {}
 
 /* Start WiFiUDP socket, listening at local port PORT */
-uint8_t WiFiUDP::begin(uint16_t port) 
+uint8_t WiFiUDP::begin(uint16_t port)
 {
   if (_sock != NO_SOCKET_AVAIL)
   {
@@ -75,7 +76,7 @@ uint8_t WiFiUDP::begin(uint16_t port)
   }
 
   uint8_t sock = ServerDrv::getSocket();
-  
+
   if (sock != NO_SOCKET_AVAIL)
   {
     ServerDrv::startServer(port, sock, UDP_MODE);
@@ -84,11 +85,11 @@ uint8_t WiFiUDP::begin(uint16_t port)
     _parsed = 0;
     return 1;
   }
-  
+
   return 0;
 }
 
-uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port) 
+uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
 {
   if (_sock != NO_SOCKET_AVAIL)
   {
@@ -96,37 +97,37 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
   }
 
   uint8_t sock = ServerDrv::getSocket();
-  
+
   if (sock != NO_SOCKET_AVAIL)
   {
     // KH,  Debug test. Original is ServerDrv::startServer(ip, port, sock, UDP_MULTICAST_MODE);
     ServerDrv::startServer(ip, port, sock, UDP_MULTICAST_MODE);
     //ServerDrv::startServer(port, sock, UDP_MULTICAST_MODE);
     //ServerDrv::startClient(ip, port, sock, UDP_MULTICAST_MODE);
-    
+
 #if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.print("WiFiUDP::beginMulticast: Start Client(Server) on port ");
-    Serial.println(port);   
+    Serial.println(port);
 #endif
-    
+
     _sock = sock;
     _port = port;
     _parsed = 0;
-    
+
     // KH
 #if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.println("WiFiUDP::beginMulticast: Start Client(Server) OK");
 #endif
-    
+
     return 1;
   }
-  
+
   return 0;
 }
 
 /* return number of bytes available in the current packet,
    will return zero if parsePacket hasn't been called yet */
-int WiFiUDP::available() 
+int WiFiUDP::available()
 {
   return _parsed;
 }
@@ -148,12 +149,12 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port)
   // Look up the host first
   int ret = 0;
   IPAddress remote_addr;
-  
+
   if (WiFi.hostByName(host, remote_addr))
   {
     return beginPacket(remote_addr, port);
   }
-  
+
   return ret;
 }
 
@@ -161,11 +162,11 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
 {
   if (_sock == NO_SOCKET_AVAIL)
     _sock = ServerDrv::getSocket();
-    
+
   if (_sock != NO_SOCKET_AVAIL)
   {
     ServerDrv::startClient(uint32_t(ip), port, _sock, UDP_MODE);
-    
+
 #if (KH_WIFININA_UDP_DEBUG > 1)
     Serial.print("WiFiUDP::beginPacket: startClient, ip=");
     Serial.print(ip);
@@ -175,7 +176,7 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
 
     return 1;
   }
-  
+
   return 0;
 }
 
@@ -192,18 +193,19 @@ size_t WiFiUDP::write(uint8_t byte)
 size_t WiFiUDP::write(const uint8_t *buffer, size_t size)
 {
 #if (KH_WIFININA_UDP_DEBUG > 3)
-    Serial.print("\nWiFiUDP::write: buffer=");
-    for (int i = 0; i < size; i++)
-    {
-      Serial.print(String(buffer[i], HEX));
-      Serial.print(", ");
-      
-      if (( i > 0 ) && ( i % 20 == 0 ))
-        Serial.println("");
-      
-    }
-    
-    Serial.println("");
+  Serial.print("\nWiFiUDP::write: buffer=");
+
+  for (int i = 0; i < size; i++)
+  {
+    Serial.print(String(buffer[i], HEX));
+    Serial.print(", ");
+
+    if (( i > 0 ) && ( i % 20 == 0 ))
+      Serial.println("");
+
+  }
+
+  Serial.println("");
 #endif
 
   ServerDrv::insertDataBuf(_sock, buffer, size);
@@ -213,6 +215,7 @@ size_t WiFiUDP::write(const uint8_t *buffer, size_t size)
 int WiFiUDP::parsePacket()
 {
 #if 0
+
   while (_parsed--)
   {
     // discard previously parsed packet data
@@ -220,18 +223,19 @@ int WiFiUDP::parsePacket()
 
     WiFiSocketBuffer.read(_sock, &b, sizeof(b));
   }
+
 #endif
 
   _parsed = ServerDrv::availData(_sock);
-  
-  
+
+
 
 #if (KH_WIFININA_UDP_DEBUG > 3)
 
-    Serial.print("WiFiUDP::parsePacket: len=");
-    Serial.print(_parsed);
-    Serial.print(", _sock =");
-    Serial.println(_sock);
+  Serial.print("WiFiUDP::parsePacket: len=");
+  Serial.print(_parsed);
+  Serial.print(", _sock =");
+  Serial.println(_sock);
 #endif
 
   return _parsed;
@@ -265,21 +269,22 @@ int WiFiUDP::read(unsigned char* buffer, size_t len)
   {
     _parsed -= result;
   }
-  
+
 #if (KH_WIFININA_UDP_DEBUG > 3)
-    Serial.print("WiFiUDP::read: buffer=");
-    for (int i = 0; i < result; i++)
-    {
-      Serial.print(String(buffer[i], HEX));
-      Serial.print(", ");
-      
-      if (( i > 0 ) && ( i % 20 == 0 ))
-        Serial.println("");
-      
-    }
-    
-    Serial.println("");
-#endif  
+  Serial.print("WiFiUDP::read: buffer=");
+
+  for (int i = 0; i < result; i++)
+  {
+    Serial.print(String(buffer[i], HEX));
+    Serial.print(", ");
+
+    if (( i > 0 ) && ( i % 20 == 0 ))
+      Serial.println("");
+
+  }
+
+  Serial.println("");
+#endif
 
   return result;
 }
@@ -306,7 +311,7 @@ IPAddress  WiFiUDP::remoteIP()
 
   WiFiDrv::getRemoteData(_sock, _remoteIp, _remotePort);
   IPAddress ip(_remoteIp);
-  
+
   return ip;
 }
 
@@ -317,7 +322,7 @@ uint16_t  WiFiUDP::remotePort()
 
   WiFiDrv::getRemoteData(_sock, _remoteIp, _remotePort);
   uint16_t port = (_remotePort[0] << 8) + _remotePort[1];
-  
+
   return port;
 }
 

@@ -3,7 +3,7 @@
 
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
-  
+
   Built by Khoi Hoang https://github.com/khoih-prog/WiFiNINA_Generic
   Licensed under MIT license
 
@@ -23,8 +23,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Version: 1.8.14-6
+
+  Version: 1.8.14-7
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -38,6 +38,7 @@
   1.8.14-4   K Hoang    01/05/2022 Fix bugs by using some PRs from original WiFiNINA. Add WiFiMulti-related examples
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
+  1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -300,7 +301,8 @@ class WiFiDrv
     static void setPowerMode(uint8_t mode);
 
     static int8_t wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t channel);
-    static int8_t wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const char *passphrase, const uint8_t len, uint8_t channel);
+    static int8_t wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const char *passphrase, const uint8_t len,
+                                      uint8_t channel);
     static int8_t wifiSetEnterprise(uint8_t eapType,
                                     const char* ssid, uint8_t ssid_len,
                                     const char *username, const uint8_t username_len,
@@ -314,37 +316,41 @@ class WiFiDrv
     static void debug(uint8_t on);
     static float getTemperature();
     static void pinMode(uint8_t pin, uint8_t mode);
-    
+
     // KH, for compatibility with other platforms
-//#if defined(ARDUINO_ARCH_MBED)
+    //#if defined(ARDUINO_ARCH_MBED)
 #if defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
     static PinStatus digitalRead(uint8_t pin);
-#else    
+#else
     static int digitalRead(uint8_t pin);
-#endif    
+#endif
     //////
-    
+
     static void digitalWrite(uint8_t pin, uint8_t value);
     static uint16_t analogRead(uint8_t adc_channel);
     static void analogWrite(uint8_t pin, uint8_t value);
 
     // New from v1.6.0
     static int8_t downloadFile(const char* url, uint8_t url_len, const char *filename, uint8_t filename_len);
-    
+
     // New from v1.7.0
     static int8_t downloadOTA(const char* url, uint8_t url_len);
     //////
-    
-    static int8_t renameFile(const char * old_file_name, uint8_t const old_file_name_len, const char * new_file_name, uint8_t const new_file_name_len);
 
-    static int8_t fileOperation(uint8_t operation, const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer, uint32_t len);
+    static int8_t renameFile(const char * old_file_name, uint8_t const old_file_name_len, const char * new_file_name,
+                             uint8_t const new_file_name_len);
 
-    static int8_t readFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer, uint32_t buffer_len)
+    static int8_t fileOperation(uint8_t operation, const char *filename, uint8_t filename_len, uint32_t offset,
+                                uint8_t* buffer, uint32_t len);
+
+    static int8_t readFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer,
+                           uint32_t buffer_len)
     {
       return fileOperation(READ_FILE, filename, filename_len, offset, buffer, buffer_len);
     };
 
-    static int8_t writeFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer, uint32_t buffer_len)
+    static int8_t writeFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer,
+                            uint32_t buffer_len)
     {
       return fileOperation(WRITE_FILE, filename, filename_len, offset, buffer, buffer_len);
     };
