@@ -53,20 +53,24 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart ConnectNoEncryption on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart ConnectNoEncryption on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -154,6 +158,7 @@ void printMacAddress(byte mac[])
     {
       Serial.print(F("0"));
     }
+
     Serial.print(mac[i], HEX);
 
     if (i > 0)
@@ -161,6 +166,6 @@ void printMacAddress(byte mac[])
       Serial.print(F(":"));
     }
   }
-  
+
   Serial.println();
 }

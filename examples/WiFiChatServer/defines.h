@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
   defines.h
   For boards with WiFiNINA module/shield.
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
 
@@ -37,10 +37,10 @@
       || defined(__SAMD21E15A__) || defined(__SAMD21E16A__) || defined(__SAMD21E17A__) || defined(__SAMD21E18A__) \
       || defined(__SAMD21G15A__) || defined(__SAMD21G16A__) || defined(__SAMD21G17A__) || defined(__SAMD21G18A__) \
       || defined(__SAMD21J15A__) || defined(__SAMD21J16A__) || defined(__SAMD21J17A__) || defined(__SAMD21J18A__) )
-  #if defined(WIFININA_USE_SAMD)
-    #undef WIFININA_USE_SAMD
-  #endif
-  #define WIFININA_USE_SAMD      true
+#if defined(WIFININA_USE_SAMD)
+  #undef WIFININA_USE_SAMD
+#endif
+#define WIFININA_USE_SAMD      true
 #endif
 
 #if defined(WIFININA_USE_SAMD)
@@ -150,10 +150,10 @@
 #if ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
       defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
       defined(NRF52840_METRO) || defined(NRF52840_PCA10056) || defined(PARTICLE_XENON) || defined(NINA_B302_ublox) || defined(NINA_B112_ublox) )
-  #if defined(WIFININA_USE_NRF52)
-    #undef WIFININA_USE_NRF52
-  #endif
-  #define WIFININA_USE_NRF52     true
+#if defined(WIFININA_USE_NRF52)
+  #undef WIFININA_USE_NRF52
+#endif
+#define WIFININA_USE_NRF52     true
 #endif
 
 #if defined(WIFININA_USE_NRF52)
@@ -213,10 +213,10 @@
 #if ( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
        defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
        defined(STM32WB) || defined(STM32MP1) )
-  #if defined(WIFININA_USE_STM32)
-    #undef WIFININA_USE_STM32
-  #endif
-  #define WIFININA_USE_STM32      true
+#if defined(WIFININA_USE_STM32)
+  #undef WIFININA_USE_STM32
+#endif
+#define WIFININA_USE_STM32      true
 #endif
 
 #if defined(WIFININA_USE_STM32)
@@ -275,7 +275,7 @@
     #undef WIFININA_USE_TEENSY
   #endif
   #define WIFININA_USE_TEENSY      true
-  
+
   #if defined(__IMXRT1062__)
     // For Teensy 4.1/4.0
     #define BOARD_TYPE      "TEENSY 4.1/4.0"
@@ -314,7 +314,7 @@
 
     #if defined(ARDUINO_NANO_RP2040_CONNECT)
       #define BOARD_NAME      "MBED NANO_RP2040_CONNECT"
-    #elif defined(ARDUINO_RASPBERRY_PI_PICO) 
+    #elif defined(ARDUINO_RASPBERRY_PI_PICO)
       #define BOARD_NAME      "MBED RASPBERRY_PI_PICO"
     #elif defined(ARDUINO_ADAFRUIT_FEATHER_RP2040)
       #define BOARD_NAME      "MBED DAFRUIT_FEATHER_RP2040"
@@ -323,54 +323,54 @@
     #else
       #define BOARD_NAME      "MBED Unknown RP2040"
     #endif
-    
+
   #endif
 #endif
 
 #if ( defined(__AVR_ATmega2560__) || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__) || \
       defined(__AVR_ATmega640__) || defined(__AVR_ATmega641__))
-  #define BOARD_TYPE    "Arduino AVR Mega2560/ADK"
-  #warning Using Arduino AVR Mega, Mega640(P), Mega2560/ADK.
-  
+#define BOARD_TYPE    "Arduino AVR Mega2560/ADK"
+#warning Using Arduino AVR Mega, Mega640(P), Mega2560/ADK.
+
 #elif ( defined(__AVR_ATmega644__) || defined(__AVR_ATmega644A__) || defined(__AVR_ATmega644P__) || defined(__AVR_ATmega644PA__)  || \
         defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO) || defined(ARDUINO_AVR_MINI) ||    defined(ARDUINO_AVR_ETHERNET) || \
         defined(ARDUINO_AVR_FIO) || defined(ARDUINO_AVR_BT)   || defined(ARDUINO_AVR_LILYPAD) || defined(ARDUINO_AVR_PRO)      || \
-        defined(ARDUINO_AVR_NG) || defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) || defined(ARDUINO_AVR_DUEMILANOVE) )      
-  #define BOARD_TYPE    "Arduino AVR UNO, Nano, etc." 
-  #warning Using Aduino AVR ATMega644(P), ATMega328(P) such as UNO, Nano.
+        defined(ARDUINO_AVR_NG) || defined(ARDUINO_AVR_UNO_WIFI_DEV_ED) || defined(ARDUINO_AVR_DUEMILANOVE) )
+#define BOARD_TYPE    "Arduino AVR UNO, Nano, etc."
+#warning Using Aduino AVR ATMega644(P), ATMega328(P) such as UNO, Nano.
 
 #elif ( defined(ARDUINO_AVR_FEATHER328P) || defined(ARDUINO_AVR_METRO) || defined(ARDUINO_AVR_PROTRINKET5) || defined(ARDUINO_AVR_PROTRINKET3) || \
       defined(ARDUINO_AVR_PROTRINKET5FTDI) || defined(ARDUINO_AVR_PROTRINKET3FTDI) )
-  #define BOARD_TYPE    "Adafruit AVR ATMega328(P)"
-  #warning Using Adafruit ATMega328(P), such as AVR_FEATHER328P or AVR_METRO.
-        
+#define BOARD_TYPE    "Adafruit AVR ATMega328(P)"
+#warning Using Adafruit ATMega328(P), such as AVR_FEATHER328P or AVR_METRO.
+
 #elif ( defined(ARDUINO_AVR_LEONARDO) || defined(ARDUINO_AVR_LEONARDO_ETH) || defined(ARDUINO_AVR_YUN) || defined(ARDUINO_AVR_MICRO) || \
         defined(ARDUINO_AVR_ESPLORA)  || defined(ARDUINO_AVR_LILYPAD_USB)  || defined(ARDUINO_AVR_ROBOT_CONTROL) || defined(ARDUINO_AVR_ROBOT_MOTOR) || \
         defined(ARDUINO_AVR_CIRCUITPLAY)  || defined(ARDUINO_AVR_YUNMINI) || defined(ARDUINO_AVR_INDUSTRIAL101) || defined(ARDUINO_AVR_LININO_ONE) )
-  #define BOARD_TYPE    "Arduino AVR ATMega32U4"
-  #warning Using Arduino ATMega32U4, such as Leonardo or Leonardo ETH.
-  
+#define BOARD_TYPE    "Arduino AVR ATMega32U4"
+#warning Using Arduino ATMega32U4, such as Leonardo or Leonardo ETH.
+
 #elif ( defined(ARDUINO_AVR_FLORA8 ) || defined(ARDUINO_AVR_FEATHER32U4) || defined(ARDUINO_AVR_CIRCUITPLAY) || defined(ARDUINO_AVR_ITSYBITSY32U4_5V) || \
         defined(ARDUINO_AVR_ITSYBITSY32U4_3V)  || defined(ARDUINO_AVR_BLUEFRUITMICRO) || defined(ARDUINO_AVR_ADAFRUIT32U4) )
-  #define BOARD_TYPE    "Adafruit AVR ATMega32U4"
-  #warning Using Adafruit ATMega32U4, such as Feather_32u4, AVR_CIRCUITPLAY, etc.
+#define BOARD_TYPE    "Adafruit AVR ATMega32U4"
+#warning Using Adafruit ATMega32U4, such as Feather_32u4, AVR_CIRCUITPLAY, etc.
 
 #elif ( defined(__AVR_ATmega32U4__) || defined(ARDUINO_AVR_MAKEYMAKEY ) || defined(ARDUINO_AVR_PROMICRO) || defined(ARDUINO_AVR_FIOV3) || \
         defined(ARDUINO_AVR_QDUINOMINI) || defined(ARDUINO_AVR_LILYPAD_ARDUINO_USB_PLUS_BOARD ) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega32U4"
-  #warning Using Generic ATMega32U4, such as Sparkfun AVR_MAKEYMAKEY, AVR_PROMICRO, etc.
+#define BOARD_TYPE    "Generic or Sparkfun AVR ATMega32U4"
+#warning Using Generic ATMega32U4, such as Sparkfun AVR_MAKEYMAKEY, AVR_PROMICRO, etc.
 
 #elif ( defined(__AVR_ATmega328P__) || defined(ARDUINO_AVR_DIGITAL_SANDBOX ) || defined(ARDUINO_REDBOT) || defined(ARDUINO_AVR_SERIAL_7_SEGMENT) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega328P"
-  #warning Using Generic ATMega328P, such as Sparkfun AVR_DIGITAL_SANDBOX, REDBOT, etc.
+#define BOARD_TYPE    "Generic or Sparkfun AVR ATMega328P"
+#warning Using Generic ATMega328P, such as Sparkfun AVR_DIGITAL_SANDBOX, REDBOT, etc.
 
 #elif ( defined(__AVR_ATmega128RFA1__) || defined(ARDUINO_ATMEGA128RFA1_DEV_BOARD) )
-  #define BOARD_TYPE    "Generic or Sparkfun AVR ATMega128RFA1"
-  #warning Using Generic ATMega128RFA1, such as Sparkfun ATMEGA128RFA1_DEV_BOARD, etc.
+#define BOARD_TYPE    "Generic or Sparkfun AVR ATMega128RFA1"
+#warning Using Generic ATMega128RFA1, such as Sparkfun ATMEGA128RFA1_DEV_BOARD, etc.
 
 #elif ( defined(ARDUINO_AVR_GEMMA) || defined(ARDUINO_AVR_TRINKET3) || defined(ARDUINO_AVR_TRINKET5) )
-  #error These AVR boards are not supported! Please check your Tools->Board setting.
-  
+#error These AVR boards are not supported! Please check your Tools->Board setting.
+
 #endif
 
 #if ( defined(__AVR_ATmega4809__) || defined(ARDUINO_AVR_UNO_WIFI_REV2) || defined(ARDUINO_AVR_NANO_EVERY) )

@@ -33,9 +33,10 @@
 //#include <WiFiNINA.h>
 #include <WiFiNINA_Generic.h>
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
   Serial.print("RGB_LED_Test on ");
@@ -47,25 +48,25 @@ void setup()
 #elif __has_include("WiFiNINA_Generic.h")
   Serial.println("WiFiNINA_Generic Library");
 #else
-  #error Error. No WiFiNINA or WiFiNINA_Generic included
-#endif  
+#error Error. No WiFiNINA or WiFiNINA_Generic included
+#endif
 
   pinMode(LEDR, OUTPUT);
   pinMode(LEDG, OUTPUT);
   pinMode(LEDB, OUTPUT);
 }
 
-void loop() 
+void loop()
 {
-   digitalWrite(LEDR,HIGH);   // Turn On RED LED
-   delay(250);
-   digitalWrite(LEDR,LOW);    // Turn Off RED LED
+  digitalWrite(LEDR, HIGH);  // Turn On RED LED
+  delay(250);
+  digitalWrite(LEDR, LOW);   // Turn Off RED LED
 
-   digitalWrite(LEDG,HIGH);   // Turn On GREEN LED
-   delay(250);
-   digitalWrite(LEDG,LOW);    // Turn Off GREEN LED
+  digitalWrite(LEDG, HIGH);  // Turn On GREEN LED
+  delay(250);
+  digitalWrite(LEDG, LOW);   // Turn Off GREEN LED
 
-   digitalWrite(LEDB,HIGH);   // Turn On BLUE LED
-   delay(250);
-   digitalWrite(LEDB,LOW);    // Turn Off BLUE LED
+  digitalWrite(LEDB, HIGH);  // Turn On BLUE LED
+  delay(250);
+  digitalWrite(LEDB, LOW);   // Turn Off BLUE LED
 }

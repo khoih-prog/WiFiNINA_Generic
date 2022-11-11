@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  ESP32BootROM.h - part of the Firmware Updater for the 
+  ESP32BootROM.h - part of the Firmware Updater for the
   Arduino Nano-33 IoT, MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2., Adafruit's nRF52 boards
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
 
@@ -28,7 +28,7 @@
 
 #include <Arduino.h>
 
-class ESP32BootROMClass 
+class ESP32BootROMClass
 {
   public:
     ESP32BootROMClass(HardwareSerial& hwSerial, int gpio0Pin, int resetnPin);

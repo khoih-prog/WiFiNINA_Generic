@@ -91,12 +91,12 @@ void heartBeatPrint()
   else if (num++ % 10 == 0)
   {
     Serial.print(F(" "));
-  } 
+  }
 }
 
 uint8_t connectMultiWiFi()
 {
-// For general board, this better be 1000 to enable connect the 1st time
+  // For general board, this better be 1000 to enable connect the 1st time
 #define WIFI_MULTI_1ST_CONNECT_WAITING_MS             1000L
 
 #define WIFI_MULTI_CONNECT_WAITING_MS                   500L
@@ -177,7 +177,7 @@ void check_status()
   }
 }
 
-void printWiFiStatus() 
+void printWiFiStatus()
 {
   // print the SSID of the network you're attached to:
   Serial.print(F("SSID: "));
@@ -199,9 +199,11 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart WiFiWebClient on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart WiFiWebClient on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFIMULTI_GENERIC_VERSION);
   Serial.println(WIFININA_GENERIC_VERSION);
 
@@ -209,11 +211,13 @@ void setup()
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -255,7 +259,7 @@ void setup()
 void loop()
 {
   check_status();
-  
+
   // if there are incoming bytes available
   // from the server, read them and print them:
   while (client.available())

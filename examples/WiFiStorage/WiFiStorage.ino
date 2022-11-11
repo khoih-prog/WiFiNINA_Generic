@@ -40,23 +40,27 @@
   #define BOARD_NAME    "Unknown board"
 #endif
 
-void setup() 
+void setup()
 {
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart WiFiStorage on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart WiFiStorage on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -67,7 +71,7 @@ void setup()
 
   WiFiStorageFile file = WiFiStorage.open("/fs/testfile");
 
-  if (file) 
+  if (file)
   {
     file.erase();
   }
@@ -75,21 +79,21 @@ void setup()
     Serial.println(F("WiFiStorage error"));
 
   String test = "WiFiStorage on " + String(BOARD_NAME) + " is OK if you see this long line.";
-    
+
   file.write(test.c_str(), test.length());
 
-  if (file) 
+  if (file)
   {
     uint8_t buf[128];
 
     file.seek(0);
     file.read(buf, 128);
-          
+
     Serial.println((char*) buf);
-  }  
+  }
 }
 
-void loop() 
+void loop()
 {
   // put your main code here, to run repeatedly:
 }

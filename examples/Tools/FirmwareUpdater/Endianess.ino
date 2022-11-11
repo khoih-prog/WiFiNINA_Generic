@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
-  Endianess.ino - Network byte order conversion functions - part of the Firmware Updater for the 
+  Endianess.ino - Network byte order conversion functions - part of the Firmware Updater for the
   Arduino Nano-33 IoT, MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2., Adafruit's nRF52 boards
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
 
@@ -26,59 +26,63 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************************************************************/
 
-bool isBigEndian() 
+bool isBigEndian()
 {
   uint32_t test = 0x11223344;
   uint8_t *pTest = reinterpret_cast<uint8_t *>(&test);
   return pTest[0] == 0x11;
 }
 
-uint32_t fromNetwork32(uint32_t from) 
+uint32_t fromNetwork32(uint32_t from)
 {
   static const bool be = isBigEndian();
-  
-  if (be) 
+
+  if (be)
   {
     return from;
-  } 
-  else 
+  }
+  else
   {
     uint8_t *pFrom = reinterpret_cast<uint8_t *>(&from);
     uint32_t to;
-    
-    to = pFrom[0]; to <<= 8;
-    to |= pFrom[1]; to <<= 8;
-    to |= pFrom[2]; to <<= 8;
+
+    to = pFrom[0];
+    to <<= 8;
+    to |= pFrom[1];
+    to <<= 8;
+    to |= pFrom[2];
+    to <<= 8;
     to |= pFrom[3];
     return to;
   }
 }
 
-uint16_t fromNetwork16(uint16_t from) 
+uint16_t fromNetwork16(uint16_t from)
 {
   static bool be = isBigEndian();
-  
-  if (be) 
+
+  if (be)
   {
     return from;
-  } 
-  else 
+  }
+  else
   {
     uint8_t *pFrom = reinterpret_cast<uint8_t *>(&from);
     uint16_t to;
-    
-    to = pFrom[0]; to <<= 8;
+
+    to = pFrom[0];
+    to <<= 8;
     to |= pFrom[1];
     return to;
   }
 }
 
-uint32_t toNetwork32(uint32_t to) 
+uint32_t toNetwork32(uint32_t to)
 {
   return fromNetwork32(to);
 }
 
-uint16_t toNetwork16(uint16_t to) 
+uint16_t toNetwork16(uint16_t to)
 {
   return fromNetwork16(to);
 }

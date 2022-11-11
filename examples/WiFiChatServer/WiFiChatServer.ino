@@ -68,20 +68,24 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart WiFiChatServer on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart WiFiChatServer on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -125,7 +129,7 @@ void loop()
       alreadyConnected = true;
     }
 
-    if (client.available() > 0) 
+    if (client.available() > 0)
     {
       // read the bytes incoming from the client:
       char thisChar = client.read();

@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
   FirmwareUpdater.ino - Firmware Updater for the
   Arduino Nano-33 IoT, MKR WiFi 1010, Arduino MKR Vidor 4000, and Arduino UNO WiFi Rev.2., Adafruit's nRF52 boards
-  
+
   Based on and modified from WiFiNINA library https://www.arduino.cc/en/Reference/WiFiNINA
   to support nRF52, SAMD21/SAMD51, STM32F/L/H/G/WB/MP1, Teensy, etc. boards besides Nano-33 IoT, MKRWIFI1010, MKRVIDOR400, etc.
 
@@ -23,12 +23,12 @@
 
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA                         
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************************************************************/
 
 #include "ESP32BootROM.h"
 
-typedef struct __attribute__((__packed__)) 
+typedef struct __attribute__((__packed__))
 {
   uint8_t command;
   uint32_t address;
@@ -36,7 +36,8 @@ typedef struct __attribute__((__packed__))
   uint16_t payloadLength;
 
   // payloadLenght bytes of data follows...
-} UartPacket;
+}
+UartPacket;
 
 static const int MAX_PAYLOAD_SIZE = 1024;
 
@@ -49,8 +50,8 @@ static const int MAX_PAYLOAD_SIZE = 1024;
 
 void setup()
 {
-#if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES) 
-  #warning Serial speed currently set to 921,600 for nRF52 and NINA_B302_ublox
+#if defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
+#warning Serial speed currently set to 921,600 for nRF52 and NINA_B302_ublox
   Serial.begin(921600);
 #elif   ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
       || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
@@ -62,24 +63,25 @@ void setup()
       || defined(__SAMD21J15A__) || defined(__SAMD21J16A__) || defined(__SAMD21J17A__) || defined(__SAMD21J18A__) )
   // Change according to the speed your board can support
   // 1000000 is default and working for Nano 33 IoT, ARDUINO_SAMD_MKRWIFI1010, ARDUINO_SAMD_MKRVIDOR4000
-  #warning Serial speed currently set to 1,000,000 for SAMD21 and SAMD51
+#warning Serial speed currently set to 1,000,000 for SAMD21 and SAMD51
   Serial.begin(1000000);
 #elif ( defined(CORE_TEENSY) || defined(__IMXRT1062__) || defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__)\
      || defined(__MK20DX128__) )
-   #if ( defined(__MKL26Z64__) || defined(ARDUINO_ARCH_AVR) )
-    #error Teensy LC and 2.0 not supported
-   #endif
+#if ( defined(__MKL26Z64__) || defined(ARDUINO_ARCH_AVR) )
+#error Teensy LC and 2.0 not supported
+#endif
   // Change according to the speed your board can support
-  #warning Serial speed currently set to 921,600 for Teensy boards  
-  Serial.begin(921600);     
+#warning Serial speed currently set to 921,600 for Teensy boards
+  Serial.begin(921600);
 #else
   // Change according to the speed your board can support
   Serial.begin(921600);
 #endif
 
-  if (!ESP32BootROM.begin(921600)) 
+  if (!ESP32BootROM.begin(921600))
   {
     Serial.println(F("Unable to communicate with ESP32 boot ROM!"));
+
     while (1);
   }
 
@@ -91,14 +93,14 @@ void receivePacket(UartPacket *pkt, uint8_t *payload)
   // Read command
   uint8_t *p = reinterpret_cast<uint8_t *>(pkt);
   uint16_t l = sizeof(UartPacket);
-  
+
   while (l > 0)
   {
     int c = Serial.read();
-    
+
     if (c == -1)
       continue;
-      
+
     *p++ = c;
     l--;
   }
@@ -110,13 +112,14 @@ void receivePacket(UartPacket *pkt, uint8_t *payload)
 
   // Read payload
   l = pkt->payloadLength;
-  
+
   while (l > 0)
   {
     int c = Serial.read();
-    
+
     if (c == -1)
       continue;
+
     *payload++ = c;
     l--;
   }
@@ -152,7 +155,7 @@ void loop()
   if (pkt.command == CMD_WRITE_FLASH)
   {
     uint32_t len = pkt.payloadLength;
-    
+
     if (!ESP32BootROM.dataFlash(payload, len))
     {
       Serial.print(F("ER"));
@@ -167,7 +170,7 @@ void loop()
   {
     uint32_t address = pkt.address;
     uint32_t len = pkt.arg1;
-    
+
     if (!ESP32BootROM.beginFlash(address, len, MAX_PAYLOAD_SIZE))
     {
       Serial.print(F("ER"));

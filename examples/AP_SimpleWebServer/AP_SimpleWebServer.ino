@@ -68,9 +68,11 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart AP_SimpleWebServer on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart AP_SimpleWebServer on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   pinMode(led, OUTPUT);      // set the LED pin mode
@@ -79,12 +81,13 @@ void setup()
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
-  
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -103,9 +106,11 @@ void setup()
 
   // Create open network. Change this line if you want to create an WEP network:
   status = WiFi.beginAP(ssid, pass);
+
   if (status != WL_AP_LISTENING)
   {
     Serial.println(F("Creating access point failed"));
+
     // don't continue
     while (true);
   }
@@ -142,31 +147,31 @@ void loop()
 
   WiFiClient client = server.available();   // listen for incoming clients
 
-  if (client) 
-  {                             
+  if (client)
+  {
     // if you get a client,
     Serial.println(F("new client"));           // print a message out the serial port
     String currentLine = "";                // make a String to hold incoming data from the client
-    
-    while (client.connected()) 
+
+    while (client.connected())
     {
       // This is required for the Arduino Nano RP2040 Connect
       // otherwise it will loop so fast that SPI will never be served.
       delayMicroseconds(10);
-      
+
       // loop while the client's connected
-      if (client.available()) 
-      {             
+      if (client.available())
+      {
         // if there's bytes to read from the client,
         char c = client.read();             // read a byte, then
         Serial.write(c);                    // print it out the serial monitor
 
         // if the byte is a newline character
-        if (c == '\n') 
-        {                            
+        if (c == '\n')
+        {
           // if the current line is blank, you got two newline characters in a row.
           // that's the end of the client HTTP request, so send a response:
-          if (currentLine.length() == 0) 
+          if (currentLine.length() == 0)
           {
             // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
             // and a content-type so the client knows what's coming, then a blank line:
@@ -183,30 +188,31 @@ void loop()
             // break out of the while loop:
             break;
           }
-          else 
-          {      
+          else
+          {
             // if you got a newline, then clear currentLine:
             currentLine = "";
           }
         }
-        else if (c != '\r') 
-        {    
+        else if (c != '\r')
+        {
           // if you got anything else but a carriage return character,
           currentLine += c;      // add it to the end of the currentLine
         }
 
         // Check to see if the client request was "GET /H" or "GET /L":
-        if (currentLine.endsWith("GET /H")) 
+        if (currentLine.endsWith("GET /H"))
         {
           digitalWrite(led, HIGH);               // GET /H turns the LED on
         }
-        
-        if (currentLine.endsWith("GET /L")) 
+
+        if (currentLine.endsWith("GET /L"))
         {
           digitalWrite(led, LOW);                // GET /L turns the LED off
         }
       }
     }
+
     // close the connection:
     client.stop();
     Serial.println(F("client disconnected"));

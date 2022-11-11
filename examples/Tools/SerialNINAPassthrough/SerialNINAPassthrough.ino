@@ -27,11 +27,11 @@
  *****************************************************************************************************************************/
 
 #ifdef ARDUINO_SAMD_MKRVIDOR4000
-#include <VidorPeripherals.h>
+  #include <VidorPeripherals.h>
 
-unsigned long baud = 119400;
+  unsigned long baud = 119400;
 #else
-unsigned long baud = 115200;
+  unsigned long baud = 115200;
 #endif
 
 int rts = -1;
@@ -46,7 +46,7 @@ int dtr = -1;
       || defined(__SAMD21G15A__) || defined(__SAMD21G16A__) || defined(__SAMD21G17A__) || defined(__SAMD21G18A__) \
       || defined(__SAMD21J15A__) || defined(__SAMD21J16A__) || defined(__SAMD21J17A__) || defined(__SAMD21J18A__) )
 
-   #define USE_RTS_CTS      false
+#define USE_RTS_CTS      false
 
 // For SAMD21 and SAMD51  boards. To be changed and added as necessary
 #warning To change the pin defintions to match actual assignment for your board
@@ -58,122 +58,122 @@ int dtr = -1;
 
 #ifndef NINA_GPIO0
   // Just need assign some pin, such as
-  #define NINA_GPIO0  (26u)                         // 
+  #define NINA_GPIO0  (26u)                         //
 #endif
 
 #ifndef NINA_RESETN
   // Just need assign some pin, such as
-  #define NINA_RESETN (27u)                          //  
+  #define NINA_RESETN (27u)                          //
 #endif
 
 #ifndef NINA_ACK
   // Just need assign some pin, such as
-  #define NINA_ACK    (28u)                         // 
+  #define NINA_ACK    (28u)                         //
 #endif
- 
+
 #elif defined(NINA_B302_ublox) ||  defined(NRF52_SERIES)
 
-  #define USE_RTS_CTS      false
+#define USE_RTS_CTS      false
 
-  #if defined(NINA_B302_ublox)
-  
+#if defined(NINA_B302_ublox)
+
   // For  NINA_B302_ublox boards. To be changed and added as necessary
   #warning To change the pin defintions to match actual assignment for NINA_B302_ublox
-  
+
   #ifndef SerialNina
     // Just need to do something such as
     #define SerialNina  Serial1   //Serial2, etc.
   #endif
-  
+
   #ifndef NINA_GPIO0
     // Just need assign some pin, such as
     #define NINA_GPIO0  (22u)                         // 12, IO8,  P1.00
   #endif
-  
+
   #ifndef NINA_RESETN
     // Just need assign some pin, such as
     #define NINA_RESETN (2u)                          //  2, IO21, P0.12
   #endif
-  
+
   #ifndef NINA_ACK
     // Just need assign some pin, such as
     #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
   #endif
-  
-  #elif defined(NRF52840_ITSYBITSY)
-  
+
+#elif defined(NRF52840_ITSYBITSY)
+
   //Just a template for NRF52840_ITSYBITSY boards. Must be changed and added as necessary
   #warning To change the pin defintions to match actual assignment for NRF52840_ITSYBITSY
   #ifndef SerialNina
     // Just need to do something such as
     #define SerialNina  Serial1   //Serial2, etc.
   #endif
-  
+
   #ifndef NINA_GPIO0
     // Just need assign some pin, such as
     #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
   #endif
-  
+
   #ifndef NINA_RESETN
     // Just need assign some pin, such as
     #define NINA_RESETN (2u)                          //  2, IO21, P0.12
   #endif
-  
+
   #ifndef NINA_ACK
     // Just need assign some pin, such as
     #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
   #endif
-  
-  #elif defined(NRF52_SERIES)
-  
+
+#elif defined(NRF52_SERIES)
+
   //Just a template for NRF52_SERIES boards. Must be changed and added as necessary
   #warning To change the pin defintions to match actual assignment for NRF52_SERIES
   #ifndef SerialNina
     // Just need to do something such as
     #define SerialNina  Serial1   //Serial2, etc.
   #endif
-  
+
   #ifndef NINA_GPIO0
     // Just need assign some pin, such as
     #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
   #endif
-  
+
   #ifndef NINA_RESETN
     // Just need assign some pin, such as
     #define NINA_RESETN (2u)                          //  2, IO21, P0.12
   #endif
-  
+
   #ifndef NINA_ACK
     // Just need assign some pin, such as
     #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
   #endif
 
-  #else
-  
+#else
+
   // For other nRF52 boards. To be changed and added as necessary
   #warning To change the pin defintions to match actual assignment for nRF52
-  
+
   #ifndef SerialNina
     // Just need to do something such as
     #define SerialNina  Serial1   //Serial2, etc.
   #endif
-  
+
   #ifndef NINA_GPIO0
     // Just need assign some pin, such as
     #define NINA_GPIO0  (12u)                         // 12, IO8,  P1.00
   #endif
-  
+
   #ifndef NINA_RESETN
     // Just need assign some pin, such as
     #define NINA_RESETN (2u)                          //  2, IO21, P0.12
   #endif
-  
+
   #ifndef NINA_ACK
     // Just need assign some pin, such as
     #define NINA_ACK    (10u)                         // 10, IO2,  P0.14
   #endif
-  
-  #endif    //#if defined(NINA_B302_ublox)
+
+#endif    //#if defined(NINA_B302_ublox)
 
 #elif ( defined(CORE_TEENSY) || defined(__IMXRT1062__) || defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__)\
      || defined(__MK20DX128__) )
@@ -188,22 +188,22 @@ int dtr = -1;
 
 #ifndef NINA_GPIO0
   // Just need assign some pin, such as
-  #define NINA_GPIO0  (6u)                         // 
+  #define NINA_GPIO0  (6u)                         //
 #endif
 
 #ifndef NINA_RESETN
   // Just need assign some pin, such as
-  #define NINA_RESETN (2u)                          //  
+  #define NINA_RESETN (2u)                          //
 #endif
 
 #ifndef NINA_ACK
   // Just need assign some pin, such as
-  #define NINA_ACK    (5u)                         // 
+  #define NINA_ACK    (5u)                         //
 #endif
-     
+
 #else
 
-  #define USE_RTS_CTS      false
+#define USE_RTS_CTS      false
 
 // For other boards. To be changed and added as necessary
 #warning To change the pin defintions to match actual assignment for your board
@@ -269,57 +269,62 @@ void loop()
 {
 
 #if USE_RTS_CTS
-  
-  #ifndef ARDUINO_AVR_UNO_WIFI_REV2
-    if (rts != Serial.rts()) {
-  #ifdef ARDUINO_SAMD_MKRVIDOR4000
-      FPGA.digitalWrite(FPGA_SPIWIFI_RESET, (Serial.rts() == 1) ? LOW : HIGH);
-  #elif defined(ARDUINO_SAMD_NANO_33_IOT)
-      digitalWrite(NINA_RESETN, Serial.rts() ? LOW : HIGH);
-  #else
-      digitalWrite(NINA_RESETN, Serial.rts());
-  #endif
-      rts = Serial.rts();
-    }
-  
-    if (dtr != Serial.dtr()) 
-    {
-  #ifdef ARDUINO_SAMD_MKRVIDOR4000
-      FPGA.digitalWrite(FPGA_NINA_GPIO0, (Serial.dtr() == 1) ? HIGH : LOW);
-  #else
-      digitalWrite(NINA_GPIO0, (Serial.dtr() == 0) ? HIGH : LOW);
-  #endif
-      dtr = Serial.dtr();
-    }
-  #endif
+
+#ifndef ARDUINO_AVR_UNO_WIFI_REV2
+
+  if (rts != Serial.rts())
+  {
+#ifdef ARDUINO_SAMD_MKRVIDOR4000
+    FPGA.digitalWrite(FPGA_SPIWIFI_RESET, (Serial.rts() == 1) ? LOW : HIGH);
+#elif defined(ARDUINO_SAMD_NANO_33_IOT)
+    digitalWrite(NINA_RESETN, Serial.rts() ? LOW : HIGH);
+#else
+    digitalWrite(NINA_RESETN, Serial.rts());
+#endif
+    rts = Serial.rts();
+  }
+
+  if (dtr != Serial.dtr())
+  {
+#ifdef ARDUINO_SAMD_MKRVIDOR4000
+    FPGA.digitalWrite(FPGA_NINA_GPIO0, (Serial.dtr() == 1) ? HIGH : LOW);
+#else
+    digitalWrite(NINA_GPIO0, (Serial.dtr() == 0) ? HIGH : LOW);
+#endif
+    dtr = Serial.dtr();
+  }
+
+#endif
 
 #endif      // USE_RTS_CTS
-    
-  if (Serial.available()) 
+
+  if (Serial.available())
   {
     SerialNina.write(Serial.read());
   }
 
-  if (SerialNina.available()) 
+  if (SerialNina.available())
   {
     Serial.write(SerialNina.read());
   }
 
 #if USE_RTS_CTS
 
-  #ifndef ARDUINO_AVR_UNO_WIFI_REV2
-    // check if the USB virtual serial wants a new baud rate
-    if (Serial.baud() != baud) 
-    {
-      rts = -1;
-      dtr = -1;
-  
-      baud = Serial.baud();
-  #ifndef ARDUINO_SAMD_MKRVIDOR4000
-      SerialNina.begin(baud);
-  #endif
-    }
-  #endif
+#ifndef ARDUINO_AVR_UNO_WIFI_REV2
+
+  // check if the USB virtual serial wants a new baud rate
+  if (Serial.baud() != baud)
+  {
+    rts = -1;
+    dtr = -1;
+
+    baud = Serial.baud();
+#ifndef ARDUINO_SAMD_MKRVIDOR4000
+    SerialNina.begin(baud);
+#endif
+  }
+
+#endif
 
 #endif    // #if USE_RTS_CTS
 }

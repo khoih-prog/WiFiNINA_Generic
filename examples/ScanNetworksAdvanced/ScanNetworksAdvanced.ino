@@ -53,20 +53,24 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart ScanNetworksAdvanced on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart ScanNetworksAdvanced on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -103,6 +107,7 @@ void listNetworks()
   if (numSsid == -1)
   {
     Serial.println(F("Couldn't get a WiFi connection"));
+
     while (true);
   }
 
@@ -129,6 +134,7 @@ void listNetworks()
     Serial.println(WiFi.SSID(thisNet));
     Serial.flush();
   }
+
   Serial.println();
 }
 
@@ -140,18 +146,23 @@ void printEncryptionType(int thisType)
     case ENC_TYPE_WEP:
       Serial.print(F("WEP"));
       break;
+
     case ENC_TYPE_TKIP:
       Serial.print(F("WPA"));
       break;
+
     case ENC_TYPE_CCMP:
       Serial.print(F("WPA2"));
       break;
+
     case ENC_TYPE_NONE:
       Serial.print(F("None"));
       break;
+
     case ENC_TYPE_AUTO:
       Serial.print(F("Auto"));
       break;
+
     case ENC_TYPE_UNKNOWN:
     default:
       Serial.print(F("Unknown"));
@@ -165,6 +176,7 @@ void print2Digits(byte thisByte)
   {
     Serial.print(F("0"));
   }
+
   Serial.print(thisByte, HEX);
 }
 
@@ -176,6 +188,7 @@ void printMacAddress(byte mac[])
     {
       Serial.print(F("0"));
     }
+
     Serial.print(mac[i], HEX);
 
     if (i > 0)
@@ -183,6 +196,6 @@ void printMacAddress(byte mac[])
       Serial.print(F(":"));
     }
   }
-  
+
   Serial.println();
 }

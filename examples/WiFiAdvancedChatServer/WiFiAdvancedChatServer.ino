@@ -60,20 +60,24 @@ void setup()
 {
   //Initialize serial and wait for port to open:
   Serial.begin(115200);
+
   while (!Serial && millis() < 5000);
 
-  Serial.print(F("\nStart WiFiAdvancedChatServer on ")); Serial.println(BOARD_NAME);
+  Serial.print(F("\nStart WiFiAdvancedChatServer on "));
+  Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
 
   // check for the WiFi module:
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));
+
     // don't continue
     while (true);
   }
 
   String fv = WiFi.firmwareVersion();
+
   if (fv < WIFI_FIRMWARE_LATEST_VERSION)
   {
     Serial.print(F("Your current firmware NINA FW v"));
@@ -101,23 +105,23 @@ void setup()
   Serial.println(WiFi.localIP());
 }
 
-void loop() 
+void loop()
 {
   // check for any new client connecting, and say hello (before any incoming data)
   WiFiClient newClient = server.accept();
-  
-  if (newClient) 
+
+  if (newClient)
   {
-    for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
+    for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++)
     {
-      if (!clients[i]) 
+      if (!clients[i])
       {
         Serial.print("We have a new client #");
         Serial.println(i);
-        
+
         newClient.print("Hello, client number: ");
         newClient.println(i);
-        
+
         // Once we "accept", the client is no longer tracked by WiFiServer
         // so we must store it into our list of clients
         clients[i] = newClient;
@@ -127,20 +131,20 @@ void loop()
   }
 
   // check for incoming data from all clients
-  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
+  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++)
   {
-    if (clients[i] && clients[i].available() > 0) 
+    if (clients[i] && clients[i].available() > 0)
     {
-      #define BUFFER_SIZE     80
-      
+#define BUFFER_SIZE     80
+
       // read bytes from a client
       byte buffer[BUFFER_SIZE];
       int count = clients[i].read(buffer, BUFFER_SIZE);
-      
+
       // write the bytes to all other connected clients
-      for (byte j = 0; j < MAX_NUMBER_CLIENTS; j++) 
+      for (byte j = 0; j < MAX_NUMBER_CLIENTS; j++)
       {
-        if (j != i && clients[j].connected()) 
+        if (j != i && clients[j].connected())
         {
           clients[j].write(buffer, count);
         }
@@ -149,9 +153,9 @@ void loop()
   }
 
   // stop any clients which disconnect
-  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++) 
+  for (byte i = 0; i < MAX_NUMBER_CLIENTS; i++)
   {
-    if (clients[i] && !clients[i].connected()) 
+    if (clients[i] && !clients[i].connected())
     {
       Serial.print("disconnect client #");
       Serial.println(i);
