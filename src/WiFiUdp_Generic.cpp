@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #include <string.h>
@@ -47,6 +48,8 @@
   #undef KH_WIFININA_UDP_DEBUG
 #endif
 #define KH_WIFININA_UDP_DEBUG   0
+
+////////////////////////////////////////
 
 extern "C"
 {
@@ -63,9 +66,12 @@ extern "C"
 #include "WiFiClient_Generic.h"
 #include "WiFiServer_Generic.h"
 
+////////////////////////////////////////
 
 /* Constructor */
 WiFiUDP::WiFiUDP() : _sock(NO_SOCKET_AVAIL), _parsed(0) {}
+
+////////////////////////////////////////
 
 /* Start WiFiUDP socket, listening at local port PORT */
 uint8_t WiFiUDP::begin(uint16_t port)
@@ -88,6 +94,8 @@ uint8_t WiFiUDP::begin(uint16_t port)
 
   return 0;
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
 {
@@ -125,12 +133,16 @@ uint8_t WiFiUDP::beginMulticast(IPAddress ip, uint16_t port)
   return 0;
 }
 
+////////////////////////////////////////
+
 /* return number of bytes available in the current packet,
    will return zero if parsePacket hasn't been called yet */
 int WiFiUDP::available()
 {
   return _parsed;
 }
+
+////////////////////////////////////////
 
 /* Release any resources being used by this WiFiUDP instance */
 void WiFiUDP::stop()
@@ -143,6 +155,8 @@ void WiFiUDP::stop()
   WiFiSocketBuffer.close(_sock);
   _sock = NO_SOCKET_AVAIL;
 }
+
+////////////////////////////////////////
 
 int WiFiUDP::beginPacket(const char *host, uint16_t port)
 {
@@ -157,6 +171,8 @@ int WiFiUDP::beginPacket(const char *host, uint16_t port)
 
   return ret;
 }
+
+////////////////////////////////////////
 
 int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
 {
@@ -180,15 +196,21 @@ int WiFiUDP::beginPacket(IPAddress ip, uint16_t port)
   return 0;
 }
 
+////////////////////////////////////////
+
 int WiFiUDP::endPacket()
 {
   return ServerDrv::sendUdpData(_sock);
 }
 
+////////////////////////////////////////
+
 size_t WiFiUDP::write(uint8_t byte)
 {
   return write(&byte, 1);
 }
+
+////////////////////////////////////////
 
 size_t WiFiUDP::write(const uint8_t *buffer, size_t size)
 {
@@ -212,6 +234,8 @@ size_t WiFiUDP::write(const uint8_t *buffer, size_t size)
   return size;
 }
 
+////////////////////////////////////////
+
 int WiFiUDP::parsePacket()
 {
 #if 0
@@ -228,8 +252,6 @@ int WiFiUDP::parsePacket()
 
   _parsed = ServerDrv::availData(_sock);
 
-
-
 #if (KH_WIFININA_UDP_DEBUG > 3)
 
   Serial.print("WiFiUDP::parsePacket: len=");
@@ -240,6 +262,8 @@ int WiFiUDP::parsePacket()
 
   return _parsed;
 }
+
+////////////////////////////////////////
 
 int WiFiUDP::read()
 {
@@ -255,6 +279,8 @@ int WiFiUDP::read()
 
   return b;
 }
+
+////////////////////////////////////////
 
 int WiFiUDP::read(unsigned char* buffer, size_t len)
 {
@@ -289,6 +315,8 @@ int WiFiUDP::read(unsigned char* buffer, size_t len)
   return result;
 }
 
+////////////////////////////////////////
+
 int WiFiUDP::peek()
 {
   if (_parsed < 1)
@@ -299,10 +327,14 @@ int WiFiUDP::peek()
   return WiFiSocketBuffer.peek(_sock);
 }
 
+////////////////////////////////////////
+
 void WiFiUDP::flush()
 {
   // TODO: a real check to ensure transmission has been completed
 }
+
+////////////////////////////////////////
 
 IPAddress  WiFiUDP::remoteIP()
 {
@@ -315,6 +347,8 @@ IPAddress  WiFiUDP::remoteIP()
   return ip;
 }
 
+////////////////////////////////////////
+
 uint16_t  WiFiUDP::remotePort()
 {
   uint8_t _remoteIp[4]    = {0};
@@ -325,4 +359,6 @@ uint16_t  WiFiUDP::remotePort()
 
   return port;
 }
+
+////////////////////////////////////////
 

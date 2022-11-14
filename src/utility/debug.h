@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,12 +39,15 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
 
 #include <stdio.h>
 #include <string.h>
+
+////////////////////////////////////////
 
 // KH Add, v1.6.0
 #ifdef DEBUG_WIFININA_PORT
@@ -53,12 +56,16 @@
   #define DBG_PORT_NN     Serial
 #endif
 
+////////////////////////////////////////
+
 // Change _WIFININA_LOGLEVEL_ to set tracing and logging verbosity
 // 0: DISABLED: no logging
 // 1: ERROR: errors
 // 2: WARN: errors and warnings
 // 3: INFO: errors, warnings and informational (default)
 // 4: DEBUG: errors, warnings, informational and debug
+
+////////////////////////////////////////
 
 #ifndef _WIFININA_LOGLEVEL_
   #define _WIFININA_LOGLEVEL_       0
@@ -85,7 +92,7 @@ const char NN_SP[]    = " ";
 #define NN_LOGERROR(x)      if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINTLN(x); }
 #define NN_LOGERROR1(x,y)   if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINTLN(y); }
 #define NN_LOGERROR2(x,y,z) if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); }
-#define NN_LOGERROR3(x,y,z,w) if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); NN_PRINT_SP; NN_PRINTLN(w); }
+#define NN_LOGERROR3(x,y,z,w) if(_WIFININA_LOGLEVEL_>0) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINT(z); NN_PRINT_SP; NN_PRINTLN(w); }
 
 ///////////////////////////////////////
 
@@ -93,7 +100,7 @@ const char NN_SP[]    = " ";
 #define NN_LOGWARN(x)      if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINTLN(x); }
 #define NN_LOGWARN1(x,y)   if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINTLN(y); }
 #define NN_LOGWARN2(x,y,z) if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); }
-#define NN_LOGWARN3(x,y,z,w) if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); NN_PRINT_SP; NN_PRINTLN(w); }
+#define NN_LOGWARN3(x,y,z,w) if(_WIFININA_LOGLEVEL_>1) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINT(z); NN_PRINT_SP; NN_PRINTLN(w); }
 
 ///////////////////////////////////////
 
@@ -101,7 +108,7 @@ const char NN_SP[]    = " ";
 #define NN_LOGINFO(x)      if(_WIFININA_LOGLEVEL_>2) { NN_PRINT_MARK; NN_PRINTLN(x); }
 #define NN_LOGINFO1(x,y)   if(_WIFININA_LOGLEVEL_>2) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINTLN(y); }
 #define NN_LOGINFO2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); }
-#define NN_LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); NN_PRINT_SP; NN_PRINTLN(w); }
+#define NN_LOGINFO3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINT(z); NN_PRINT_SP; NN_PRINTLN(w); }
 
 ///////////////////////////////////////
 
@@ -109,10 +116,9 @@ const char NN_SP[]    = " ";
 #define NN_LOGDEBUG(x)      if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINTLN(x); }
 #define NN_LOGDEBUG1(x,y)   if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINTLN(y); }
 #define NN_LOGDEBUG2(x,y,z) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); }
-#define NN_LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINTLN(z); NN_PRINT_SP; NN_PRINTLN(w); }
+#define NN_LOGDEBUG3(x,y,z,w) if(_WIFININA_LOGLEVEL_>3) { NN_PRINT_MARK; NN_PRINT(x); NN_PRINT_SP; NN_PRINT(y); NN_PRINT_SP; NN_PRINT(z); NN_PRINT_SP; NN_PRINTLN(w); }
 
 ///////////////////////////////////////
-
 
 #define PRINT_FILE_LINE() do {            \
     Serial.print("[");Serial.print(__FILE__);   \

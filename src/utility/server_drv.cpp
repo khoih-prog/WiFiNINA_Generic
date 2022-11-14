@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #define _DEBUG_
@@ -53,6 +54,8 @@
 // From v1.5.1, For nRF52x
 #include "wl_types.h"
 #include "debug.h"
+
+////////////////////////////////////////
 
 // Start server TCP on port specified
 void ServerDrv::startServer(uint16_t port, uint8_t sock, uint8_t protMode)
@@ -84,6 +87,8 @@ void ServerDrv::startServer(uint16_t port, uint8_t sock, uint8_t protMode)
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
+
 void ServerDrv::startServer(uint32_t ipAddress, uint16_t port, uint8_t sock, uint8_t protMode)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -110,6 +115,8 @@ void ServerDrv::startServer(uint32_t ipAddress, uint16_t port, uint8_t sock, uin
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 // Start server TCP on port specified
 void ServerDrv::startClient(uint32_t ipAddress, uint16_t port, uint8_t sock, uint8_t protMode)
@@ -138,6 +145,8 @@ void ServerDrv::startClient(uint32_t ipAddress, uint16_t port, uint8_t sock, uin
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 void ServerDrv::startClient(const char* host, uint8_t host_len, uint32_t ipAddress, uint16_t port, uint8_t sock,
                             uint8_t protMode)
@@ -178,6 +187,8 @@ void ServerDrv::startClient(const char* host, uint8_t host_len, uint32_t ipAddre
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
+
 // Start server TCP on port specified
 void ServerDrv::stopClient(uint8_t sock)
 {
@@ -207,6 +218,7 @@ void ServerDrv::stopClient(uint8_t sock)
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
 
 uint8_t ServerDrv::getServerState(uint8_t sock)
 {
@@ -238,6 +250,8 @@ uint8_t ServerDrv::getServerState(uint8_t sock)
   return _data;
 }
 
+////////////////////////////////////////
+
 uint8_t ServerDrv::getClientState(uint8_t sock)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -267,6 +281,8 @@ uint8_t ServerDrv::getClientState(uint8_t sock)
 
   return _data;
 }
+
+////////////////////////////////////////
 
 uint16_t ServerDrv::availData(uint8_t sock)
 {
@@ -315,6 +331,8 @@ uint16_t ServerDrv::availData(uint8_t sock)
   return len;
 }
 
+////////////////////////////////////////
+
 uint8_t ServerDrv::availServer(uint8_t sock, uint8_t accept)
 {
   if (!SpiDrv::available())
@@ -345,6 +363,8 @@ uint8_t ServerDrv::availServer(uint8_t sock, uint8_t accept)
 
   return socket;
 }
+
+////////////////////////////////////////
 
 bool ServerDrv::getData(uint8_t sock, uint8_t *data, uint8_t peek)
 {
@@ -384,6 +404,8 @@ bool ServerDrv::getData(uint8_t sock, uint8_t *data, uint8_t peek)
   return false;
 }
 
+////////////////////////////////////////
+
 bool ServerDrv::getDataBuf(uint8_t sock, uint8_t *_data, uint16_t *_dataLen)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -415,6 +437,8 @@ bool ServerDrv::getDataBuf(uint8_t sock, uint8_t *_data, uint16_t *_dataLen)
 
   return false;
 }
+
+////////////////////////////////////////
 
 bool ServerDrv::insertDataBuf(uint8_t sock, const uint8_t *data, uint16_t _len)
 {
@@ -457,6 +481,8 @@ bool ServerDrv::insertDataBuf(uint8_t sock, const uint8_t *data, uint16_t _len)
   return false;
 }
 
+////////////////////////////////////////
+
 bool ServerDrv::sendUdpData(uint8_t sock)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -492,6 +518,7 @@ bool ServerDrv::sendUdpData(uint8_t sock)
   return false;
 }
 
+////////////////////////////////////////
 
 uint16_t ServerDrv::sendData(uint8_t sock, const uint8_t *data, uint16_t len)
 {
@@ -529,6 +556,7 @@ uint16_t ServerDrv::sendData(uint8_t sock, const uint8_t *data, uint16_t len)
   return _data;
 }
 
+////////////////////////////////////////
 
 uint8_t ServerDrv::checkDataSent(uint8_t sock)
 {
@@ -574,6 +602,8 @@ uint8_t ServerDrv::checkDataSent(uint8_t sock)
   return (timeout == TIMEOUT_DATA_SENT) ? 0 : 1;
 }
 
+////////////////////////////////////////
+
 uint8_t ServerDrv::getSocket()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -595,5 +625,7 @@ uint8_t ServerDrv::getSocket()
 
   return _data;
 }
+
+////////////////////////////////////////
 
 ServerDrv serverDrv;

@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -49,6 +50,8 @@
 #include "WiFiUdp_Generic.h"
 #include "WiFiClient_Generic.h"
 
+////////////////////////////////////////
+
 // Key index length
 #define KEY_IDX_LEN               1
 
@@ -57,6 +60,8 @@
 
 // firmware version string length
 #define WL_FW_VER_LENGTH          6
+
+////////////////////////////////////////
 
 class WiFiDrv
 {
@@ -301,6 +306,7 @@ class WiFiDrv
     static void setPowerMode(uint8_t mode);
 
     static int8_t wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t channel);
+
     static int8_t wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const char *passphrase, const uint8_t len,
                                       uint8_t channel);
     static int8_t wifiSetEnterprise(uint8_t eapType,
@@ -343,11 +349,15 @@ class WiFiDrv
     static int8_t fileOperation(uint8_t operation, const char *filename, uint8_t filename_len, uint32_t offset,
                                 uint8_t* buffer, uint32_t len);
 
+    ////////////////////////////////////////
+
     static int8_t readFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer,
                            uint32_t buffer_len)
     {
       return fileOperation(READ_FILE, filename, filename_len, offset, buffer, buffer_len);
     };
+
+    ////////////////////////////////////////
 
     static int8_t writeFile(const char *filename, uint8_t filename_len, uint32_t offset, uint8_t* buffer,
                             uint32_t buffer_len)
@@ -355,10 +365,14 @@ class WiFiDrv
       return fileOperation(WRITE_FILE, filename, filename_len, offset, buffer, buffer_len);
     };
 
+    ////////////////////////////////////////
+
     static int8_t deleteFile(const char *filename, uint8_t filename_len)
     {
       return fileOperation(DELETE_FILE, filename, filename_len, 0, NULL, 0);
     };
+
+    ////////////////////////////////////////
 
     static int8_t existsFile(const char *filename, uint8_t filename_len, uint32_t* len)
     {
@@ -370,13 +384,18 @@ class WiFiDrv
       return length >= 0;
     };
 
+    ////////////////////////////////////////
+
     static void applyOTA();
 
-    //////
+    ////////////////////////////////////////
+
 
     friend class WiFiUDP;
     friend class WiFiClient;
 };
+
+////////////////////////////////////////
 
 extern WiFiDrv wiFiDrv;
 

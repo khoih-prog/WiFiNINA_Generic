@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #include <stdio.h>
@@ -61,6 +62,8 @@
 #include "wl_types.h"
 #include "debug.h"
 
+////////////////////////////////////////
+
 // Array of data to cache the information related to the networks discovered
 char   WiFiDrv::_networkSsid[][WL_SSID_MAX_LENGTH] =
 {
@@ -70,6 +73,8 @@ char   WiFiDrv::_networkSsid[][WL_SSID_MAX_LENGTH] =
   {"4"},
   {"5"}
 };
+
+////////////////////////////////////////
 
 // Cached values of retrieved data
 char  WiFiDrv::_ssid[]          = {0};
@@ -81,8 +86,11 @@ uint8_t WiFiDrv::_gatewayIp[]   = {0};
 // Firmware version
 char    WiFiDrv::fwVersion[]    = {0};
 
+////////////////////////////////////////
 
 // Private Methods
+
+////////////////////////////////////////
 
 void WiFiDrv::getNetworkData(uint8_t *ip, uint8_t *mask, uint8_t *gwip)
 {
@@ -110,6 +118,8 @@ void WiFiDrv::getNetworkData(uint8_t *ip, uint8_t *mask, uint8_t *gwip)
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 void WiFiDrv::getRemoteData(uint8_t sock, uint8_t *ip, uint8_t *port)
 {
@@ -140,19 +150,26 @@ void WiFiDrv::getRemoteData(uint8_t sock, uint8_t *ip, uint8_t *port)
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
 
 // Public Methods
 
+
+////////////////////////////////////////
 
 void WiFiDrv::wifiDriverInit()
 {
   SpiDrv::begin();
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::wifiDriverDeinit()
 {
   SpiDrv::end();
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::wifiSetNetwork(const char* ssid, uint8_t ssid_len)
 {
@@ -189,6 +206,8 @@ int8_t WiFiDrv::wifiSetNetwork(const char* ssid, uint8_t ssid_len)
 
   return (_data == WIFI_SPI_ACK) ? WL_SUCCESS : WL_FAILURE;
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::wifiSetPassphrase(const char* ssid, uint8_t ssid_len, const char *passphrase, const uint8_t len)
 {
@@ -239,6 +258,7 @@ int8_t WiFiDrv::wifiSetPassphrase(const char* ssid, uint8_t ssid_len, const char
   return _data;
 }
 
+////////////////////////////////////////
 
 int8_t WiFiDrv::wifiSetKey(const char* ssid, uint8_t ssid_len, uint8_t key_idx, const void *key, const uint8_t len)
 {
@@ -278,6 +298,8 @@ int8_t WiFiDrv::wifiSetKey(const char* ssid, uint8_t ssid_len, uint8_t key_idx, 
   return _data;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::config(uint8_t validParams, uint32_t local_ip, uint32_t gateway, uint32_t subnet)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -311,6 +333,8 @@ void WiFiDrv::config(uint8_t validParams, uint32_t local_ip, uint32_t gateway, u
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::setDNS(uint8_t validParams, uint32_t dns_server1, uint32_t dns_server2)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -337,6 +361,8 @@ void WiFiDrv::setDNS(uint8_t validParams, uint32_t dns_server1, uint32_t dns_ser
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 void WiFiDrv::setHostname(const char* hostname)
 {
@@ -372,6 +398,8 @@ void WiFiDrv::setHostname(const char* hostname)
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
+
 int8_t WiFiDrv::disconnect()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -400,6 +428,8 @@ int8_t WiFiDrv::disconnect()
   return result;
 }
 
+////////////////////////////////////////
+
 uint8_t WiFiDrv::getReasonCode()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -421,6 +451,8 @@ uint8_t WiFiDrv::getReasonCode()
 
   return _data;
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiDrv::getConnectionStatus()
 {
@@ -456,6 +488,8 @@ uint8_t WiFiDrv::getConnectionStatus()
   return _data;
 }
 
+////////////////////////////////////////
+
 uint8_t* WiFiDrv::getMacAddress()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -484,11 +518,15 @@ uint8_t* WiFiDrv::getMacAddress()
   return _mac;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::getIpAddress(IPAddress& ip)
 {
   getNetworkData(_localIp, _subnetMask, _gatewayIp);
   ip = _localIp;
 }
+
+////////////////////////////////////////
 
 void WiFiDrv::getSubnetMask(IPAddress& mask)
 {
@@ -496,11 +534,15 @@ void WiFiDrv::getSubnetMask(IPAddress& mask)
   mask = _subnetMask;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::getGatewayIP(IPAddress& ip)
 {
   getNetworkData(_localIp, _subnetMask, _gatewayIp);
   ip = _gatewayIp;
 }
+
+////////////////////////////////////////
 
 const char* WiFiDrv::getCurrentSSID()
 {
@@ -532,6 +574,8 @@ const char* WiFiDrv::getCurrentSSID()
   return _ssid;
 }
 
+////////////////////////////////////////
+
 uint8_t* WiFiDrv::getCurrentBSSID()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -559,6 +603,8 @@ uint8_t* WiFiDrv::getCurrentBSSID()
 
   return _bssid;
 }
+
+////////////////////////////////////////
 
 int32_t WiFiDrv::getCurrentRSSI()
 {
@@ -588,6 +634,8 @@ int32_t WiFiDrv::getCurrentRSSI()
 
   return rssi;
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiDrv::getCurrentEncryptionType()
 {
@@ -619,6 +667,8 @@ uint8_t WiFiDrv::getCurrentEncryptionType()
   return encType;
 }
 
+////////////////////////////////////////
+
 int8_t WiFiDrv::startScanNetworks()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -646,6 +696,7 @@ int8_t WiFiDrv::startScanNetworks()
   return ((int8_t)_data == WL_FAILURE) ? _data : (int8_t)WL_SUCCESS;
 }
 
+////////////////////////////////////////
 
 uint8_t WiFiDrv::getScanNetworks()
 {
@@ -668,6 +719,8 @@ uint8_t WiFiDrv::getScanNetworks()
   return ssidListNum;
 }
 
+////////////////////////////////////////
+
 const char* WiFiDrv::getSSIDNetoworks(uint8_t networkItem)
 {
   if (networkItem >= WL_NETWORKS_LIST_MAXNUM)
@@ -675,6 +728,8 @@ const char* WiFiDrv::getSSIDNetoworks(uint8_t networkItem)
 
   return _networkSsid[networkItem];
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiDrv::getEncTypeNetowrks(uint8_t networkItem)
 {
@@ -708,6 +763,8 @@ uint8_t WiFiDrv::getEncTypeNetowrks(uint8_t networkItem)
   return encType;
 }
 
+////////////////////////////////////////
+
 uint8_t* WiFiDrv::getBSSIDNetowrks(uint8_t networkItem, uint8_t* bssid)
 {
   if (networkItem >= WL_NETWORKS_LIST_MAXNUM)
@@ -738,6 +795,8 @@ uint8_t* WiFiDrv::getBSSIDNetowrks(uint8_t networkItem, uint8_t* bssid)
 
   return bssid;
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiDrv::getChannelNetowrks(uint8_t networkItem)
 {
@@ -771,6 +830,8 @@ uint8_t WiFiDrv::getChannelNetowrks(uint8_t networkItem)
   return channel;
 }
 
+////////////////////////////////////////
+
 int32_t WiFiDrv::getRSSINetoworks(uint8_t networkItem)
 {
   if (networkItem >= WL_NETWORKS_LIST_MAXNUM)
@@ -803,6 +864,8 @@ int32_t WiFiDrv::getRSSINetoworks(uint8_t networkItem)
 
   return networkRssi;
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiDrv::reqHostByName(const char* aHostname)
 {
@@ -842,6 +905,8 @@ uint8_t WiFiDrv::reqHostByName(const char* aHostname)
   return result;
 }
 
+////////////////////////////////////////
+
 int WiFiDrv::getHostByName(IPAddress& aResult)
 {
   uint8_t  _ipAddr[WL_IPV4_LENGTH];
@@ -875,6 +940,8 @@ int WiFiDrv::getHostByName(IPAddress& aResult)
   return result;
 }
 
+////////////////////////////////////////
+
 int WiFiDrv::getHostByName(const char* aHostname, IPAddress& aResult)
 {
   if (reqHostByName(aHostname))
@@ -886,6 +953,8 @@ int WiFiDrv::getHostByName(const char* aHostname, IPAddress& aResult)
     return 0;
   }
 }
+
+////////////////////////////////////////
 
 const char*  WiFiDrv::getFwVersion()
 {
@@ -911,6 +980,8 @@ const char*  WiFiDrv::getFwVersion()
   return fwVersion;
 }
 
+////////////////////////////////////////
+
 uint32_t WiFiDrv::getTime()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -935,6 +1006,8 @@ uint32_t WiFiDrv::getTime()
 
   return _data;
 }
+
+////////////////////////////////////////
 
 void WiFiDrv::setPowerMode(uint8_t mode)
 {
@@ -962,6 +1035,8 @@ void WiFiDrv::setPowerMode(uint8_t mode)
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t channel)
 {
@@ -1012,6 +1087,8 @@ int8_t WiFiDrv::wifiSetApNetwork(const char* ssid, uint8_t ssid_len, uint8_t cha
   return (_data == WIFI_SPI_ACK) ? WL_SUCCESS : WL_FAILURE;
 }
 
+////////////////////////////////////////
+
 int8_t WiFiDrv::wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const char *passphrase, const uint8_t len,
                                     uint8_t channel)
 {
@@ -1050,6 +1127,8 @@ int8_t WiFiDrv::wifiSetApPassphrase(const char* ssid, uint8_t ssid_len, const ch
 
   return _data;
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::wifiSetEnterprise(uint8_t eapType, const char* ssid, uint8_t ssid_len, const char *username,
                                   const uint8_t username_len, const char *password, const uint8_t password_len, const char *identity,
@@ -1094,6 +1173,8 @@ int8_t WiFiDrv::wifiSetEnterprise(uint8_t eapType, const char* ssid, uint8_t ssi
   return _data;
 }
 
+////////////////////////////////////////
+
 int16_t WiFiDrv::ping(uint32_t ipAddress, uint8_t ttl)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1125,6 +1206,8 @@ int16_t WiFiDrv::ping(uint32_t ipAddress, uint8_t ttl)
   return _data;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::debug(uint8_t on)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1152,6 +1235,8 @@ void WiFiDrv::debug(uint8_t on)
   SpiDrv::spiSlaveDeselect();
 }
 
+////////////////////////////////////////
+
 float WiFiDrv::getTemperature()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1176,6 +1261,8 @@ float WiFiDrv::getTemperature()
 
   return _data;
 }
+
+////////////////////////////////////////
 
 void WiFiDrv::pinMode(uint8_t pin, uint8_t mode)
 {
@@ -1205,6 +1292,8 @@ void WiFiDrv::pinMode(uint8_t pin, uint8_t mode)
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 // KH, for compatibility with other platforms
 //#if defined(ARDUINO_ARCH_MBED)
@@ -1246,6 +1335,8 @@ void WiFiDrv::pinMode(uint8_t pin, uint8_t mode)
     return LOW;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::digitalWrite(uint8_t pin, uint8_t value)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1274,6 +1365,8 @@ void WiFiDrv::digitalWrite(uint8_t pin, uint8_t value)
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 uint16_t WiFiDrv::analogRead(uint8_t adc_channel)
 {
@@ -1305,6 +1398,8 @@ uint16_t WiFiDrv::analogRead(uint8_t adc_channel)
   return adc_raw;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::analogWrite(uint8_t pin, uint8_t value)
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1333,6 +1428,8 @@ void WiFiDrv::analogWrite(uint8_t pin, uint8_t value)
 
   SpiDrv::spiSlaveDeselect();
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::downloadFile(const char* url, uint8_t url_len, const char *filename, uint8_t filename_len)
 {
@@ -1372,6 +1469,8 @@ int8_t WiFiDrv::downloadFile(const char* url, uint8_t url_len, const char *filen
   return _data;
 }
 
+////////////////////////////////////////
+
 // New from v1.7.0
 int8_t WiFiDrv::downloadOTA(const char* url, uint8_t url_len)
 {
@@ -1409,7 +1508,7 @@ int8_t WiFiDrv::downloadOTA(const char* url, uint8_t url_len)
   return _data;
 }
 
-//////
+////////////////////////////////////////
 
 int8_t WiFiDrv::renameFile(const char * old_file_name, uint8_t const old_file_name_len, const char * new_file_name,
                            uint8_t const new_file_name_len)
@@ -1449,6 +1548,8 @@ int8_t WiFiDrv::renameFile(const char * old_file_name, uint8_t const old_file_na
 
   return data;
 }
+
+////////////////////////////////////////
 
 int8_t WiFiDrv::fileOperation(uint8_t operation, const char *filename, uint8_t filename_len, uint32_t offset,
                               uint8_t* buffer, uint32_t len)
@@ -1498,6 +1599,8 @@ int8_t WiFiDrv::fileOperation(uint8_t operation, const char *filename, uint8_t f
   return _dataLen;
 }
 
+////////////////////////////////////////
+
 void WiFiDrv::applyOTA()
 {
   WAIT_FOR_SLAVE_SELECT();
@@ -1509,5 +1612,7 @@ void WiFiDrv::applyOTA()
 
   // don't wait for return; OTA operation should be fire and forget :)
 }
+
+////////////////////////////////////////
 
 WiFiDrv wiFiDrv;

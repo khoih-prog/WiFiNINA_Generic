@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -46,17 +47,27 @@
 #include <inttypes.h>
 #include "utility/wl_definitions.h"
 
+////////////////////////////////////////
+
 #define CMD_FLAG            0
 #define REPLY_FLAG          1<<7
 #define DATA_FLAG           0x40
 
+////////////////////////////////////////
+
 #define WIFI_SPI_ACK        1
 #define WIFI_SPI_ERR        0xFF
 
+////////////////////////////////////////
+
 #define TIMEOUT_CHAR        1000
+
+////////////////////////////////////////
 
 //#define MAX_SOCK_NUM      4 /**< Maxmimum number of socket  */
 #define NO_SOCKET_AVAIL     255
+
+////////////////////////////////////////
 
 #define START_CMD           0xE0
 #define END_CMD             0xEE
@@ -64,6 +75,7 @@
 #define CMD_POS             1       // Position of Command OpCode on SPI stream
 #define PARAM_LEN_POS       2       // Position of Param len on SPI stream
 
+////////////////////////////////////////
 
 enum
 {
@@ -142,6 +154,7 @@ enum
   //////
 };
 
+////////////////////////////////////////
 
 enum wl_tcp_state
 {
@@ -158,6 +171,7 @@ enum wl_tcp_state
   TIME_WAIT   = 10
 };
 
+////////////////////////////////////////
 
 enum numParams
 {
@@ -171,8 +185,12 @@ enum numParams
   MAX_PARAM_NUMS
 };
 
+////////////////////////////////////////
+
 #define MAX_PARAMS        MAX_PARAM_NUMS-1
 #define PARAM_LEN_SIZE    1
+
+////////////////////////////////////////
 
 typedef struct  __attribute__((__packed__))
 {
@@ -181,6 +199,8 @@ typedef struct  __attribute__((__packed__))
 }
 tParam;
 
+////////////////////////////////////////
+
 typedef struct  __attribute__((__packed__))
 {
   uint16_t      dataLen;
@@ -188,6 +208,7 @@ typedef struct  __attribute__((__packed__))
 }
 tDataParam;
 
+////////////////////////////////////////
 
 typedef struct  __attribute__((__packed__))
 {
@@ -207,6 +228,7 @@ typedef struct  __attribute__((__packed__))
 }
 tSpiMsgData;
 
+////////////////////////////////////////
 
 typedef struct  __attribute__((__packed__))
 {
@@ -217,12 +239,16 @@ typedef struct  __attribute__((__packed__))
 }
 tSpiHdr;
 
+////////////////////////////////////////
+
 typedef struct  __attribute__((__packed__))
 {
   uint8_t     paramLen;
   uint32_t    param;
 }
 tLongParam;
+
+////////////////////////////////////////
 
 typedef struct  __attribute__((__packed__))
 {
@@ -231,10 +257,14 @@ typedef struct  __attribute__((__packed__))
 }
 tIntParam;
 
+////////////////////////////////////////
+
 typedef struct  __attribute__((__packed__))
 {
   uint8_t     paramLen;
   uint8_t     param;
 }
 tByteParam;
+
+////////////////////////////////////////
 

@@ -49,6 +49,13 @@
 
 ## Changelog
 
+### Releases v1.8.15-0
+
+1. Fix severe limitation to permit sending much larger data than total 4K. Check [server.send buffer size limited to 4k #23](https://github.com/khoih-prog/WiFiWebServer/issues/23)
+2. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/main/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
+3. Optimize code
+4. Clean up
+
 ### Releases v1.8.14-7
 
 1. Modify [WiFiWebServer](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer) example to avoid `analogRead()` crash in `arduino-pico` core. Check [WiFi.localIP() hangs in Nano RP2040 Connect with Arduino-Pico core (EarlePhilhower) #24](https://github.com/khoih-prog/WiFiNINA_Generic/discussions/24)

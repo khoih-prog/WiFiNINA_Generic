@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 //#ifdef ARDUINO_NANO_RP2040_CONNECT
@@ -62,6 +63,8 @@
   #define VAL(x)      static_cast<uint8_t>(x)
 #endif
 
+////////////////////////////////////////
+
 uint8_t toAnalogPin(NinaPin pin)
 {
   if      (pin == A4)
@@ -81,15 +84,21 @@ uint8_t toAnalogPin(NinaPin pin)
     return 0xFF;
 }
 
+////////////////////////////////////////
+
 void pinMode(NinaPin pin, PinMode mode)
 {
   WiFiDrv::pinMode(VAL(pin), static_cast<uint8_t>(mode));
 }
 
+////////////////////////////////////////
+
 PinStatus digitalRead(NinaPin pin)
 {
   return WiFiDrv::digitalRead(VAL(pin));
 }
+
+////////////////////////////////////////
 
 void digitalWrite(NinaPin pin, PinStatus value)
 {
@@ -102,6 +111,8 @@ void digitalWrite(NinaPin pin, PinStatus value)
     WiFiDrv::digitalWrite(VAL(pin), 0);
   }
 }
+
+////////////////////////////////////////
 
 int analogRead(NinaPin pin)
 {
@@ -118,9 +129,13 @@ int analogRead(NinaPin pin)
 #endif
 }
 
+////////////////////////////////////////
+
 void analogWrite(NinaPin pin, int value)
 {
   WiFiDrv::analogWrite(VAL(pin), static_cast<uint8_t>(value));
 }
+
+////////////////////////////////////////
 
 #endif /* ARDUINO_NANO_RP2040_CONNECT */

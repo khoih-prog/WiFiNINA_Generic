@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #define _WIFININA_LOGLEVEL_         1
@@ -51,7 +52,6 @@ extern "C"
 #include "utility/debug.h"
 }
 
-
 #include "utility/server_drv.h"
 #include "utility/wifi_drv.h"
 #include "utility/WiFiSocketBuffer.h"
@@ -59,15 +59,23 @@ extern "C"
 #include "WiFi_Generic.h"
 #include "WiFiClient_Generic.h"
 
+////////////////////////////////////////
+
 uint16_t WiFiClient::_srcport = 1024;
+
+////////////////////////////////////////
 
 WiFiClient::WiFiClient() : _sock(NO_SOCKET_AVAIL), _retrySend(true)
 {
 }
 
+////////////////////////////////////////
+
 WiFiClient::WiFiClient(uint8_t sock) : _sock(sock), _retrySend(true)
 {
 }
+
+////////////////////////////////////////
 
 int WiFiClient::connect(const char* host, uint16_t port)
 {
@@ -80,6 +88,8 @@ int WiFiClient::connect(const char* host, uint16_t port)
 
   return 0;
 }
+
+////////////////////////////////////////
 
 int WiFiClient::connect(IPAddress ip, uint16_t port)
 {
@@ -119,6 +129,8 @@ int WiFiClient::connect(IPAddress ip, uint16_t port)
   return 1;
 }
 
+////////////////////////////////////////
+
 int WiFiClient::connectSSL(IPAddress ip, uint16_t port)
 {
   if (_sock != NO_SOCKET_AVAIL)
@@ -156,6 +168,8 @@ int WiFiClient::connectSSL(IPAddress ip, uint16_t port)
 
   return 1;
 }
+
+////////////////////////////////////////
 
 int WiFiClient::connectSSL(const char *host, uint16_t port)
 {
@@ -195,7 +209,8 @@ int WiFiClient::connectSSL(const char *host, uint16_t port)
   return 1;
 }
 
-// From v1.8.0
+////////////////////////////////////////
+
 int WiFiClient::connectBearSSL(IPAddress ip, uint16_t port)
 {
   if (_sock != NO_SOCKET_AVAIL)
@@ -234,6 +249,8 @@ int WiFiClient::connectBearSSL(IPAddress ip, uint16_t port)
   return 1;
 }
 
+////////////////////////////////////////
+
 int WiFiClient::connectBearSSL(const char *host, uint16_t port)
 {
   if (_sock != NO_SOCKET_AVAIL)
@@ -271,7 +288,8 @@ int WiFiClient::connectBearSSL(const char *host, uint16_t port)
 
   return 1;
 }
-//////
+
+////////////////////////////////////////
 
 size_t WiFiClient::write(uint8_t b)
 {
@@ -279,16 +297,30 @@ size_t WiFiClient::write(uint8_t b)
 }
 
 ///////////////////////////////////////////////////////////////////////////
-// KH fix bug error when sending repetitively for large file
+// KH rewrite to enable chunk-sending for large file
+
+#define WIFI_CLIENT_MAX_WRITE_RETRY       100
+
+// Don't use larger size or hang
+#define WIFI_CLIENT_SEND_MAX_SIZE         4032
+
+////////////////////////////////////////
+
 size_t WiFiClient::write(const uint8_t *buf, size_t size)
 {
+  int written = 0;
+  int retry = WIFI_CLIENT_MAX_WRITE_RETRY;
+
+  size_t totalBytesSent = 0;
+  size_t bytesRemaining = size;
+
   NN_LOGDEBUG1("WiFiClient::write: To write, size = ", size);
 
   if (_sock == NO_SOCKET_AVAIL)
   {
     setWriteError();
 
-    NN_LOGDEBUG("WiFiClient::write: NO_SOCKET_AVAIL");
+    NN_LOGERROR("WiFiClient::write: NO_SOCKET_AVAIL");
 
     return 0;
   }
@@ -302,38 +334,44 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
     return 0;
   }
 
-  size_t written = ServerDrv::sendData(_sock, buf, size);
-
-  uint8_t timesResent = 0;
-
-  while ( (written != size) && (timesResent++ < 100) )
+  while (retry)
   {
-    // Don't use too short delay so that NINA has some time to recover
-    // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
-    delay(100);
+    written = ServerDrv::sendData(_sock, buf, min(bytesRemaining, WIFI_CLIENT_SEND_MAX_SIZE) );
 
-    written += ServerDrv::sendData(_sock, buf + written, size - written);
-  }
+    if (written > 0)
+    {
+      totalBytesSent += written;
 
-  NN_LOGDEBUG1("WiFiClient::write: loopSend => written = ", written);
-  NN_LOGDEBUG1("WiFiClient::write: loopSend => timesResent = ", timesResent);
+      NN_LOGDEBUG3("WiFiClient::write: written = ", written, ", totalBytesSent =", totalBytesSent);
 
-  if (!written && _retrySend)
-  {
-    written = retry(buf, size, true);
+      if (totalBytesSent >= size)
+      {
+        NN_LOGDEBUG3("WiFiClient::write: Done, written = ", written, ", totalBytesSent =", totalBytesSent);
 
-    NN_LOGDEBUG1("WiFiClient::write: _retrySend => written = ", written);
-  }
+        //completed successfully
+        retry = 0;
+      }
+      else
+      {
+        buf += written;
+        bytesRemaining -= written;
+        retry = WIFI_CLIENT_MAX_WRITE_RETRY;
 
-  if (!written)
-  {
-    // close socket
-    ServerDrv::stopClient(_sock);
-    setWriteError();
+        NN_LOGDEBUG3("WiFiClient::write: Partially Done, written = ", written, ", bytesRemaining =", bytesRemaining);
+      }
+    }
+    else if (written < 0)
+    {
+      NN_LOGERROR("WiFiClient::write: written error");
 
-    NN_LOGDEBUG("WiFiClient::write: !written error");
+      // close socket
+      ServerDrv::stopClient(_sock);
 
-    return 0;
+      written = 0;
+      retry = 0;
+    }
+
+    // Looping
   }
 
   if (!ServerDrv::checkDataSent(_sock))
@@ -345,19 +383,19 @@ size_t WiFiClient::write(const uint8_t *buf, size_t size)
     return 0;
   }
 
-  if (written == size)
+  if (totalBytesSent >= size)
   {
-    NN_LOGINFO1("WiFiClient::write: OK, written = ", written);
+    NN_LOGDEBUG1("WiFiClient::write: OK, totalBytesSent = ", totalBytesSent);
   }
   else
   {
-    NN_LOGERROR3("WiFiClient::write: Not OK, size = ", size, ", written = ", written);
+    NN_LOGERROR3("WiFiClient::write: Not OK, size = ", size, ", totalBytesSent = ", totalBytesSent);
   }
 
-  return written;
+  return totalBytesSent;
 }
 
-///////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write)
 {
@@ -386,6 +424,8 @@ size_t WiFiClient::retry(const uint8_t *buf, size_t size, bool write)
   }
 }
 
+////////////////////////////////////////
+
 int WiFiClient::available()
 {
   if (_sock != 255)
@@ -395,6 +435,8 @@ int WiFiClient::available()
 
   return 0;
 }
+
+////////////////////////////////////////
 
 int WiFiClient::read()
 {
@@ -410,25 +452,35 @@ int WiFiClient::read()
   return b;
 }
 
+////////////////////////////////////////
+
 int WiFiClient::read(uint8_t* buf, size_t size)
 {
   return  WiFiSocketBuffer.read(_sock, buf, size);
 }
+
+////////////////////////////////////////
 
 int WiFiClient::peek()
 {
   return WiFiSocketBuffer.peek(_sock);
 }
 
+////////////////////////////////////////
+
 void WiFiClient::setRetry(bool retry)
 {
   _retrySend = retry;
 }
 
+////////////////////////////////////////
+
 void WiFiClient::flush()
 {
   // TODO: a real check to ensure transmission has been completed
 }
+
+////////////////////////////////////////
 
 void WiFiClient::stop()
 {
@@ -450,6 +502,8 @@ void WiFiClient::stop()
   _sock = 255;
 }
 
+////////////////////////////////////////
+
 uint8_t WiFiClient::connected()
 {
   if (_sock == 255)
@@ -467,7 +521,7 @@ uint8_t WiFiClient::connected()
     uint8_t result =  !(s == LISTEN || s == CLOSED || s == FIN_WAIT_1 ||
                         s == FIN_WAIT_2 || s == TIME_WAIT ||
                         s == SYN_SENT || s == SYN_RCVD ||
-                        (s == CLOSE_WAIT));
+                        s == CLOSE_WAIT);
 
     if (result == 0)
     {
@@ -481,6 +535,8 @@ uint8_t WiFiClient::connected()
   }
 }
 
+////////////////////////////////////////
+
 uint8_t WiFiClient::status()
 {
   if (_sock == 255)
@@ -493,10 +549,14 @@ uint8_t WiFiClient::status()
   }
 }
 
+////////////////////////////////////////
+
 WiFiClient::operator bool()
 {
   return _sock != 255;
 }
+
+////////////////////////////////////////
 
 IPAddress  WiFiClient::remoteIP()
 {
@@ -508,6 +568,8 @@ IPAddress  WiFiClient::remoteIP()
 
   return ip;
 }
+
+////////////////////////////////////////
 
 uint16_t  WiFiClient::remotePort()
 {

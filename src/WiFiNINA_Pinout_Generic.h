@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,9 +39,13 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
+
+////////////////////////////////////////
+
 
 /* For Nano-33-IoT, from hardware/samd/1.8.5/variants/nano33iot/variant.h/cpp
   +------------+------------------+--------+-----------------+--------+-----------------------+---------+---------+--------+--------+----------+----------+
@@ -91,6 +95,8 @@
 // To modify according to actual connection
 
 
+////////////////////////////////////////
+
 #if ( defined(ARDUINO_NANO_RP2040_CONNECT) || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRWIFI1010) || \
       defined(ARDUINO_SAMD_MKRVIDOR4000) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT))
 
@@ -104,6 +110,7 @@
   #warning Using default WiFiNINA settings
 #endif
 
+////////////////////////////////////////
 
 #elif  ( defined(ARDUINO_SAMD_ZERO) || defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) \
       || defined(ARDUINO_SAMD_NANO_33_IOT) || defined(ARDUINO_SAMD_MKRFox1200) || defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310) \
@@ -275,7 +282,7 @@
 #endif
 #endif
 
-
+////////////////////////////////////////
 
 #elif ( defined(NRF52840_FEATHER) || defined(NRF52832_FEATHER) || defined(NRF52_SERIES) || defined(ARDUINO_NRF52_ADAFRUIT) || \
         defined(NRF52840_FEATHER_SENSE) || defined(NRF52840_ITSYBITSY) || defined(NRF52840_CIRCUITPLAY) || defined(NRF52840_CLUE) || \
@@ -340,6 +347,8 @@
 
 #endif
 
+////////////////////////////////////////
+
 #elif ( defined(ARDUINO_AVR_MEGA) || defined(ARDUINO_AVR_MEGA2560) || defined(AVR_ADK) )
 
 #warning You have to modify pin usage according to actual connection for Mega 2560/1280
@@ -359,11 +368,15 @@
 #define SPIWIFI_ACK      28   //NINA_ACK               //28 
 #define SPIWIFI_RESET    27   //NINA_RESETN            //27
 
+////////////////////////////////////////
+
 #elif ( defined(ARDUINO_AVR_UNO_WIFI_REV2) )
 
 #if (_WIFININA_LOGLEVEL_>2)
   #warning Use WiFiNINA for UNO WiFi Rev2
 #endif
+
+////////////////////////////////////////
 
 #elif defined(CORE_TEENSY)
 
@@ -410,6 +423,8 @@
 
 #endif
 
+////////////////////////////////////////
+
 #elif ( defined(ARDUINO_SAM_DUE) || defined(__SAM3X8E__) )
 
 #warning You have to modify pin usage according to actual connection for SAM DUE
@@ -422,6 +437,8 @@
 #define SPIWIFI_SS       24   //PIN_SPI1_SS            //24
 #define SPIWIFI_ACK      28   //NINA_ACK               //28 
 #define SPIWIFI_RESET    27   //NINA_RESETN            //27
+
+////////////////////////////////////////
 
 #elif ( defined(STM32F0) || defined(STM32F1) || defined(STM32F2) || defined(STM32F3)  ||defined(STM32F4) || defined(STM32F7) || \
        defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32H7)  ||defined(STM32G0) || defined(STM32G4) || \
@@ -453,6 +470,8 @@
   #define SPIWIFI_RESET    27   //NINA_RESETN            //27
 #endif
 
+////////////////////////////////////////
+
 #elif ( defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_RASPBERRY_PI_PICO) || defined(ARDUINO_ADAFRUIT_FEATHER_RP2040) || \
         defined(ARDUINO_GENERIC_RP2040) || defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT) )
 
@@ -482,6 +501,8 @@
   #define SPIWIFI_ACK      (27u)
   #define SPIWIFI_RESET    (NINA_RESETN)
 #endif
+
+////////////////////////////////////////
 
 #elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega1281__)    || \
       defined(__AVR_ATmega640__)   || defined(__AVR_ATmega641__)    || defined(__AVR_ATmega644__)  || defined(__AVR_ATmega644A__)      || \
@@ -517,6 +538,8 @@
 
 #warning You have to modify pin usage according to actual connection for AVR (328P, 32U4, 16U4, etc.) boards
 
+////////////////////////////////////////
+
 #else
 
 #warning You have to modify pin usage according to actual connection for your unknown board
@@ -529,6 +552,8 @@
 #define SPIWIFI_SS       10   //PIN_SPI_SS             //10
 #define SPIWIFI_ACK      28   //NINA_ACK               //28 
 #define SPIWIFI_RESET    27   //NINA_RESETN            //27  
+
+////////////////////////////////////////
 
 #endif
 

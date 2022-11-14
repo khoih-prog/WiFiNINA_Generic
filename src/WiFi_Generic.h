@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
@@ -46,19 +47,20 @@
 // To eliminate FW warning when using not latest nina-fw version
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
 #if !defined(WIFI_FIRMWARE_LATEST_VERSION)
-  #define WIFI_FIRMWARE_LATEST_VERSION        "1.5.0"
+  //#define WIFI_FIRMWARE_LATEST_VERSION        "1.5.0"
+  #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 #endif
 
 #define WIFI_HAS_FEED_WATCHDOG_FUNC
 
-#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.14-7"
+#define WIFININA_GENERIC_VERSION                "WiFiNINA_Generic v1.8.15-0"
 
 #define WIFININA_GENERIC_VERSION_MAJOR          1
 #define WIFININA_GENERIC_VERSION_MINOR          8
-#define WIFININA_GENERIC_VERSION_PATCH          14
-#define WIFININA_GENERIC_VERSION_PATCH_MINOR    7
+#define WIFININA_GENERIC_VERSION_PATCH          15
+#define WIFININA_GENERIC_VERSION_PATCH_MINOR    0
 
-#define WIFININA_GENERIC_VERSION_INT            1008014007
+#define WIFININA_GENERIC_VERSION_INT            1008015000
 
 #include <inttypes.h>
 
@@ -76,6 +78,8 @@ extern "C"
 #include "WiFiStorage_Generic.h"
 
 typedef void(*FeedHostProcessorWatchdogFuncPointer)();
+
+////////////////////////////////////////
 
 class WiFiClass
 {
@@ -133,14 +137,14 @@ class WiFiClass
 
           param local_ip:   Static ip configuration
     */
-    void config(IPAddress local_ip);
+    void config(IPAddress & local_ip);
 
     /* Change Ip configuration settings disabling the dhcp client
 
           param local_ip:   Static ip configuration
       param dns_server:     IP configuration for DNS server 1
     */
-    void config(IPAddress local_ip, IPAddress dns_server);
+    void config(IPAddress & local_ip, IPAddress & dns_server);
 
     /* Change Ip configuration settings disabling the dhcp client
 
@@ -148,7 +152,7 @@ class WiFiClass
       param dns_server:     IP configuration for DNS server 1
           param gateway :   Static gateway configuration
     */
-    void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway);
+    void config(IPAddress & local_ip, IPAddress & dns_server, IPAddress & gateway);
 
     /* Change Ip configuration settings disabling the dhcp client
 
@@ -157,13 +161,13 @@ class WiFiClass
           param gateway:  Static gateway configuration
           param subnet:   Static Subnet mask
     */
-    void config(IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
+    void config(IPAddress & local_ip, IPAddress & dns_server, IPAddress & gateway, IPAddress & subnet);
 
     /* Change DNS Ip configuration
 
        param dns_server1: ip configuration for DNS server 1
     */
-    void setDNS(IPAddress dns_server1);
+    void setDNS(IPAddress & dns_server1);
 
     /* Change DNS Ip configuration
 
@@ -171,7 +175,7 @@ class WiFiClass
        param dns_server2: ip configuration for DNS server 2
 
     */
-    void setDNS(IPAddress dns_server1, IPAddress dns_server2);
+    void setDNS(IPAddress & dns_server1, IPAddress & dns_server2);
 
 
     /* Set the hostname used for DHCP requests
@@ -186,9 +190,9 @@ class WiFiClass
 
        return: one value of wl_status_t enum
     */
-    int disconnect(void);
+    int disconnect();
 
-    void end(void);
+    void end();
 
     /*
        Get the interface MAC address.
@@ -315,12 +319,14 @@ class WiFiClass
 
     int ping(const char* hostname, uint8_t ttl = 128);
     int ping(const String &hostname, uint8_t ttl = 128);
-    int ping(IPAddress host, uint8_t ttl = 128);
+    int ping(IPAddress & host, uint8_t ttl = 128);
 
     void setTimeout(unsigned long timeout);
 
     void setFeedWatchdogFunc(FeedHostProcessorWatchdogFuncPointer func);
     void feedWatchdog();
 };
+
+////////////////////////////////////////
 
 extern WiFiClass WiFi;

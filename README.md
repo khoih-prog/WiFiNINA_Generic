@@ -74,6 +74,7 @@
     * [18. WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
     * [19. WiFiStorage](examples/WiFiStorage)
     * [20. WiFiAdvancedChatServer](examples/WiFiAdvancedChatServer)
+    * [21. WiFiWebServer_BigData](examples/WiFiWebServer_BigData) **New**
   * [Tools](#tools)
     * [ 1. CheckFirmwareVersion](examples/Tools/CheckFirmwareVersion)
     * [ 2. FirmwareUpdater](examples/Tools/FirmwareUpdater)
@@ -92,6 +93,8 @@
   * [3. WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT](#3-wifiwebclientrepeating-on-arduino_nano_rp2040_connect)
   * [4. WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT](#4-wifiudpntpclient-on-arduino_nano_rp2040_connect)
   * [5. WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT](#5-wifiudpntpclient-on-mbed-nano_rp2040_connect)
+  * [6. WiFiWebServer_BigData on SAMD_NANO_33_IOT](#6-WiFiWebServer_BigData-on-SAMD_NANO_33_IOT)
+  * [7. WiFiWebServer_BigData on NANO_RP2040_CONNECT](#7-WiFiWebServer_BigData-on-NANO_RP2040_CONNECT)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [TO DO](#to-do)
@@ -105,6 +108,8 @@
 ---
 
 ### Important Notes
+
+The new [WiFiNINA_Generic v1.8.15-0+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.15-0) fixes severe limitation to permit sending much larger data than total 4K.
 
 The new [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-5) fixes bug causing data lost when sending large files, such as FTP Client uploading files.
 
@@ -600,7 +605,7 @@ For example
 
 ```
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -650,6 +655,7 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 18. [WiFiNINA_SSL_Test](examples/WiFiNINA_SSL_Test)
 19. [WiFiStorage](examples/WiFiStorage)
 20. [WiFiAdvancedChatServer](examples/WiFiAdvancedChatServer) **New**
+21. [WiFiWebServer_BigData](examples/WiFiWebServer_BigData) **New**
 
 #### Tools
 
@@ -694,7 +700,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -847,7 +853,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -940,7 +946,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1017,7 +1023,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1047,7 +1053,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.14-7
+WiFiNINA_Generic v1.8.15-0
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1063,7 +1069,90 @@ Packet received
 Seconds since Jan 1 1900 = 3849967865
 Unix time = 1640979065
 The UTC time is 19:31:05
+```
 
+
+---
+
+#### 6. [WiFiWebServer_BigData](examples/WiFiWebServer_BigData) on SAMD_NANO_33_IOT
+
+The following is debug terminal output when running example [WiFiWebServer_BigData](examples/WiFiWebServer_BigData) on `SAMD_NANO_33_IOT` board, using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic), to demo how to send much larger data than total 4K
+
+##### MULTIPLY_FACTOR = 1.0f
+
+```
+Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
+WiFiNINA_Generic v1.8.15-0
+WiFiWebServer v1.10.0
+Attempting to connect to SSID: HueNet
+Attempting to connect to SSID: HueNet
+SSID: HueNet
+IP Address: 192.168.2.107
+Signal strength (RSSI):-15 dBm
+String Len = 8103
+String Len = 8103
+String Len = 8103
+String Len = 8103
+String Len = 8103
+String Len = 8103
+```
+
+##### MULTIPLY_FACTOR = 2.0f
+
+```
+Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
+WiFiNINA_Generic v1.8.15-0
+WiFiWebServer v1.10.0
+Attempting to connect to SSID: HueNet
+Attempting to connect to SSID: HueNet
+SSID: HueNet
+IP Address: 192.168.2.107
+Signal strength (RSSI):-15 dBm
+String Len = 15903
+String Len = 15903
+String Len = 15903
+String Len = 15903
+String Len = 15903
+```
+
+##### MULTIPLY_FACTOR = 2.5f
+
+```
+Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
+WiFiNINA_Generic v1.8.15-0
+WiFiWebServer v1.10.0
+Attempting to connect to SSID: HueNet
+Attempting to connect to SSID: HueNet
+SSID: HueNet
+IP Address: 192.168.2.107
+Signal strength (RSSI):-17 dBm
+String Len = 19803
+String Len = 19803
+String Len = 19803
+String Len = 19803
+String Len = 19803
+String Len = 19803
+```
+
+---
+
+#### 7. [WiFiWebServer_BigData](examples/WiFiWebServer_BigData) on NANO_RP2040_CONNECT
+
+The following is debug terminal output when running example [WiFiWebServer_BigData](examples/WiFiWebServer_BigData) on `NANO_RP2040_CONNECT` board, using this [WiFiNINA_Generic Library](https://github.com/khoih-prog/WiFiNINA_Generic), to demo how to send much larger data than total 4K
+
+##### MULTIPLY_FACTOR = 3.0f
+
+```
+Start WiFiWebServer_BigData on NANO_RP2040_CONNECT
+WiFiNINA_Generic v1.8.15-0
+WiFiWebServer v1.10.0
+Attempting to connect to SSID: HueNet
+Attempting to connect to SSID: HueNet
+SSID: HueNet
+IP Address: 192.168.2.117
+Signal strength (RSSI):-24 dBm
+String Len = 27609
+String Len = 27609
 ```
 
 ---
@@ -1133,6 +1222,8 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 24. Add support to Teensy 4.x using `Adafruit Airlift Featherwing Co-Processor`
 25. Modify [WiFiWebServer](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer) example to avoid `analogRead()` crash in `arduino-pico` core. Check [WiFi.localIP() hangs in Nano RP2040 Connect with Arduino-Pico core (EarlePhilhower) #24](https://github.com/khoih-prog/WiFiNINA_Generic/discussions/24)
 26. Use `allman astyle` and add `utils`
+27. Fix severe limitation to permit sending much larger data than total 4K. Check [server.send buffer size limited to 4k #23](https://github.com/khoih-prog/WiFiWebServer/issues/23)
+28. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/main/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
 
 
 ---
@@ -1163,6 +1254,8 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
  - [Watchdog trigger changes #208](https://github.com/arduino-libraries/WiFiNINA/pull/208)
 10. Thanks to [NachtRave](https://github.com/NachtRaveVL) to report issue [**Flush method not implemented #22**](https://github.com/khoih-prog/WiFiNINA_Generic/issues/22) leading to version v1.8.14-6
 11. Thanks to [Stefano](https://github.com/stefat) to report issue [**WiFi.localIP() hangs in Nano RP2040 Connect with Arduino-Pico core (EarlePhilhower) #24**](https://github.com/khoih-prog/WiFiNINA_Generic/issues/24) leading to version v1.8.14-7
+12. Thanks to [jlemieux55](https://github.com/jlemieux55) to report issue [**server.send buffer size limited to 4k #23**](https://github.com/khoih-prog/WiFiWebServer/issues/23) leading to version v1.8.15-0
+
 
 
 ---
@@ -1181,6 +1274,7 @@ Submit issues to: [WiFiNINA_Generic issues](https://github.com/khoih-prog/WiFiNI
     <td align="center"><a href="https://github.com/pennam"><img src="https://github.com/pennam.png" width="100px;" alt="pennam"/><br /><sub><b>Mattia Pennasilico</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/NachtRaveVL"><img src="https://github.com/NachtRaveVL.png" width="100px;" alt="NachtRaveVL"/><br /><sub><b>NachtRave</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/stefat"><img src="https://github.com/stefat.png" width="100px;" alt="stefat"/><br /><sub><b>Stefano</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/jlemieux55"><img src="https://github.com/jlemieux55.png" width="100px;" alt="jlemieux55"/><br /><sub><b>jlemieux55</b></sub></a><br /></td>
   </tr> 
 </table>
 
@@ -1207,6 +1301,6 @@ If you want to contribute to this project:
 
 1. Copyright (c) 2018 Arduino SA. All rights reserved.
 2. Copyright (c) 2011-2014 Arduino LLC. All right reserved.
-3. Copyright 2020- Khoi Hoang
+3. Copyright (c) 2020- Khoi Hoang
 
 

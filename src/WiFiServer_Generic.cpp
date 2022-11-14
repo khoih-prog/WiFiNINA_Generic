@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,12 +39,15 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #include <string.h>
 #include "utility/server_drv.h"
 
-#define _WIFININA_LOGLEVEL_         3
+#define _WIFININA_LOGLEVEL_         1
+
+////////////////////////////////////////
 
 extern "C"
 {
@@ -54,6 +57,8 @@ extern "C"
 #include "WiFi_Generic.h"
 #include "WiFiClient_Generic.h"
 #include "WiFiServer_Generic.h"
+
+////////////////////////////////////////
 
 // See Version 1.4.0 can break code that uses more than one WiFiServer and socket
 // (https://github.com/arduino-libraries/WiFiNINA/issues/87
@@ -66,6 +71,8 @@ WiFiServer::WiFiServer(uint16_t port) : _sock(NO_SOCKET_AVAIL), _lastSock(NO_SOC
   _port = port;
 }
 
+////////////////////////////////////////
+
 void WiFiServer::begin()
 {
   _sock = ServerDrv::getSocket();
@@ -76,6 +83,8 @@ void WiFiServer::begin()
   }
 }
 
+////////////////////////////////////////
+
 // From https://github.com/arduino-libraries/WiFiNINA/pull/204
 WiFiClient WiFiServer::accept()
 {
@@ -84,21 +93,15 @@ WiFiClient WiFiServer::accept()
   return WiFiClient(sock);
 }
 
-// KH, New 1.5.3
+////////////////////////////////////////
+
 void WiFiServer::begin(uint16_t port)
 {
   _port = port;
   begin();
 }
 
-// KH New, wrong
-//bool WiFiServer::hasClient()
-//{
-//  if (_sock != NO_SOCKET_AVAIL)
-//    return true;
-//  return false;
-//}
-
+////////////////////////////////////////
 
 WiFiClient WiFiServer::available(byte* status)
 {
@@ -126,15 +129,9 @@ WiFiClient WiFiServer::available(byte* status)
       if (client.available())
         NN_LOGDEBUG("WiFiServer::available: client.available");
 
-
-      //////
-
       if (client.connected() && client.available())
       {
         sock = _lastSock;
-
-        // KH, from v1.6.0 debug
-        NN_LOGDEBUG1("WiFiServer::available: sock/_lastSock =", sock);
       }
     }
 
@@ -142,10 +139,6 @@ WiFiClient WiFiServer::available(byte* status)
     {
       // check for new client socket
       sock = ServerDrv::availServer(_sock);
-
-      // KH, from v1.6.0 debug
-      //NN_LOGDEBUG1("WiFiServer::available: sock =", sock);
-      //////
     }
 
 #endif
@@ -167,19 +160,13 @@ WiFiClient WiFiServer::available(byte* status)
     _lastSock = sock;
 #endif
 
-    // KH, from v1.6.0 debug
-    NN_LOGDEBUG1("WiFiServer::available: Client OK, sock =", sock);
-    //////
-
     return client;
   }
 
-  // KH, from v1.6.0 debug
-  //NN_LOGDEBUG("WiFiServer::available: Client not OK");
-  //////
-
   return WiFiClient(255);
 }
+
+////////////////////////////////////////
 
 uint8_t WiFiServer::status()
 {
@@ -193,90 +180,112 @@ uint8_t WiFiServer::status()
   }
 }
 
+////////////////////////////////////////
 
 size_t WiFiServer::write(uint8_t b)
 {
   return write(&b, 1);
 }
 
-#if 1
+////////////////////////////////////////
 
-size_t WiFiServer::write(const uint8_t *buffer, size_t size)
+#define WIFI_SERVER_MAX_WRITE_RETRY       100
+
+// Don't use larger size or hang
+#define WIFI_SERVER_SEND_MAX_SIZE         4032
+
+size_t WiFiServer::write(const uint8_t *buf, size_t size)
 {
+  int written = 0;
+  int retry = WIFI_SERVER_SEND_MAX_SIZE;
+
+  size_t totalBytesSent = 0;
+  size_t bytesRemaining = size;
+
+  NN_LOGDEBUG1("WiFiServer::write: To write, size = ", size);
+
+  if (_sock == NO_SOCKET_AVAIL)
+  {
+    setWriteError();
+
+    NN_LOGERROR("WiFiServer::write: NO_SOCKET_AVAIL");
+
+    return 0;
+  }
+
   if (size == 0)
   {
     setWriteError();
+
+    NN_LOGDEBUG("WiFiServer::write: size = 0");
+
     return 0;
   }
 
-  size_t written = ServerDrv::sendData(_sock, buffer, size);
-
-  uint8_t timesResent = 0;
-
-  while ( (written != size) && (timesResent++ < 100) )
+  while (retry)
   {
-    // Don't use too short delay so that NINA has some time to recover
-    // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
-    delay(100);
+    written = ServerDrv::sendData(_sock, buf, min(bytesRemaining, WIFI_SERVER_SEND_MAX_SIZE) );
 
-    written += ServerDrv::sendData(_sock, buffer + written, size - written);
-  }
+    if (written > 0)
+    {
+      totalBytesSent += written;
 
-  NN_LOGINFO1("WiFiServer::write: loopSend => written = ", written);
-  NN_LOGINFO1("WiFiServer::write: loopSend => timesResent = ", timesResent);
+      NN_LOGDEBUG3("WiFiServer::write: written = ", written, ", totalBytesSent =", totalBytesSent);
 
-  if (!written)
-  {
-    setWriteError();
+      if (totalBytesSent >= size)
+      {
+        NN_LOGDEBUG3("WiFiServer::write: Done, written = ", written, ", totalBytesSent =", totalBytesSent);
 
-    NN_LOGERROR("WiFiServer::write: !written error");
+        //completed successfully
+        retry = 0;
+      }
+      else
+      {
+        buf += written;
+        bytesRemaining -= written;
+        retry = WIFI_SERVER_MAX_WRITE_RETRY;
 
-    return 0;
+        // Don't use too short delay so that NINA has some time to recover
+        // The fix is considered as kludge, and the correct place to fix is in ServerDrv::sendData()
+        //delay(100);
+
+        NN_LOGDEBUG3("WiFiServer::write: Partially Done, written = ", written, ", bytesRemaining =", bytesRemaining);
+      }
+    }
+    else if (written < 0)
+    {
+      NN_LOGERROR("WiFiServer::write: written error");
+
+      // close socket
+      ServerDrv::stopClient(_sock);
+
+      written = 0;
+      retry = 0;
+    }
+
+    // Looping
   }
 
   if (!ServerDrv::checkDataSent(_sock))
   {
     setWriteError();
+
+    NN_LOGDEBUG("WiFiServer::write: error !checkDataSent");
+
     return 0;
   }
 
-  if (written == size)
+  if (totalBytesSent >= size)
   {
-    NN_LOGINFO1("WiFiServer::write: OK, written = ", written);
+    NN_LOGDEBUG1("WiFiServer::write: OK, totalBytesSent = ", totalBytesSent);
   }
   else
   {
-    NN_LOGERROR3("WiFiServer::write: Not OK, size = ", size, ", written = ", written);
+    NN_LOGERROR3("WiFiServer::write: Not OK, size = ", size, ", totalBytesSent = ", totalBytesSent);
   }
 
-  return written;
+  return totalBytesSent;
 }
 
-#else
+////////////////////////////////////////
 
-size_t WiFiServer::write(const uint8_t *buffer, size_t size)
-{
-  if (size == 0)
-  {
-    setWriteError();
-    return 0;
-  }
-
-  size_t written = ServerDrv::sendData(_sock, buffer, size);
-
-  if (!written)
-  {
-    setWriteError();
-    return 0;
-  }
-
-  if (!ServerDrv::checkDataSent(_sock))
-  {
-    setWriteError();
-    return 0;
-  }
-
-  return written;
-}
-
-#endif

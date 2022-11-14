@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.14-7
+  Version: 1.8.15-0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -39,6 +39,7 @@
   1.8.14-5   K Hoang    23/05/2022 Fix bug causing data lost when sending large files
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
+  1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
  ***********************************************************************************************************************************/
 
 #include <stdlib.h>
@@ -48,7 +49,11 @@
 
 #include "WiFiSocketBuffer.h"
 
+////////////////////////////////////////
+
 #define WIFI_SOCKET_NUM_BUFFERS (sizeof(_buffers) / sizeof(_buffers[0]))
+
+////////////////////////////////////////
 
 #ifdef __AVR__
   #define WIFI_SOCKET_BUFFER_SIZE 64
@@ -56,10 +61,14 @@
   #define WIFI_SOCKET_BUFFER_SIZE 1500
 #endif
 
+////////////////////////////////////////
+
 WiFiSocketBufferClass::WiFiSocketBufferClass()
 {
   memset(&_buffers, 0x00, sizeof(_buffers));
 }
+
+////////////////////////////////////////
 
 WiFiSocketBufferClass::~WiFiSocketBufferClass()
 {
@@ -68,6 +77,8 @@ WiFiSocketBufferClass::~WiFiSocketBufferClass()
     close(i);
   }
 }
+
+////////////////////////////////////////
 
 void WiFiSocketBufferClass::close(int socket)
 {
@@ -78,6 +89,8 @@ void WiFiSocketBufferClass::close(int socket)
     _buffers[socket].length = 0;
   }
 }
+
+////////////////////////////////////////
 
 int WiFiSocketBufferClass::available(int socket)
 {
@@ -103,6 +116,8 @@ int WiFiSocketBufferClass::available(int socket)
   return _buffers[socket].length;
 }
 
+////////////////////////////////////////
+
 int WiFiSocketBufferClass::peek(int socket)
 {
   if (!available(socket))
@@ -112,6 +127,8 @@ int WiFiSocketBufferClass::peek(int socket)
 
   return *_buffers[socket].head;
 }
+
+////////////////////////////////////////
 
 int WiFiSocketBufferClass::read(int socket, uint8_t* data, size_t length)
 {
@@ -133,5 +150,7 @@ int WiFiSocketBufferClass::read(int socket, uint8_t* data, size_t length)
 
   return length;
 }
+
+////////////////////////////////////////
 
 WiFiSocketBufferClass WiFiSocketBuffer;
