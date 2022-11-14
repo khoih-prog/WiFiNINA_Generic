@@ -1223,7 +1223,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 25. Modify [WiFiWebServer](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer) example to avoid `analogRead()` crash in `arduino-pico` core. Check [WiFi.localIP() hangs in Nano RP2040 Connect with Arduino-Pico core (EarlePhilhower) #24](https://github.com/khoih-prog/WiFiNINA_Generic/discussions/24)
 26. Use `allman astyle` and add `utils`
 27. Fix severe limitation to permit sending much larger data than total 4K. Check [server.send buffer size limited to 4k #23](https://github.com/khoih-prog/WiFiWebServer/issues/23)
-28. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/main/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
+28. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
 
 
 ---

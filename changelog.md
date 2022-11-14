@@ -18,6 +18,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.15-0](#releases-v1815-0)
   * [Releases v1.8.14-7](#releases-v1814-7)
   * [Releases v1.8.14-6](#releases-v1814-6)
   * [Releases v1.8.14-5](#releases-v1814-5)
@@ -52,7 +53,7 @@
 ### Releases v1.8.15-0
 
 1. Fix severe limitation to permit sending much larger data than total 4K. Check [server.send buffer size limited to 4k #23](https://github.com/khoih-prog/WiFiWebServer/issues/23)
-2. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/main/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
+2. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
 3. Optimize code
 4. Clean up
 
