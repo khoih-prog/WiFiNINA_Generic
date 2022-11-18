@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.15-0
+  Version: 1.8.15-1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -40,15 +40,25 @@
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
   1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
+  1.8.15-1   K Hoang    18/11/2022 Using new WiFi101_Generic library to permit sending larger data than total 4K
  ***********************************************************************************************************************************/
 
 #pragma once
 
 ////////////////////////////////////////
 
+#if !defined(USING_WIFI101_GENERIC)
+  #define USING_WIFI101_GENERIC     true
+#endif
+
 #if ( ( defined(ARDUINO_SAMD_MKR1000) || defined(ARDUINO_SAMD_MKRWIFI1010) ) && USING_WIFI101 )
-  #include <WiFi101.h>
-  #warning Using WiFi101 Library for MKR1000 and MKRWIFI1010 in WiFiNINA_Pinout_Generic.h
+  #if USING_WIFI101_GENERIC
+    #include <WiFi101_Generic.h>
+    #warning Using WiFi101_Generic Library for MKR1000 and MKRWIFI1010 in WiFiNINA_Pinout_Generic.h
+  #else
+    #include <WiFi101.h>
+    #warning Using WiFi101 Library for MKR1000 and MKRWIFI1010 in WiFiNINA_Pinout_Generic.h
+  #endif
 #else
   #include "WiFi_Generic.h"
 #endif

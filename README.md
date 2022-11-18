@@ -109,6 +109,8 @@
 
 ### Important Notes
 
+The new [WiFiNINA_Generic v1.8.15-1+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.15-1) is using new [WiFi101_Generic](https://github.com/khoih-prog/WiFi101_Generic) library to permit sending larger data than total 4K when using `MKR1000` or `MKRWiFi1010` with `ATMEL WINC1500 WiFi`
+
 The new [WiFiNINA_Generic v1.8.15-0+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.15-0) fixes severe limitation to permit sending much larger data than total 4K.
 
 The new [WiFiNINA_Generic v1.8.14-5+](https://github.com/khoih-prog/WiFiNINA_Generic/releases/tag/v1.8.14-5) fixes bug causing data lost when sending large files, such as FTP Client uploading files.
@@ -179,6 +181,7 @@ This [**WiFiNINA_Generic library**](https://github.com/khoih-prog/WiFiNINA_Gener
 13. [`Adafruit AVR core 1.4.14+`](https://github.com/adafruit/Adafruit_Arduino_Boards) for Adafruit AVR boards. Use Arduino Board Manager to install. 
 14. [`Sparkfun AVR core 1.1.13+`](https://github.com/sparkfun/Arduino_Boards) for Sparkfun AVR boards. Use Arduino Board Manager to install. 
 15. [`WiFiMulti_Generic library v1.2.2+`](https://github.com/khoih-prog/WiFiMulti_Generic) to use WiFiMulti function in some examples. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFiMulti_Generic.svg?)](https://www.ardu-badge.com/WiFiMulti_Generic). **New**
+16. [`WiFi101_Generic library v1.0.0+`](https://github.com/khoih-prog/WiFi101_Generic) to use WiFi101 for `MKR1000` or `MKRWiFi1010` with `ATMEL WINC1500 WiFi`. To install, check [![arduino-library-badge](https://www.ardu-badge.com/badge/WiFi101_Generic.svg?)](https://www.ardu-badge.com/WiFi101_Generic). **New**
 
 
 ---
@@ -603,9 +606,9 @@ For example
 - Upload the sketch.
 - If OK, terminal will show PASSED as follows:
 
-```
+```cpp
 Start WiFiNINA CheckFirmwareVersion on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 Firmware version installed: aaa.bbb.ccc
 Latest firmware version available : aaa.bbb.ccc
 
@@ -676,12 +679,12 @@ This is the screen to demonstrate the SSL certificates have been loaded successf
 
 ### 1. File [WiFiWebServer.ino](examples/WiFiWebServer/WiFiWebServer.ino)
 
-https://github.com/khoih-prog/WiFiNINA_Generic/blob/de0ce061e0269c96c10e2285416b87dd2531a50c/examples/WiFiWebServer/WiFiWebServer.ino#L41-L197
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/d628009bd6d8e3a48c71f62971dbe04f12309411/examples/WiFiWebServer/WiFiWebServer.ino#L41-L207
 
 
 ### 2. File [defines.h](examples/WiFiWebServer/defines.h)
 
-https://github.com/khoih-prog/WiFiNINA_Generic/blob/de0ce061e0269c96c10e2285416b87dd2531a50c/examples/WiFiWebServer/defines.h#L29-L400
+https://github.com/khoih-prog/WiFiNINA_Generic/blob/d628009bd6d8e3a48c71f62971dbe04f12309411/examples/WiFiWebServer/defines.h#L29-L400
 
 
 ---
@@ -700,7 +703,7 @@ The following are screen shot and debug terminal output when running example [Ad
 
 ```
 Starting AdvancedServer on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 [NN] ===============================
 [NN] 
 Used/default SPI pinout: 
@@ -853,7 +856,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -946,7 +949,7 @@ The following is debug terminal output when running example [WiFiWebClientRepeat
 
 ```
 Start WiFiWebClientRepeating on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 Attempting to connect to SSID: HueNet1
 SSID: HueNet1
 IP Address: 192.168.2.86
@@ -1023,7 +1026,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on ARDUINO_NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1053,7 +1056,7 @@ The following is debug terminal output when running example [WiFiUdpNtpClient](e
 
 ```
 Start WiFiUdpNtpClient on MBED NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 Attempting to connect to SSID: HueNet1
 Connected to WiFi
 SSID: HueNet1
@@ -1082,7 +1085,7 @@ The following is debug terminal output when running example [WiFiWebServer_BigDa
 
 ```
 Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 WiFiWebServer v1.10.0
 Attempting to connect to SSID: HueNet
 Attempting to connect to SSID: HueNet
@@ -1101,7 +1104,7 @@ String Len = 8103
 
 ```
 Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 WiFiWebServer v1.10.0
 Attempting to connect to SSID: HueNet
 Attempting to connect to SSID: HueNet
@@ -1119,7 +1122,7 @@ String Len = 15903
 
 ```
 Start WiFiWebServer_BigData on SAMD_NANO_33_IOT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 WiFiWebServer v1.10.0
 Attempting to connect to SSID: HueNet
 Attempting to connect to SSID: HueNet
@@ -1144,7 +1147,7 @@ The following is debug terminal output when running example [WiFiWebServer_BigDa
 
 ```
 Start WiFiWebServer_BigData on NANO_RP2040_CONNECT
-WiFiNINA_Generic v1.8.15-0
+WiFiNINA_Generic v1.8.15-1
 WiFiWebServer v1.10.0
 Attempting to connect to SSID: HueNet
 Attempting to connect to SSID: HueNet
@@ -1224,6 +1227,7 @@ Sometimes, the library will only work if you update the `WiFiNINA module/shield`
 26. Use `allman astyle` and add `utils`
 27. Fix severe limitation to permit sending much larger data than total 4K. Check [server.send buffer size limited to 4k #23](https://github.com/khoih-prog/WiFiWebServer/issues/23)
 28. Add examples [WiFiWebServer_BigData](https://github.com/khoih-prog/WiFiNINA_Generic/tree/master/examples/WiFiWebServer_BigData) to demo how to send much larger data than total 4K
+29. Using new [WiFi101_Generic](https://github.com/khoih-prog/WiFi101_Generic) library to permit sending larger data than total 4K when using `MKR1000` or `MKRWiFi1010` with `ATMEL WINC1500 WiFi`
 
 
 ---

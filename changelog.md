@@ -18,6 +18,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.8.15-1](#releases-v1815-1)
   * [Releases v1.8.15-0](#releases-v1815-0)
   * [Releases v1.8.14-7](#releases-v1814-7)
   * [Releases v1.8.14-6](#releases-v1814-6)
@@ -49,6 +50,11 @@
 ---
 
 ## Changelog
+
+### Releases v1.8.15-1
+
+1. Using new [WiFi101_Generic](https://github.com/khoih-prog/WiFi101_Generic) library to permit sending larger data than total 4K when using `MKR1000` or `MKRWiFi1010` with `ATMEL WINC1500 WiFi`
+2. Modify examples for new features
 
 ### Releases v1.8.15-0
 

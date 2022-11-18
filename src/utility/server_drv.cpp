@@ -24,7 +24,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.8.15-0
+  Version: 1.8.15-1
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -40,6 +40,7 @@
   1.8.14-6   K Hoang    17/08/2022 Add support to Teensy 4.x using WiFiNINA AirLift. Fix minor bug
   1.8.14-7   K Hoang    11/11/2022 Modify WiFiWebServer example to avoid crash in arduino-pico core
   1.8.15-0   K Hoang    14/11/2022 Fix severe limitation to permit sending much larger data than total 4K
+  1.8.15-1   K Hoang    18/11/2022 Using new WiFi101_Generic library to permit sending larger data than total 4K
  ***********************************************************************************************************************************/
 
 #define _DEBUG_
