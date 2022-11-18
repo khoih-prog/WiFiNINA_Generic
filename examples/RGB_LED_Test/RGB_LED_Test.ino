@@ -30,7 +30,6 @@
   #error Only for ARDUINO_NANO_RP2040_CONNECT using arduino-pico core
 #endif
 
-//#include <WiFiNINA.h>
 #include <WiFiNINA_Generic.h>
 
 void setup()

@@ -57,8 +57,7 @@ void setup()
   Serial.print(F("\nStart ConnectWithWPA2Enterprise on "));
   Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
+  
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));

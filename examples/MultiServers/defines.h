@@ -49,8 +49,10 @@
     #define BOARD_TYPE      "SAMD Zero"
   #elif defined(ARDUINO_SAMD_MKR1000)
     #define BOARD_TYPE      "SAMD MKR1000"
+    #define USING_WIFI101     true
   #elif defined(ARDUINO_SAMD_MKRWIFI1010)
     #define BOARD_TYPE      "SAMD MKRWIFI1010"
+    #define USING_WIFI101     true
   #elif defined(ARDUINO_SAMD_NANO_33_IOT)
     #define BOARD_TYPE      "SAMD NANO_33_IOT"
   #elif defined(ARDUINO_SAMD_MKRFox1200)

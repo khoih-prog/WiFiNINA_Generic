@@ -40,9 +40,13 @@
 // To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
 #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
-#include <SPI.h>
-#include <WiFiNINA_Generic.h>
-#include <WiFiUdp_Generic.h>
+#if USING_WIFI101
+  #include <WiFi101_Generic.h>
+  #include <WiFiUdp.h>
+#else
+  #include <WiFiNINA_Generic.h>
+  #include <WiFiUdp_Generic.h>
+#endif
 
 ///////please enter your sensitive data in the Secret tab/arduino_secrets.h
 char ssid[] = SECRET_SSID;        // your network SSID (name)
@@ -68,10 +72,15 @@ void setup()
 
   Serial.print(F("\nStart WiFiUdpSendReceiveString on "));
   Serial.println(BOARD_NAME);
+  
+// check for the WiFi module:
+#if USING_WIFI101
+  if (WiFi.status() == WL_NO_SHIELD)
+#else
   Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
+  
   if (WiFi.status() == WL_NO_MODULE)
+#endif
   {
     Serial.println(F("Communication with WiFi module failed!"));
 

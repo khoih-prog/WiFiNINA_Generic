@@ -46,7 +46,12 @@
 #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
 #include <SPI.h>
-#include <WiFiNINA_Generic.h>
+
+#if USING_WIFI101
+  #include <WiFi101_Generic.h>
+#else
+  #include <WiFiNINA_Generic.h>
+#endif
 
 void setup()
 {
@@ -57,10 +62,15 @@ void setup()
 
   Serial.print(F("\nStart ScanNetworks on "));
   Serial.println(BOARD_NAME);
+  
+// check for the WiFi module:
+#if USING_WIFI101
+  if (WiFi.status() == WL_NO_SHIELD)
+#else
   Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
+  
   if (WiFi.status() == WL_NO_MODULE)
+#endif
   {
     Serial.println(F("Communication with WiFi module failed!"));
 
@@ -149,7 +159,9 @@ void printEncryptionType(int thisType)
       Serial.print(F("Auto"));
       break;
 
-    case ENC_TYPE_UNKNOWN:
+#if !USING_WIFI101
+     case ENC_TYPE_UNKNOWN:
+#endif    
     default:
       Serial.print(F("Unknown"));
       break;

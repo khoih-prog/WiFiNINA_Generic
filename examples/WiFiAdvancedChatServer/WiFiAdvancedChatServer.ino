@@ -38,6 +38,10 @@
 #include "defines.h"
 #include "arduino_secrets.h"
 
+// To eliminate FW warning when using not latest nina-fw version
+// To use whenever WiFi101-FirmwareUpdater-Plugin is not sync'ed with nina-fw version
+#define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
+
 #include <SPI.h>
 #include <WiFiNINA_Generic.h>
 
@@ -66,8 +70,7 @@ void setup()
   Serial.print(F("\nStart WiFiAdvancedChatServer on "));
   Serial.println(BOARD_NAME);
   Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
+  
   if (WiFi.status() == WL_NO_MODULE)
   {
     Serial.println(F("Communication with WiFi module failed!"));

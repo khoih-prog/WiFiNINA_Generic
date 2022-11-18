@@ -34,7 +34,14 @@
 #define WIFI_FIRMWARE_LATEST_VERSION        "1.4.8"
 
 #include "defines.h"
-#include <WiFiNINA_Generic.h>
+
+#include <SPI.h>
+
+#if USING_WIFI101
+  #include <WiFi101_Generic.h>
+#else
+  #include <WiFiNINA_Generic.h>
+#endif
 
 // https://github.com/ocrdu/NINA-Websocket
 #include <WebSocketServer.h>
@@ -119,10 +126,14 @@ void setup()
   Serial.print(F("\nStart MultiServers on "));
   Serial.println(BOARD_TYPE);
 
+// check for the WiFi module:
+#if USING_WIFI101
+  if (WiFi.status() == WL_NO_SHIELD)
+#else
   Serial.println(WIFININA_GENERIC_VERSION);
-
-  // check for the WiFi module:
+  
   if (WiFi.status() == WL_NO_MODULE)
+#endif
   {
     Serial.println(F("Communication with WiFi module failed!"));
 

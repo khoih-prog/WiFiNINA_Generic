@@ -394,7 +394,9 @@
 #endif
 
 #define DEBUG_WIFININA_PORT     Serial
+
 // Debug Level from 0 to 4
 #define _WIFININA_LOGLEVEL_     1
+#define _WIFIMULTI_LOGLEVEL_    2
 
 #endif      //defines_h

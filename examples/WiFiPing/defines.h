@@ -49,8 +49,10 @@
     #define BOARD_TYPE      "SAMD Zero"
   #elif defined(ARDUINO_SAMD_MKR1000)
     #define BOARD_TYPE      "SAMD MKR1000"
+    #define USING_WIFI101     true
   #elif defined(ARDUINO_SAMD_MKRWIFI1010)
     #define BOARD_TYPE      "SAMD MKRWIFI1010"
+    #define USING_WIFI101     true
   #elif defined(ARDUINO_SAMD_NANO_33_IOT)
     #define BOARD_TYPE      "SAMD NANO_33_IOT"
   #elif defined(ARDUINO_SAMD_MKRFox1200)
@@ -394,7 +396,9 @@
 #endif
 
 #define DEBUG_WIFININA_PORT     Serial
+
 // Debug Level from 0 to 4
 #define _WIFININA_LOGLEVEL_     1
+#define _WIFIMULTI_LOGLEVEL_    2
 
 #endif      //defines_h
